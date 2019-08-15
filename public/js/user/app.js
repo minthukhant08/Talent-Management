@@ -6797,6 +6797,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -25074,10 +25075,14 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _vm._l(_vm.cards, function(card) {
+              _vm._l(_vm.cards, function(card, index) {
                 return _c(
                   "v-card",
-                  { staticClass: "mx-auto", attrs: { "max-width": "344" } },
+                  {
+                    key: index,
+                    staticClass: "mx-auto",
+                    attrs: { "max-width": "344" }
+                  },
                   [
                     _c("v-card-title", [_vm._v(_vm._s(card.title))]),
                     _vm._v(" "),

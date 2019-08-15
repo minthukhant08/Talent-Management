@@ -52,7 +52,8 @@
           <v-card
             max-width="344"
             class="mx-auto"
-            v-for="card in cards"
+            v-for="(card, index) in cards"
+            :key="index"
           >
             <v-card-title>{{card.title}}</v-card-title>
             <v-card-text>{{card.text}}</v-card-text>
