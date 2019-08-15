@@ -6711,9 +6711,11 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/user/components/profile/profile.vue?vue&type=script&lang=js& ***!
   \*******************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 //
 //
 //
@@ -6735,6 +6737,94 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      cards: [{
+        title: 'title1',
+        text: 'something'
+      }, {
+        title: 'title2',
+        text: 'sdfdsf'
+      }, {
+        title: 'title2',
+        text: 'sdfdsf'
+      }, {
+        title: 'title2',
+        text: 'sdfdsf'
+      }, {
+        title: 'title2',
+        text: 'sdfdsf'
+      }],
+      dialog: false
+    };
+  },
+  methods: {
+    showDialog: function showDialog() {
+      this.dialog = true;
+    }
+  }
+});
 
 /***/ }),
 
@@ -24796,39 +24886,270 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-layout",
-    { attrs: { row: "", "ma-3": "" } },
+    "div",
     [
       _c(
-        "v-flex",
-        { attrs: { xs12: "", sm12: "", md4: "", lg4: "", xl4: "" } },
-        [_c("img", { attrs: { src: "", alt: "" } })]
-      ),
-      _vm._v(" "),
-      _c(
-        "v-flex",
-        { attrs: { xs12: "", sm12: "", md8: "", lg8: "", xl8: "" } },
+        "v-layout",
         [
-          _c("span", [_vm._v("Min Thu Khant")]),
-          _c("br"),
+          _c("v-flex", {
+            attrs: { xs0: "", sm0: "", md1: "", lg1: "", xl1: "" }
+          }),
           _vm._v(" "),
-          _c("span", [_vm._v("minthu@gmail.com")])
-        ]
+          _c(
+            "v-flex",
+            { attrs: { xs12: "", sm12: "", md10: "", lg10: "", xl10: "" } },
+            [
+              _c(
+                "v-layout",
+                { attrs: { row: "", "ma-3": "" } },
+                [
+                  _c(
+                    "v-flex",
+                    {
+                      attrs: { xs12: "", sm12: "", md4: "", lg4: "", xl4: "" }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "text-center" },
+                        [
+                          _c("v-avatar", { attrs: { size: "80" } }, [
+                            _c("img", {
+                              attrs: {
+                                src:
+                                  "https://vuetifyjs.com/apple-touch-icon-180x180.png",
+                                alt: "avatar"
+                              }
+                            })
+                          ])
+                        ],
+                        1
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    {
+                      attrs: { xs12: "", sm12: "", md8: "", lg8: "", xl8: "" }
+                    },
+                    [
+                      _c("span", [_vm._v("Min Thu Khant")]),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("span", [_vm._v("minthu@gmail.com")])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    {
+                      attrs: {
+                        xs12: "",
+                        sm12: "",
+                        md12: "",
+                        lg12: "",
+                        xl12: ""
+                      }
+                    },
+                    [
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "" } },
+                        [
+                          _c(
+                            "v-flex",
+                            {
+                              attrs: {
+                                xs3: "",
+                                sm3: "",
+                                md3: "",
+                                lg3: "",
+                                xl3: ""
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                  Addresssds\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              attrs: {
+                                xs9: "",
+                                sm9: "",
+                                md9: "",
+                                lg9: "",
+                                xl9: ""
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                  : sdfdsfdsfsdf\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              attrs: {
+                                xs3: "",
+                                sm3: "",
+                                md3: "",
+                                lg3: "",
+                                xl3: ""
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                  Addresssds\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              attrs: {
+                                xs9: "",
+                                sm9: "",
+                                md9: "",
+                                lg9: "",
+                                xl9: ""
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                  : sdfdsfdsfsdf\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              attrs: {
+                                xs3: "",
+                                sm3: "",
+                                md3: "",
+                                lg3: "",
+                                xl3: ""
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                  Addresssds\n                "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              attrs: {
+                                xs9: "",
+                                sm9: "",
+                                md9: "",
+                                lg9: "",
+                                xl9: ""
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                  : sdfdsfdsfsdf\n                "
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.cards, function(card) {
+                return _c(
+                  "v-card",
+                  { staticClass: "mx-auto", attrs: { "max-width": "344" } },
+                  [
+                    _c("v-card-title", [_vm._v(_vm._s(card.title))]),
+                    _vm._v(" "),
+                    _c("v-card-text", [_vm._v(_vm._s(card.text))]),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-actions",
+                      [
+                        _c("v-btn", { on: { click: _vm.showDialog } }, [
+                          _vm._v("Click")
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("v-flex", {
+            attrs: { xs0: "", sm0: "", md1: "", lg1: "", xl1: "" }
+          })
+        ],
+        1
       ),
       _vm._v(" "),
       _c(
-        "v-flex",
-        { attrs: { xs12: "", sm12: "", md12: "", lg12: "", xl12: "" } },
+        "v-dialog",
+        {
+          attrs: { persistent: "" },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
         [
-          _vm._v("\n    Address: sadfdsfsdfsdf "),
-          _c("br"),
-          _vm._v("\n    ph: 324323432 "),
-          _c("br"),
-          _vm._v("\n    batch: sadfdrtesfsdfsdf "),
-          _c("br"),
-          _vm._v("\n    track: hjkjhk "),
-          _c("br")
-        ]
+          _c(
+            "v-card",
+            { staticClass: "mx-auto" },
+            [
+              _c("v-card-title", [_vm._v("Dialog")]),
+              _vm._v(" "),
+              _c("v-card-text", [_vm._v("sdfsdfsdfsdf")]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("Click")]
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1
@@ -78034,9 +78355,7 @@ component.options.__file = "resources/js/user/components/profile/profile.vue"
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./profile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/profile/profile.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
