@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/admin/{any}', function () {
+    return view('admin');
+})->where('any', '.*');
+
+
+Route::get('/sendmail', 'MailController@sendConfirm');
+
+Route::get('/{any}', function () {
+    return view('user');
+})->where('any', '.*');
