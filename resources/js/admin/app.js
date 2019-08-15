@@ -22,13 +22,13 @@ const vuetify = new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: "#ffffff",
-        secondary: "#ffffff",
+        primary: "#000000",
+        secondary: "#111111",
         accent: "#FFB74D",
         error: "#DD2C00",
-        warning: "#FFD600",
-        info: "#01579B",
-        success: "#33691E"
+        warning: "#ffeb3b",
+        info: "#2196f3",
+        success: "#689F38"
       },
       dark: {
         primary: "#000000",
