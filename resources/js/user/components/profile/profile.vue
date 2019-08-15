@@ -12,13 +12,13 @@
 
     <v-flex xs12 sm12 md12 lg12 xl12>
       Address: sadfdsfsdfsdf </br>
-      ph: 324323432 </br>
+      ph: 094343434 </br>
       batch: sadfdrtesfsdfsdf </br>
-      track: hjkjhk </br>
+      track: php </br>
     </v-flex>
 
   </v-layout>
 </template>
 <script>
 
-</script>cdhgfj
+</script>
