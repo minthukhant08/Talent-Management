@@ -7,7 +7,7 @@
       color=secondary
     >
       <v-list dense>
-        <v-list-item @click="goRoute('/admin')">
+        <v-list-item @click="goRoute('/admin/color')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
           </v-list-item-action>
@@ -59,7 +59,7 @@
       }
     },
     created () {
-      this.$vuetify.theme.dark = false;
+      this.$vuetify.theme.dark = true;
     },
   }
 </script>
