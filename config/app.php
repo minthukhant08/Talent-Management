@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -174,6 +174,15 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        App\Repositories\User\UserRepoServiceProvider::class,
+        App\Repositories\Course\CourseRepoServiceProvider::class,
+        App\Repositories\Activity\ActivityRepoServiceProvider::class,
+        App\Repositories\Comment\CommentRepoServiceProvider::class,
+        App\Repositories\Batch\BatchRepoServiceProvider::class,
+        App\Repositories\Like\LikeRepoServiceProvider::class,
+        App\Repositories\CourseDetail\CourseDetailRepoServiceProvider::class,
+        App\Repositories\BatchCourse\BatchCourseRepoServiceProvider::class,
 
     ],
 
@@ -225,6 +234,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
 
     ],
 
