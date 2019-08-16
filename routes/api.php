@@ -44,6 +44,13 @@ Route::group(['prefix' => 'v1/courses'], function()
       Route::delete('/{id}', 'CourseController@destroy');
 });
 
+Route::group(['prefix' => 'v1/notifications'], function()
+{
+      Route::get('/{id}', 'NotificationController@show');
+      Route::post('/', 'NotificationController@store');
+      Route::delete('/{id}', 'CourseController@destroy');
+});
+
 Route::group(['prefix' => 'v1/topics'], function()
 {
       Route::get('/{id}', 'TopicController@show');

@@ -7,4 +7,5 @@
 * [Batch](Batch.md)
 * [Activity](Activity.md)
 * [Comments](Comments.md)
+* [Notification](Notification.md)
 * [Like](Like.md)

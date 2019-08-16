@@ -14,16 +14,22 @@ class Activity extends JsonResource
      */
     public function toArray($request)
     {
+        if ($this->type == 0) {
+           $this->type = "post";
+        }elseif ($this->type == 1){
+           $this->type = "announcement";
+        }
+
         return [
           'id'            => $this->id,
           'name'          => $this->name,
-          'remarks'       => $this->remarks,
           'date'          => $this->date,
           'speaker'       => $this->speaker_name,
+          'type'          => $this->type,
           'descriptions'  => $this->descriptions,
           'image'         => url('/api/v1/activities/image').'/'.$this->id,
           'likes'         => $this->likes->count(),
-          'comments'      => url('/api/v1/comments?activity_id=').$this->id
+          'comments'      => $this->comments->count()
         ];
     }
 }

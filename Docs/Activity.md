@@ -11,6 +11,7 @@ The endpoint controls Activity resources.
     + offset : `0` (optional, integer)
     + name: `Soft Skills` (optional, string) - To filter by activity name.
     + speaker: `U Thein Oo` (optional, string) - To filter by speaker name.
+    + type: `anouncement` (optional, string) - To filter by activity type.
 
 
 Retrieve the list of users.
@@ -31,26 +32,26 @@ Retrieve the list of users.
                 },
                 "data": [
                     {
-                        "id": 1,
-                        "name": "explicabo",
-                        "remarks": "Nihil totam et necessitatibus omnis impedit et quibusdam.",
-                        "date": "1976-11-12",
-                        "speaker": "Edward Olson",
-                        "descriptions": "Provident sunt iusto maxime non architecto sed. Necessitatibus pariatur voluptatem odit doloremque. Architecto molestiae et id. Rerum repudiandae nisi ex molestiae.",
-                        "image": "http://localhost:8000/api/v1/activities/image/1",
+                        "id": 4,
+                        "name": "ea",
+                        "date": "1989-03-11",
+                        "speaker": "Ferne Volkman DDS",
+                        "type": "announcements",
+                        "descriptions": "Commodi harum atque est ipsum dignissimos. Eius quam eos nostrum modi ab consequatur velit. Maxime eligendi iste magnam aut repellat.",
+                        "image": "http://localhost:8000/api/v1/activities/image/4",
                         "likes": 0,
-                        "comments": "http://localhost:8000/api/v1/comments?activity_id=1"
+                        "comments": 3
                     },
                     {
-                        "id": 2,
-                        "name": "velit",
-                        "remarks": "Esse rerum dolorum voluptatem iure laborum sit et.",
-                        "date": "1979-01-23",
-                        "speaker": "Prof. Jacquelyn Larson II",
-                        "descriptions": "Fugiat ea facilis illo illo velit debitis. Culpa odio aut voluptates atque nihil labore aut. Ut consectetur velit cum ipsum.",
-                        "image": "http://localhost:8000/api/v1/activities/image/2",
+                        "id": 5,
+                        "name": "id",
+                        "date": "2012-11-21",
+                        "speaker": "Dr. Dewitt Quitzon",
+                        "type": "posts",
+                        "descriptions": "Repellat similique consequatur culpa atque enim. Quam laboriosam sed enim laboriosam molestiae mollitia dolorem. Rerum quidem quasi commodi voluptate totam in qui. Rerum quas voluptatem doloribus fugit molestiae ducimus id.",
+                        "image": "http://localhost:8000/api/v1/activities/image/5",
                         "likes": 0,
-                        "comments": "http://localhost:8000/api/v1/comments?activity_id=2"
+                        "comments": 1
                     }
                 ],
                 "errors": {},
@@ -78,21 +79,21 @@ Retrieve the list of users.
                 "code": 201,
                 "meta": {
                     "method": "GET",
-                    "endpoint": "api/v1/activities/1",
+                    "endpoint": "api/v1/activities/4",
                     "limit": 30,
                     "offset": 0
                 },
                 "data": [
                     {
-                        "id": 1,
-                        "name": "explicabo",
-                        "remarks": "Nihil totam et necessitatibus omnis impedit et quibusdam.",
-                        "date": "1976-11-12",
-                        "speaker": "Edward Olson",
-                        "descriptions": "Provident sunt iusto maxime non architecto sed. Necessitatibus pariatur voluptatem odit doloremque. Architecto molestiae et id. Rerum repudiandae nisi ex molestiae.",
-                        "image": "http://localhost:8000/api/v1/activities/image/1",
+                        "id": 4,
+                        "name": "ea",
+                        "date": "1989-03-11",
+                        "speaker": "Ferne Volkman DDS",
+                        "type": "announcements",
+                        "descriptions": "Commodi harum atque est ipsum dignissimos. Eius quam eos nostrum modi ab consequatur velit. Maxime eligendi iste magnam aut repellat.",
+                        "image": "http://localhost:8000/api/v1/activities/image/4",
                         "likes": 0,
-                        "comments": "http://localhost:8000/api/v1/comments?activity_id=1"
+                        "comments": 3
                     }
                 ],
                 "errors": {},

@@ -54,8 +54,6 @@ class BatchController extends BaseController
                 'name'          =>  'required',
                 'start_date'    =>  'required|date',
                 'end_date'      =>  'required|date',
-                'course_id'     =>  'required|exists:course,id',
-                'course_id.*'   =>  'exists:course,id'
             ]);
           if ($validator->fails()) {
               $this->setError('400');
@@ -71,9 +69,9 @@ class BatchController extends BaseController
 
          $batch = $request->only('name', 'start_date', 'end_date');
          $result = $this->batchInterface->store($batch);
-         dd($request->course_id);
          if (isset($result)) {
            $result->courses()->sync($request->course_id);
+            return $this->response('201');
          }
 
          return $this->response('201');

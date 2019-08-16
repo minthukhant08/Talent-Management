@@ -20,6 +20,18 @@ class ActivityController extends BaseController
         $this->endpoint          = $request->path();
         $this->startTime         = microtime(true);
     }
+
+    private function convertPostType($value, $default)
+    {
+        if (strcasecmp($value, 'post') == 0) {
+            return 0;
+        }elseif (strcasecmp($value, 'announcement') == 0){
+            return 1;
+        }else{
+          return $default;
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -50,10 +62,10 @@ class ActivityController extends BaseController
         $validator = Validator::make($request->all(), [
               'name'          =>  'required',
               'date'          =>  'required|date',
-              'remarks'       =>  'required',
               'descriptions'  =>  'required',
               'speaker_name'  =>  'required',
-              'image'         =>  'required|image'
+              'image'         =>  'required|image',
+              'type'          =>  'required',
           ]);
 
         if ($validator->fails()) {
@@ -72,6 +84,7 @@ class ActivityController extends BaseController
        $path = $request->file('image')->getRealPath();
        $img = base64_encode(file_get_contents($path));
        $activity['image'] = $img;
+       $activity['type'] = convertPostType($activity['type'], 0);
        $result = $this->activityInterface->store($activity);
 
        if (isset($result)) {

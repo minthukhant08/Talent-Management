@@ -10,7 +10,7 @@ class Like extends Model
     protected $fillable = [
         'user_id', 'activity_id'
     ];
-    protected $fillable = [
+    protected $hidden = [
         'created_at', 'updated_at'
     ];
 

@@ -38,6 +38,8 @@ class UserController extends BaseController
             return 2;
         }elseif (strcasecmp($value, 'scanner') == 0) {
            return 3;
+        }else{
+          return $default;
         }
     }
 
@@ -199,12 +201,12 @@ class UserController extends BaseController
         }else{
             $user = $request->all();
             try {
-              $user['type'] = $this->convertUserType($user['type'], 1);
+              $user['type'] = $this->convertUserType($user['type'], 0);
             } catch (\Exception $e) {
 
             }
             try {
-              $user['gender'] = $this->convertGender( $user['gender'], 1);
+              $user['gender'] = $this->convertGender( $user['gender'], 0);
             } catch (\Exception $e) {
 
             }
