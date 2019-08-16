@@ -14,7 +14,7 @@ class User extends Authenticatable implements JWTSubject
         'image', 'name', 'email', 'gender', 'phone_no', 'nrc_no', 'address', 'date_of_birth', 'type', 'course_id', 'batch_id'
     ];
     protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at', 'image'
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     // Rest omitted for brevity

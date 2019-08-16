@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\CourseDetail as CourseDetailResource;
+use App\Http\Resources\CourseTopic as CourseTopicResource;
 
 class Course extends JsonResource
 {
@@ -16,10 +16,13 @@ class Course extends JsonResource
     public function toArray($request)
     {
         return [
-          'id'      => $this->id,
-          'name'    => $this->name,
-          'image'   => url('/api/v1/courses/image').'/'.$this->id,
-          'details' => CourseDetailResource::collection($this->details)
+          'id'              => $this->id,
+          'name'            => $this->name,
+          'descriptions'    => $this->descriptions,
+          'start_date'      => $this->start_date,
+          'end_date'        => $this->end_date,
+          'image'           => url('/api/v1/courses/image').'/'.$this->id,
+          'topic'         => CourseTopicResource::collection($this->details)
         ];
     }
 }

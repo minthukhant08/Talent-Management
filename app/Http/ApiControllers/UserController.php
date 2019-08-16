@@ -30,21 +30,23 @@ class UserController extends BaseController
 
     public function convertUserType($value, $default)
     {
-        if (strcasecmp($value, 'student') == 0) {
+        if (strcasecmp($value, 'normal') == 0) {
+            return 0;
+        }elseif (strcasecmp($value, 'student') == 0){
             return 1;
-        }elseif (strcasecmp($value, 'teacher') == 0) {
+        }elseif (strcasecmp($value, 'teacher') == 0){
             return 2;
-        }else {
-            return $default;
-        };
+        }elseif (strcasecmp($value, 'scanner') == 0) {
+           return 3;
+        }
     }
 
     public function convertGender($value, $default)
     {
         if (strcasecmp($value, 'male') == 0) {
-            return 1;
+            return 0;
         }elseif (strcasecmp($value, 'female') == 0) {
-            return 2;
+            return 1;
         }else {
             return $default;
         };
@@ -104,15 +106,8 @@ class UserController extends BaseController
     {
         $validator = Validator::make($request->all(), [
               'name'      =>  'required',
-              'email'     =>  'required|email|unique:user,email',
-              'password'  =>  'required',
-              'gender'    =>  'required',
-              'date_of_birth'=> 'required|date',
-              'phone_no'  =>  'required',
-              'nrc_no'    =>  'required',
-              'address'   =>  'required',
-              'type' =>  'required',
-              'image'     =>  'required|image'
+              'email'     =>  'required',
+              'image'     => 'required'
           ]);
 
          if ($validator->fails()) {
@@ -128,20 +123,26 @@ class UserController extends BaseController
          }
 
          $user = $request->all();
-         $user['password'] = Hash::make($user['password']);
-         $user['type'] = $this->convertUserType($user['type'], 1);
-         $user['gender'] = $this->convertGender( $user['gender'], 1);
-         $path = $request->file('image')->getRealPath();
-         $img = base64_encode(file_get_contents($path));
-         $user['image'] = $img;
-         $result = $this->userInterface->store($user);
-         $token = JWTAuth::fromUser($result);
+         $existing_user = User::where('email', '=',  $user['email'])->first();
+         $result;
+         if (empty($existing_user)) {
+             $user['type'] = 0;
+             $user['image'] = $user['image'];
+             $result = $this->userInterface->store($user);
 
-         if (isset($result)) {
-            $this->data(array('id' =>  $result->id, 'token' => $token));
-            return $this->response('201');
+             if (isset($result)) {
+                $token = JWTAuth::fromUser($result);
+                $result = new UserResource($result);
+                $this->data(array('user' => $result, 'token' => $token));
+                return $this->response('201');
+             }else{
+                return $this->response('500');
+             }
          }else{
-            return $this->response('500');
+             $token = JWTAuth::fromUser($existing_user);
+             $existing_user = new UserResource($existing_user);
+             $this->data(array('user' => $existing_user, 'token' => $token));
+             return $this->response('201');
          }
     }
 
@@ -174,7 +175,7 @@ class UserController extends BaseController
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-              'email'     =>  'email|unique:user,email',
+              'email'     =>  'email',
               'date_of_birth'=> 'date',
               'image'     =>  'image'
           ]);
@@ -197,8 +198,16 @@ class UserController extends BaseController
             return $this->response('404');
         }else{
             $user = $request->all();
-            $user['type'] = $this->convertUserType($user['type'], 1);
-            $user['gender'] = $this->convertGender( $user['gender'], 1);
+            try {
+              $user['type'] = $this->convertUserType($user['type'], 1);
+            } catch (\Exception $e) {
+
+            }
+            try {
+              $user['gender'] = $this->convertGender( $user['gender'], 1);
+            } catch (\Exception $e) {
+
+            }
             if ($this->userInterface->update($user,$id)) {
                 $this->data(array('updated' =>  1));
                 return $this->response('200');
@@ -225,11 +234,5 @@ class UserController extends BaseController
             $this->data(array('deleted' =>  1));
             return $this->response('200');
         }
-    }
-
-    public function image($id)
-    {
-        $img = $this->userInterface->find($id)->image;
-        return response(base64_decode($img), 200, ['Content-Type' => 'image/png',]);
     }
 }

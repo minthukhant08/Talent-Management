@@ -50,7 +50,7 @@ class User extends JsonResource
          'nrc_no'        =>  $this->nrc_no,
          'phone_no'      =>  $this->phone_no,
          'address'       =>  $this->address,
-         'image'         =>  url('/api/v1/users/image').'/'.$this->id,
+         'image'         =>  $this->image,
          'type'          =>  $this->type,
          'course'        =>  $course,
          'batch'         =>  $batch

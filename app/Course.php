@@ -17,7 +17,7 @@ class Course extends Model
 
     public function details()
     {
-      return $this->hasMany(CourseDetail::class);
+      return $this->hasMany(Topic::class);
     }
 
 
