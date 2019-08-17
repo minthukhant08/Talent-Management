@@ -17,7 +17,7 @@ class CreateNotificationTable extends Migration
             $table->bigIncrements('id');
             $table->tinyInteger('type');
             $table->string('title');
-            $table->string('descrptions');
+            $table->string('descriptions');
             $table->date('date');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

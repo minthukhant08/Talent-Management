@@ -20,9 +20,9 @@ class NotificationTableSeeder extends Seeder
        foreach (range(1,20) as $index) {
            DB::table('notification')->insert([
              'user_id'     => $faker->randomElement($users),
-             'type'        => $faker->numberBetween(1,3),
+             'type'        => $faker->numberBetween(0,2),
              'title'       => $faker->word,
-             'descrptions' => $faker->sentence,
+             'descriptions' => $faker->sentence,
              'date'        => $faker->date('Y-m-d', now()),
              'created_at'  => now(),
              'updated_at'  => now()

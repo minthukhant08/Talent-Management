@@ -21,7 +21,7 @@ class ActivityTableSeeder extends Seeder
               'date'         => $faker->date('Y-m-d', now()),
               'descriptions' => $faker->paragraph,
               'speaker_name' => $faker->name,
-              'type'         => $faker->numberBetween(0,2),
+              'type'         => $faker->numberBetween(0,1),
               'created_at'   =>  now(),
               'updated_at'   =>  now()
             ]);

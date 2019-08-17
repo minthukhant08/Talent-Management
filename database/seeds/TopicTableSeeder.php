@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\Course;
 
-class CourseDetailTableSeeder extends Seeder
+class TopicTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +16,7 @@ class CourseDetailTableSeeder extends Seeder
       $faker = Faker::create();
       $courses = Course::all()->pluck('id')->toArray();
         foreach (range(1,20) as $index) {
-            DB::table('course_detail')->insert([
+            DB::table('topic')->insert([
               'course_id' => $faker->randomElement($courses),
               'topic' => $faker->word,
               'descriptions' => $faker->paragraph,
