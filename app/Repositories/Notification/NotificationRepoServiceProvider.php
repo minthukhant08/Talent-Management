@@ -2,8 +2,8 @@
 namespace App\Repositories\Notification;
 
 use Illuminate\Support\ServiceProvider;
-use App\Repositories\Notification\NotificationRepositoryInterface as NotificationInterface;
-use App\Repositories\Notification\NotificationRepository as NotificationRepo;
+use App\Repositories\Notification\NotificationRepositoryInterface;
+use App\Repositories\Notification\NotificationRepository; 
 
 
 class NotificationRepoServiceProvider extends ServiceProvider

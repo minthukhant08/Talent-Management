@@ -1,8 +1,7 @@
 import home from './components/home/home.vue';
-import profile from './components/profile/profile.vue';
+import noti from './components/Login/login.vue'
 
 export default[
-  {path:'/home', component:home},
-  {path:'/profile', component:profile},
+  {path:'/', component:home},
+  {path:'/noti', component:noti},
 ]
-  
