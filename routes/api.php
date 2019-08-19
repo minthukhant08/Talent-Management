@@ -98,8 +98,11 @@ Route::group(['prefix' => 'v1/replies'], function()
       Route::delete('/{id}', 'LikeController@destroy');
 });
 
-Route::group(['prefix' => 'v1/intake'], function()
+Route::group(['prefix' => 'v1/results'], function()
 {
-      Route::put('/update', 'IntakeController@update');
-      Route::get('/', 'IntakeController@get');
+      Route::get('/', 'ResultController@index');
+      Route::get('/{id}', 'ResultController@show');
+      Route::post('/', 'ResultController@store');
+      Route::put('/{id}', 'ResultController@update');
+      Route::delete('/{id}', 'ResultController@destroy');
 });

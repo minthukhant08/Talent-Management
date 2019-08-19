@@ -6,7 +6,12 @@
       temporary
       color=secondary
     >
+<<<<<<< HEAD
       <v-list >
+=======
+      <v-list dense>
+
+>>>>>>> 1985dad1040e2c207daa9ba2c97bbb5faca7fcec
         <v-list-item @click="goRoute('/')">
           <v-list-item-action class="mr-3">
             <v-avatar><img :src='User.image' alt="avatar"></v-avatar>
@@ -16,6 +21,77 @@
             <v-list-item-subtitle v-text="User.email"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+
+<<<<<<< HEAD
+        <v-list-item @click="goRoute('/course')">
+          <v-list-item-action>
+            <v-icon>book</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Courses</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="goRoute('/intake')">
+          <v-list-item-action>
+            <v-icon>textsms</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Intake</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+=======
+<<<<<<< HEAD
+        <v-list-item @click="goRoute('/userprofile')">
+          <v-list-item-action>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>User</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="goRoute('/edit')">
+          <v-list-item-action>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Edit</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+=======
+          <v-list-item @click="goRoute('/activity')">
+          <v-list-item-action>
+            <v-icon>local_activity</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>activity</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+       
+
+
+       <v-list-item @click="goRoute('/result')">
+          <v-list-item-action>
+            <v-icon>assignment</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>result</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+
+
+
+
+
+
+
+
+
+        
+>>>>>>> f1ae66544a2410e2dd91089ee43c515065916662
+>>>>>>> master
       </v-list>
     </v-navigation-drawer>
 
