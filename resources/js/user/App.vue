@@ -15,6 +15,24 @@
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item @click="goRoute('/course')">
+          <v-list-item-action>
+            <v-icon>book</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Courses</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="goRoute('/intake')">
+          <v-list-item-action>
+            <v-icon>textsms</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Intake</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
