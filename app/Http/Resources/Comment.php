@@ -21,7 +21,7 @@ class Comment extends JsonResource
           'activity_id'    => $this->activity_id,
           'user'           => [ 'id'    => $this->user->id,
                                 'name'  => $this->user->name,
-                                'image'  => url('/api/v1/users/image').'/'.$this->id,
+                                'image'  =>$this->user->image,
 
           ]
         ];

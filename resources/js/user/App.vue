@@ -3,11 +3,12 @@
     <v-navigation-drawer
       v-model="drawer"
       app
-      clipped
+      temporary
       color=secondary
     >
       <v-list dense>
-        <v-list-item @click="goRoute('/admin/color')">
+
+        <v-list-item @click="goRoute('/')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
           </v-list-item-action>
@@ -16,6 +17,56 @@
           </v-list-item-content>
         </v-list-item>
 
+<<<<<<< HEAD
+        <v-list-item @click="goRoute('/userprofile')">
+          <v-list-item-action>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>User</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="goRoute('/edit')">
+          <v-list-item-action>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Edit</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+=======
+          <v-list-item @click="goRoute('/activity')">
+          <v-list-item-action>
+            <v-icon>local_activity</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>activity</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+       
+
+
+       <v-list-item @click="goRoute('/result')">
+          <v-list-item-action>
+            <v-icon>assignment</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>result</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+
+
+
+
+
+
+
+
+
+        
+>>>>>>> f1ae66544a2410e2dd91089ee43c515065916662
       </v-list>
     </v-navigation-drawer>
 
@@ -52,14 +103,18 @@
     },
     data: () => ({
       drawer: null,
+      dark:false
     }),
     methods:{
       goRoute($route){
         this.$router.push($route).catch(err => {});
+      },
+      changemode(){
+        this.$vuetify.theme.dark = this.dark;
       }
     },
     created () {
-      this.$vuetify.theme.dark = true;
+      this.$vuetify.theme.dark = true
     },
   }
 </script>

@@ -40,7 +40,7 @@ class User extends JsonResource
        if ($this->batch_id  != null) {
            $batch  = ['id' => $this->batch->id, 'name' => $this->batch->name];
        }
-
+    //    return parent::toArray(  $request);
        return [
          'id'            =>  $this->id,
          'name'          =>  $this->name,
