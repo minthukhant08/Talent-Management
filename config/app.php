@@ -181,11 +181,9 @@ return [
         App\Repositories\Comment\CommentRepoServiceProvider::class,
         App\Repositories\Batch\BatchRepoServiceProvider::class,
         App\Repositories\Like\LikeRepoServiceProvider::class,
-        App\Repositories\CourseDetail\CourseDetailRepoServiceProvider::class,
-        App\Repositories\BatchCourse\BatchCourseRepoServiceProvider::class,
         App\Repositories\Topic\TopicRepoServiceProvider::class,
         App\Repositories\Notification\NotificationRepoServiceProvider::class,
-
+        App\Repositories\Intake\IntakeRepoServiceProvider::class,
     ],
 
     /*

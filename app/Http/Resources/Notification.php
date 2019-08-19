@@ -19,9 +19,9 @@ class Notification extends JsonResource
         }elseif ($this->type == 1) {
           $this->type = 'Offer';
         }elseif ($this->type == 2){
-          $this->type = 'Comfirmation';
+          $this->type = 'Confirmation';
         };
-        
+
         return [
           'title'         => $this->title,
           'type'          => $this->type,
