@@ -184,8 +184,13 @@ return [
         App\Repositories\CourseDetail\CourseDetailRepoServiceProvider::class,
         App\Repositories\Topic\TopicRepoServiceProvider::class,
         App\Repositories\Notification\NotificationRepoServiceProvider::class,
+<<<<<<< HEAD
+        App\Repositories\Assignment\AssignmentRepoServiceProvider::class,
+        
+=======
         App\Repositories\Result\ResultRepoServiceProvider::class,
 
+>>>>>>> master
     ],
 
     /*
