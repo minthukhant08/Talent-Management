@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <v-layout>
 
       <v-flex xs0 sm0 md1 lg1 xl1>

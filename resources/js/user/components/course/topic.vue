@@ -1,0 +1,133 @@
+<template>
+<div>
+<v-layout>
+  <v-flex xs0 sm0 md2 lg1 xl1>
+  </v-flex>
+  <v-flex xs11 sm11 md8 lg10 xl10>
+    <v-dialog v-model="dialog" max-width="500px">
+                        <!-- <v-card>
+                          <div id="app" >
+                  <v-app id="inspire"> -->
+      <v-card
+          class="mx-auto"
+          max-width="500"
+          >
+      <v-card
+          dark
+          flat
+          >
+
+    <v-card-title class="pa-2 purple lighten-3">
+      Front-End Schedule
+              <v-spacer></v-spacer>
+                <v-card-actions>
+                    <v-btn class="mx-2" fab dark small color="indigo"
+                          @click="dialog = false"
+                        >
+                              <v-icon>close</v-icon>
+                    </v-btn>
+                </v-card-actions>
+          </v-card-title>
+    </v-card>
+    <v-card-text class="py-0" >
+        <v-timeline
+            align-top
+            dense
+            >
+  <v-timeline-item
+      v-for="n in 4"
+      :key="n"
+      small>
+        <template v-slot:icon>
+            <v-avatar>
+              <img src="http://i.pravatar.cc/64">
+            </v-avatar>
+        </template>
+
+          <v-row class="pb-3">
+            <v-col cols="4">
+              <strong>12.07.2019</strong>
+            </v-col>
+            <v-col>
+                <strong>HTML</strong>
+                <div class="caption">HTML is Hypertext Markup Language</div>
+            </v-col>
+          </v-row>
+ </v-timeline-item>
+</v-timeline>
+</v-card-text>
+</v-card>
+                  <!--</v-app>
+                  </div>
+                  </v-card> -->
+</v-dialog>
+    <v-timeline :dense="$vuetify.breakpoint.smAndDown">
+      <v-timeline-item v-for="(card,index) in cards" :key="index"
+
+        color="purple lighten-2"
+
+
+      >
+      <div>
+
+    </div>
+    <span slot="opposite">Tus eu perfecto</span>
+        <v-card >
+          <v-card-title class="purple lighten-2" >
+
+           <h2 class="display-1 white--text font-weight-light">{{card.topic}}</h2>
+          </v-card-title>
+          <v-container>
+            <v-row>
+              <v-col cols="12" md="12">
+                    <v-card-text>{{card.descriptions}}</v-card-text>
+                      <v-btn @click.stop="dialog = true" color=accent text>
+                        See more..
+                      </v-btn>
+              </v-col>
+
+            </v-row>
+          </v-container>
+        </v-card>
+      </v-timeline-item>
+    </v-timeline>
+</v-flex>
+<v-flex xs0 sm0 md2 lg1 xl1>
+</v-flex>
+<v-btn @click="goRoute('/course')" class="mx-2" fab dark color="indigo" fixed bottom right
+
+>
+      <v-icon dark>keyboard_arrow_left</v-icon>
+    </v-btn>
+</v-layout>
+</div>
+</template>
+
+<script>
+export default{
+  data(){
+    return{
+      cards:[],
+      dialog:false
+    }
+    },
+
+    methods:{
+      goRoute($route){
+        this.$router.push($route).catch(err => {});
+      },
+      getCourseDetail(){
+        this.$http.get('http://localhost:8000/api/v1/topics/'+this.$route.params.id).then(response=>{
+          // console.log(response.body.data);
+          this.cards= response.body.data;
+        }, response => {
+          console.log('error');
+        })
+      }
+    },
+    created(){
+      this.getCourseDetail();
+    }
+  }
+
+</script>

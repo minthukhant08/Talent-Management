@@ -18,6 +18,25 @@
         </v-list-item>
 
 <<<<<<< HEAD
+        <v-list-item @click="goRoute('/course')">
+          <v-list-item-action>
+            <v-icon>book</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Courses</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="goRoute('/intake')">
+          <v-list-item-action>
+            <v-icon>textsms</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Intake</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+=======
+<<<<<<< HEAD
         <v-list-item @click="goRoute('/userprofile')">
           <v-list-item-action>
             <v-icon>person</v-icon>
@@ -67,6 +86,7 @@
 
         
 >>>>>>> f1ae66544a2410e2dd91089ee43c515065916662
+>>>>>>> master
       </v-list>
     </v-navigation-drawer>
 

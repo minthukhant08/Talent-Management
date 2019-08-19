@@ -77486,7 +77486,11 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
+module.exports = __webpack_require__(/*! C:\Users\ASUS\Documents\GitHub\Talent-Management\resources\js\admin\app.js */"./resources/js/admin/app.js");
+=======
 module.exports = __webpack_require__(/*! C:\ace\resources\js\admin\app.js */"./resources/js/admin/app.js");
+>>>>>>> master
 
 
 /***/ })
