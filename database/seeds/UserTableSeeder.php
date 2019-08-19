@@ -26,7 +26,7 @@ class UserTableSeeder extends Seeder
               'nrc_no'        =>  Str::random(10),
               'phone_no'      =>  $faker->e164PhoneNumber,
               'address'       =>  $faker->address,
-              'image'         =>  $faker->url,
+              'image'         =>  'https://vuetifyjs.com/apple-touch-icon-180x180.png',
               'course_id'     =>  $faker->randomElement($courses),
               'batch_id'      =>  $faker->randomElement($batches),
               'type'     =>  $faker->numberBetween(0,3),

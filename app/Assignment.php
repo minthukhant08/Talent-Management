@@ -22,7 +22,7 @@ class Assignment extends Model
 
     public function teacher()
     {
-      return $this->hasOne(User::class);
+      return $this->belongsTo(User::class);
     }
 
 }

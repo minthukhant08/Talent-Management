@@ -97,3 +97,11 @@ Route::group(['prefix' => 'v1/replies'], function()
       Route::put('/{id}', 'BatchController@update');
       Route::delete('/{id}', 'LikeController@destroy');
 });
+
+Route::group(['prefix' => 'v1/assignments'], function()
+{
+      Route::get('/', 'AssignmentController@index');
+      Route::post('/', 'AssignmentController@store');
+      Route::put('/{id}', 'AssignmentController@show');
+      Route::delete('/{id}', 'AssignmentController@destroy');
+});

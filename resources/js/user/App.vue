@@ -15,6 +15,24 @@
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item @click="goRoute('/assignment')">
+          <v-list-item-action>
+            <v-icon>book</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Assignment</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="goRoute('/student')">
+          <v-list-item-action>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Student</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 

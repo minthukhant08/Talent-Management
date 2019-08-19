@@ -185,7 +185,8 @@ return [
         App\Repositories\BatchCourse\BatchCourseRepoServiceProvider::class,
         App\Repositories\Topic\TopicRepoServiceProvider::class,
         App\Repositories\Notification\NotificationRepoServiceProvider::class,
-
+        App\Repositories\Assignment\AssignmentRepoServiceProvider::class,
+        
     ],
 
     /*
