@@ -6682,6 +6682,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     source: String
@@ -6707,10 +6725,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/profile/profile.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/user/components/profile/profile.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/userprofile/editprofile.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/user/components/userprofile/editprofile.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -6798,33 +6816,190 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      cards: [{
-        title: 'title1',
-        text: 'something'
-      }, {
-        title: 'title2',
-        text: 'sdfdsf'
-      }, {
-        title: 'title2',
-        text: 'sdfdsf'
-      }, {
-        title: 'title2',
-        text: 'sdfdsf'
-      }, {
-        title: 'title2',
-        text: 'sdfdsf'
-      }],
-      dialog: false
+      user: []
     };
   },
   methods: {
-    showDialog: function showDialog() {
-      this.dialog = true;
+    getall: function getall() {
+      var _this = this;
+
+      console.log('http://localhost:8000/api/v1/users/' + this.$route.params.id);
+      this.$http.get('http://localhost:8000/api/v1/users/' + this.$route.params.id, {}).then(function (response) {
+        _this.user = response.body.data[0];
+        console.log(response.body.data[0]);
+      }, function (response) {});
     }
-  }
+  },
+  created: function created() {
+    this.getall();
+  },
+  computed: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/userprofile/userprofile.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/user/components/userprofile/userprofile.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      user: []
+    };
+  },
+  methods: {
+    getall: function getall() {
+      var _this = this;
+
+      console.log('http://localhost:8000/api/v1/users/' + this.$route.params.id);
+      this.$http.get('http://localhost:8000/api/v1/users/' + this.$route.params.id, {}).then(function (response) {
+        _this.user = response.body.data[0];
+        console.log(response.body.data[0]);
+      }, function (response) {});
+    }
+  },
+  created: function created() {
+    this.getall();
+  },
+  computed: {}
 });
 
 /***/ }),
@@ -24791,6 +24966,56 @@ var render = function() {
                   )
                 ],
                 1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-item",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.goRoute("/userprofile")
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v("person")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [_c("v-list-item-title", [_vm._v("User")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list-item",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.goRoute("/edit")
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v("person")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [_c("v-list-item-title", [_vm._v("Edit")])],
+                    1
+                  )
+                ],
+                1
               )
             ],
             1
@@ -24871,10 +25096,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/profile/profile.vue?vue&type=template&id=5c560800&":
-/*!***********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/user/components/profile/profile.vue?vue&type=template&id=5c560800& ***!
-  \***********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/userprofile/editprofile.vue?vue&type=template&id=1cb4f18b&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/user/components/userprofile/editprofile.vue?vue&type=template&id=1cb4f18b& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -24887,183 +25112,462 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-container",
     [
       _c(
         "v-layout",
+        { attrs: { row: "" } },
         [
           _c("v-flex", {
-            attrs: { xs0: "", sm0: "", md1: "", lg1: "", xl1: "" }
+            attrs: { xs0: "", sm0: "", md2: "", lg2: "", xl2: "" }
           }),
           _vm._v(" "),
           _c(
             "v-flex",
-            { attrs: { xs12: "", sm12: "", md10: "", lg10: "", xl10: "" } },
+            { attrs: { xs12: "", sm12: "", md8: "", lg8: "", xl8: "" } },
             [
               _c(
                 "v-layout",
-                { attrs: { row: "", "ma-3": "" } },
+                { attrs: { row: "", "mr-3": "" } },
                 [
                   _c(
                     "v-flex",
                     {
+                      staticClass: "text-center pt-5",
                       attrs: { xs12: "", sm12: "", md4: "", lg4: "", xl4: "" }
                     },
                     [
-                      _c(
-                        "div",
-                        { staticClass: "text-center" },
-                        [
-                          _c("v-avatar", { attrs: { size: "80" } }, [
-                            _c("img", {
-                              attrs: {
-                                src:
-                                  "https://vuetifyjs.com/apple-touch-icon-180x180.png",
-                                alt: "avatar"
-                              }
-                            })
-                          ])
-                        ],
-                        1
-                      )
-                    ]
+                      _c("v-avatar", { attrs: { size: "170" } }, [
+                        _c("img", {
+                          attrs: {
+                            src:
+                              "https://cdn.vuetifyjs.com/images/lists/ali.png",
+                            alt: "avatar"
+                          }
+                        })
+                      ])
+                    ],
+                    1
                   ),
                   _vm._v(" "),
                   _c(
                     "v-flex",
                     {
+                      staticClass: "pt-8 ",
                       attrs: { xs12: "", sm12: "", md8: "", lg8: "", xl8: "" }
-                    },
-                    [
-                      _c("span", [_vm._v("Min Thu Khant")]),
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("minthu@gmail.com")])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    {
-                      attrs: {
-                        xs12: "",
-                        sm12: "",
-                        md12: "",
-                        lg12: "",
-                        xl12: ""
-                      }
                     },
                     [
                       _c(
                         "v-layout",
-                        { attrs: { row: "" } },
                         [
-                          _c(
-                            "v-flex",
-                            {
-                              attrs: {
-                                xs3: "",
-                                sm3: "",
-                                md3: "",
-                                lg3: "",
-                                xl3: ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                  Addresssds\n                "
-                              )
-                            ]
-                          ),
+                          _c("v-flex", {
+                            attrs: {
+                              xs3: "",
+                              sm3: "",
+                              md3: "",
+                              lg3: "",
+                              xl3: ""
+                            }
+                          }),
                           _vm._v(" "),
                           _c(
                             "v-flex",
                             {
                               attrs: {
-                                xs9: "",
-                                sm9: "",
-                                md9: "",
-                                lg9: "",
-                                xl9: ""
+                                xs8: "",
+                                sm8: "",
+                                md8: "",
+                                lg8: "",
+                                xl8: ""
                               }
                             },
                             [
-                              _vm._v(
-                                "\n                  : sdfdsfdsfsdf\n                "
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-8",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Name")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-0",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          value: _vm.user.name,
+                                          rules: _vm.nameRules,
+                                          label: " Name",
+                                          color: "#F57C00"
+                                        },
+                                        model: {
+                                          value: _vm.user.name,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.user, "name", $$v)
+                                          },
+                                          expression: "user.name"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-8",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Email")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-0",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          value: _vm.user.email,
+                                          rules: _vm.nameRules,
+                                          label: " Email",
+                                          color: "#F57C00"
+                                        },
+                                        model: {
+                                          value: _vm.user.email,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.user, "email", $$v)
+                                          },
+                                          expression: "user.email"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-8",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Phone No")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-0",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          value: _vm.user.phone_no,
+                                          rules: _vm.nameRules,
+                                          label: "Phone No",
+                                          color: "#F57C00"
+                                        },
+                                        model: {
+                                          value: _vm.user.phone_no,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.user, "phone_no", $$v)
+                                          },
+                                          expression: "user.phone_no"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-8",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Track")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-0",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          value: _vm.user.course.name,
+                                          rules: _vm.nameRules,
+                                          label: "Track",
+                                          color: "#F57C00"
+                                        },
+                                        model: {
+                                          value: _vm.user.course.name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.user.course,
+                                              "name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "user.course.name"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-8",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Batch")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-0",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          value: _vm.user.batch.name,
+                                          rules: _vm.nameRules,
+                                          label: " Batch",
+                                          color: "#F57C00"
+                                        },
+                                        model: {
+                                          value: _vm.user.batch.name,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.user.batch,
+                                              "name",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "user.batch.name"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-8",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Address")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-0",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        attrs: {
+                                          value: _vm.user.address,
+                                          rules: _vm.nameRules,
+                                          label: " Address",
+                                          color: "#F57C00"
+                                        },
+                                        model: {
+                                          value: _vm.user.address,
+                                          callback: function($$v) {
+                                            _vm.$set(_vm.user, "address", $$v)
+                                          },
+                                          expression: "user.address"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c("v-flex", {
+                                    staticClass: "pt-8",
+                                    attrs: {
+                                      xs4: "",
+                                      sm4: "",
+                                      md4: "",
+                                      lg4: "",
+                                      xl4: ""
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-0",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "v-text",
+                                        [
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              staticClass: "mx-2",
+                                              staticStyle: {
+                                                "margin-bottom": "50px"
+                                              },
+                                              attrs: {
+                                                fab: "",
+                                                bottom: "",
+                                                right: "",
+                                                fixed: "",
+                                                small: "",
+                                                color: "accent"
+                                              }
+                                            },
+                                            [_c("v-icon", [_vm._v("update")])],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
                               )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            {
-                              attrs: {
-                                xs3: "",
-                                sm3: "",
-                                md3: "",
-                                lg3: "",
-                                xl3: ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                  Addresssds\n                "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            {
-                              attrs: {
-                                xs9: "",
-                                sm9: "",
-                                md9: "",
-                                lg9: "",
-                                xl9: ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                  : sdfdsfdsfsdf\n                "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            {
-                              attrs: {
-                                xs3: "",
-                                sm3: "",
-                                md3: "",
-                                lg3: "",
-                                xl3: ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                  Addresssds\n                "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-flex",
-                            {
-                              attrs: {
-                                xs9: "",
-                                sm9: "",
-                                md9: "",
-                                lg9: "",
-                                xl9: ""
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                  : sdfdsfdsfsdf\n                "
-                              )
-                            ]
+                            ],
+                            1
                           )
                         ],
                         1
@@ -25073,87 +25577,365 @@ var render = function() {
                   )
                 ],
                 1
-              ),
-              _vm._v(" "),
-              _vm._l(_vm.cards, function(card, index) {
-                return _c(
-                  "v-card",
-                  {
-                    key: index,
-                    staticClass: "mx-auto",
-                    attrs: { "max-width": "344" }
-                  },
-                  [
-                    _c("v-card-title", [_vm._v(_vm._s(card.title))]),
-                    _vm._v(" "),
-                    _c("v-card-text", [_vm._v(_vm._s(card.text))]),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c("v-btn", { on: { click: _vm.showDialog } }, [
-                          _vm._v("Click")
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              })
+              )
             ],
-            2
+            1
           ),
           _vm._v(" "),
           _c("v-flex", {
-            attrs: { xs0: "", sm0: "", md1: "", lg1: "", xl1: "" }
+            attrs: { xs0: "", sm0: "", md2: "", lg2: "", xl2: "" }
           })
         ],
         1
-      ),
-      _vm._v(" "),
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/userprofile/userprofile.vue?vue&type=template&id=2cfb012a&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/user/components/userprofile/userprofile.vue?vue&type=template&id=2cfb012a& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-container",
+    [
       _c(
-        "v-dialog",
-        {
-          attrs: { persistent: "" },
-          model: {
-            value: _vm.dialog,
-            callback: function($$v) {
-              _vm.dialog = $$v
-            },
-            expression: "dialog"
-          }
-        },
+        "v-layout",
+        { attrs: { row: "" } },
         [
+          _c("v-flex", {
+            attrs: { xs0: "", sm0: "", md2: "", lg2: "", xl2: "" }
+          }),
+          _vm._v(" "),
           _c(
-            "v-card",
-            { staticClass: "mx-auto" },
+            "v-flex",
+            { attrs: { xs12: "", sm12: "", md8: "", lg8: "", xl8: "" } },
             [
-              _c("v-card-title", [_vm._v("Dialog")]),
-              _vm._v(" "),
-              _c("v-card-text", [_vm._v("sdfsdfsdfsdf")]),
-              _vm._v(" "),
               _c(
-                "v-card-actions",
+                "v-layout",
+                { attrs: { row: "", "mr-3": "" } },
                 [
                   _c(
-                    "v-btn",
+                    "v-flex",
                     {
-                      on: {
-                        click: function($event) {
-                          _vm.dialog = false
-                        }
-                      }
+                      staticClass: "text-center pt-5",
+                      attrs: { xs12: "", sm12: "", md4: "", lg4: "", xl4: "" }
                     },
-                    [_vm._v("Click")]
+                    [
+                      _c("v-avatar", { attrs: { size: "170" } }, [
+                        _c("img", {
+                          attrs: {
+                            src:
+                              "https://cdn.vuetifyjs.com/images/lists/ali.png",
+                            alt: "avatar"
+                          }
+                        })
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    {
+                      staticClass: "pt-8 ",
+                      attrs: { xs12: "", sm12: "", md8: "", lg8: "", xl8: "" }
+                    },
+                    [
+                      _c(
+                        "v-layout",
+                        [
+                          _c("v-flex", {
+                            attrs: {
+                              xs3: "",
+                              sm3: "",
+                              md3: "",
+                              lg3: "",
+                              xl3: ""
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              attrs: {
+                                xs8: "",
+                                sm8: "",
+                                md8: "",
+                                lg8: "",
+                                xl8: ""
+                              }
+                            },
+                            [
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Name")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.user.name))]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Email")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.user.email))]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Phone No")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.user.phone_no))]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Track")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.user.course.name))]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Batch")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.user.batch.name))]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs4: "",
+                                        sm4: "",
+                                        md4: "",
+                                        lg4: "",
+                                        xl4: ""
+                                      }
+                                    },
+                                    [_vm._v("Address")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "pt-10",
+                                      attrs: {
+                                        xs8: "",
+                                        sm8: "",
+                                        md8: "",
+                                        lg8: "",
+                                        xl8: ""
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.user.address))]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
                 ],
                 1
               )
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c("v-flex", {
+            attrs: { xs0: "", sm0: "", md2: "", lg2: "", xl2: "" }
+          })
         ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        {
+          staticClass: "mx-2",
+          staticStyle: { "margin-bottom": "50px" },
+          attrs: {
+            fab: "",
+            bottom: "",
+            right: "",
+            fixed: "",
+            small: "",
+            color: "accent"
+          }
+        },
+        [_c("v-icon", [_vm._v("edit")])],
         1
       )
     ],
@@ -78312,17 +79094,17 @@ component.options.__file = "resources/js/user/components/home/home.vue"
 
 /***/ }),
 
-/***/ "./resources/js/user/components/profile/profile.vue":
-/*!**********************************************************!*\
-  !*** ./resources/js/user/components/profile/profile.vue ***!
-  \**********************************************************/
+/***/ "./resources/js/user/components/userprofile/editprofile.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/user/components/userprofile/editprofile.vue ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _profile_vue_vue_type_template_id_5c560800___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./profile.vue?vue&type=template&id=5c560800& */ "./resources/js/user/components/profile/profile.vue?vue&type=template&id=5c560800&");
-/* harmony import */ var _profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./profile.vue?vue&type=script&lang=js& */ "./resources/js/user/components/profile/profile.vue?vue&type=script&lang=js&");
+/* harmony import */ var _editprofile_vue_vue_type_template_id_1cb4f18b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./editprofile.vue?vue&type=template&id=1cb4f18b& */ "./resources/js/user/components/userprofile/editprofile.vue?vue&type=template&id=1cb4f18b&");
+/* harmony import */ var _editprofile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./editprofile.vue?vue&type=script&lang=js& */ "./resources/js/user/components/userprofile/editprofile.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -78332,9 +79114,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _profile_vue_vue_type_template_id_5c560800___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _profile_vue_vue_type_template_id_5c560800___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _editprofile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _editprofile_vue_vue_type_template_id_1cb4f18b___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _editprofile_vue_vue_type_template_id_1cb4f18b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -78344,38 +79126,107 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/user/components/profile/profile.vue"
+component.options.__file = "resources/js/user/components/userprofile/editprofile.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/user/components/profile/profile.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/user/components/profile/profile.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/user/components/userprofile/editprofile.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/user/components/userprofile/editprofile.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./profile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/profile/profile.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_editprofile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./editprofile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/userprofile/editprofile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_editprofile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/user/components/profile/profile.vue?vue&type=template&id=5c560800&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/user/components/profile/profile.vue?vue&type=template&id=5c560800& ***!
-  \*****************************************************************************************/
+/***/ "./resources/js/user/components/userprofile/editprofile.vue?vue&type=template&id=1cb4f18b&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/user/components/userprofile/editprofile.vue?vue&type=template&id=1cb4f18b& ***!
+  \*************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_template_id_5c560800___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./profile.vue?vue&type=template&id=5c560800& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/profile/profile.vue?vue&type=template&id=5c560800&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_template_id_5c560800___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_editprofile_vue_vue_type_template_id_1cb4f18b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./editprofile.vue?vue&type=template&id=1cb4f18b& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/userprofile/editprofile.vue?vue&type=template&id=1cb4f18b&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_editprofile_vue_vue_type_template_id_1cb4f18b___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_profile_vue_vue_type_template_id_5c560800___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_editprofile_vue_vue_type_template_id_1cb4f18b___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/user/components/userprofile/userprofile.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/user/components/userprofile/userprofile.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _userprofile_vue_vue_type_template_id_2cfb012a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./userprofile.vue?vue&type=template&id=2cfb012a& */ "./resources/js/user/components/userprofile/userprofile.vue?vue&type=template&id=2cfb012a&");
+/* harmony import */ var _userprofile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./userprofile.vue?vue&type=script&lang=js& */ "./resources/js/user/components/userprofile/userprofile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _userprofile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _userprofile_vue_vue_type_template_id_2cfb012a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _userprofile_vue_vue_type_template_id_2cfb012a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/user/components/userprofile/userprofile.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/user/components/userprofile/userprofile.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/user/components/userprofile/userprofile.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_userprofile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./userprofile.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/userprofile/userprofile.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_userprofile_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/user/components/userprofile/userprofile.vue?vue&type=template&id=2cfb012a&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/js/user/components/userprofile/userprofile.vue?vue&type=template&id=2cfb012a& ***!
+  \*************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userprofile_vue_vue_type_template_id_2cfb012a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./userprofile.vue?vue&type=template&id=2cfb012a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/userprofile/userprofile.vue?vue&type=template&id=2cfb012a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userprofile_vue_vue_type_template_id_2cfb012a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_userprofile_vue_vue_type_template_id_2cfb012a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -78391,15 +79242,20 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_home_home_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/home/home.vue */ "./resources/js/user/components/home/home.vue");
-/* harmony import */ var _components_profile_profile_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/profile/profile.vue */ "./resources/js/user/components/profile/profile.vue");
+/* harmony import */ var _components_userprofile_userprofile_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/userprofile/userprofile.vue */ "./resources/js/user/components/userprofile/userprofile.vue");
+/* harmony import */ var _components_userprofile_editprofile_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/userprofile/editprofile.vue */ "./resources/js/user/components/userprofile/editprofile.vue");
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ([{
   path: '/home',
   component: _components_home_home_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
 }, {
-  path: '/profile',
-  component: _components_profile_profile_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  path: '/userprofile/:id',
+  component: _components_userprofile_userprofile_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+}, {
+  path: '/edit/:id',
+  component: _components_userprofile_editprofile_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }]);
 
 /***/ }),
@@ -78422,8 +79278,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\Projects\Talent-Management\resources\js\user\app.js */"./resources/js/user/app.js");
-module.exports = __webpack_require__(/*! E:\Projects\Talent-Management\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/nu/Talent-Management/resources/js/user/app.js */"./resources/js/user/app.js");
+module.exports = __webpack_require__(/*! /home/nu/Talent-Management/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
