@@ -1,82 +1,128 @@
 <template>
-  <v-container style="height: calc(100% - 50px);overflow-y: scroll; overflow-x:hidden;">
-       <v-card style="">
-      
-        <v-list two-line>
-          <v-subheader>Results</v-subheader>
-          <template v-for="item in items">
-            
-            <v-list-item>
-              <v-list-item-content>
-              <v-text class="yellow--text">
-               
-                {{item.title}}
-                </v-text>
+  <v-layout row>
     
+    <v-flex xs0 sm0 md1 lg2 xl2> </v-flex>
+    <v-flex xs12 sm12 md10 lg8 xl8>    
+   <v-container style="height: calc(100% - 50px);">
+      
+       <v-card>
+        
+          <v-list two-line >
+            <div class=" pl-5 headline">
+            Results
+            </div>
+           <template v-for="result in results">
+              <v-list-item
+             :key="result.id">
+      
+               <v-list-item-content  >
+                 <v-list-item-title class="blue--text">
+                    <div class="title">
+                     {{result.assignment.name}}
+                    </div>
+                 </v-list-item-title>
                  <div class="my-4"> 
-                </div>        
+                 </div>        
 
-                <v-list-item-subtitle>
-                  {{item.subtitle}}     
-                </v-list-item-subtitle>   
-
-
-
-
-
-                </v-list-item-content>
-            <v-list-item-avatar>
+                <!-- <v-list-item-subtitle> -->
+                  <!-- {{item.subtitle}}      -->
+                <!-- </v-list-item-subtitle>  -->
+                 </v-list-item-content>
+           
+            
+             <v-list-item-action>
+            
                 <v-progress-circular
-                    :rotate="360"
+                    :rotate="90"
                     :size="100"
-                    :width="100"
-                    :value="item.mark"
-                    color="teal"
+                    :width="9"
+
+                 
+                    :value="result.marks"
+                    :color='progresscolor(result.marks)'
                   >
-                    {{ item.mark }}
-                
-
-
-
+                    {{ result.marks }}
                 </v-progress-circular>
-              </v-list-item-avatar>
+              
+            </v-list-item-action>
             </v-list-item>
             <v-divider green></v-divider>
           </template>
         </v-list>
       </v-card>
   </v-container>
+</v-flex>
+    <v-flex  xs0 sm0 md1 lg2 xl2>  </v-flex>
+
+    </v-layout>
 </template>
-
- <style scoped>
-             .v-progress-circular {
-             margin: 10rem;
-}
-</style>
-
-
-
-
 <script>
   export default {
     data: () => ({
-      items: [
-        { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Assignment1', subtitle: "Ali Connors I'll be in your neighborhood doing errands this weekend. Do you want to hang out?", mark:30 },
-        { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Assignment2 ', subtitle: "to Alex, Scott, Jennifer Wish I could come, but I'm out of town this weekend.", mark: 50 },
-        { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Assignment3', subtitle: "Sandra Adams Do you have Paris recommendations? Have you ever been?", mark: 60 },
-         { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Assignment1', subtitle: "Ali Connors I'll be in your neighborhood doing errands this weekend. Do you want to hang out?", mark:30 },
-        { avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg', title: 'Assignment2 ', subtitle: "to Alex, Scott, Jennifer Wish I could come, but I'm out of town this weekend.", mark: 50 },
-        { avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg', title: 'Assignment3', subtitle: "Sandra Adams Do you have Paris recommendations? Have you ever been?", mark: 60 },
-         { avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg', title: 'Assignment1', subtitle: "Ali Connors I'll be in your neighborhood doing errands this weekend. Do you want to hang out?", mark:30 },
+      results: [
+      
         
       ],
       
     }),
-  }
+    
+    methods:{
+      progresscolor($mark) 
+      {
+        if ($mark <=20){
+           return"#F44336";
+        }
+        else if ($mark<=40){
+            return "#FF5722";
+        }
+        else if ($mark<=60){
+            return "#FFEB3B";
+        }
+       else if ($mark<=80){
+            return "#EEFF41";
+        }
+       else{
+            return "#8BC34A";
+       }
+
+      },
+
+      getall(){
+      this.$http.get('http://localhost:9000/api/v1/results?student_id=3').then(response => {   
+      console.log(response.body);
+       this.results = response.body.data;
+      }, response =>{
+
+        });
+      },
+
+
+
+
+
+
+
+
+  
+    },
+
+created(){
+     
+      this.getall();
+           },
+
+         }
+
+
+
+
+
+
+
+
+
+  
 </script>
-
-
-
 
 
 
