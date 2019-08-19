@@ -19,7 +19,7 @@ class Activity extends JsonResource
         }elseif ($this->type == 1){
            $this->type = "announcement";
         }
-
+     
         return [
           'id'            => $this->id,
           'name'          => $this->name,
