@@ -67,4 +67,11 @@ class User extends Authenticatable implements JWTSubject
       return $this->belongsTo(Batch::class);
     }
 
+    public function assignments()
+    {
+      return $this->hasMany(Assignment::class);
+    }
+
+
+
 }

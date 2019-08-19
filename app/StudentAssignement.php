@@ -12,7 +12,7 @@ class StudentAssignement extends Model
     ];
     protected $hidden = [
         'created_at', 'updated_at'
-    ]
+    ];
     public function assignment()
     {
       return $this->belongsTo(Assignment::class);

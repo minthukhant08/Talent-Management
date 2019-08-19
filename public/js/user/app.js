@@ -6682,6 +6682,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+<<<<<<< HEAD
 //
 //
 //
@@ -7053,6 +7054,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+=======
+>>>>>>> master
 //
 //
 //
@@ -7106,31 +7109,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    source: String
+  },
   data: function data() {
     return {
-      cards: [{
-        title: 'title1',
-        text: 'something'
-      }, {
-        title: 'title2',
-        text: 'sdfdsf'
-      }, {
-        title: 'title2',
-        text: 'sdfdsf'
-      }, {
-        title: 'title2',
-        text: 'sdfdsf'
-      }, {
-        title: 'title2',
-        text: 'sdfdsf'
-      }],
-      dialog: false
+      drawer: null,
+      dark: false
     };
   },
   methods: {
-    showDialog: function showDialog() {
-      this.dialog = true;
+    goRoute: function goRoute($route) {
+      this.$router.push($route)["catch"](function (err) {});
+    },
+    changemode: function changemode() {
+      this.$vuetify.theme.dark = this.dark;
     }
+  },
+  created: function created() {
+    this.$vuetify.theme.dark = true;
   }
 });
 
@@ -25061,7 +25058,7 @@ var render = function() {
       _c(
         "v-navigation-drawer",
         {
-          attrs: { app: "", clipped: "", color: "secondary" },
+          attrs: { app: "", temporary: "", color: "secondary" },
           model: {
             value: _vm.drawer,
             callback: function($$v) {
@@ -25099,22 +25096,91 @@ var render = function() {
                 ],
                 1
               ),
+<<<<<<< HEAD
+=======
+              _vm._v("\n\n<<<<<<< HEAD\n        "),
+              _c(
+                "v-list-item",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.goRoute("/userprofile")
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v("person")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [_c("v-list-item-title", [_vm._v("User")])],
+                    1
+                  )
+                ],
+                1
+              ),
+>>>>>>> master
               _vm._v(" "),
               _c(
                 "v-list-item",
                 {
                   on: {
                     click: function($event) {
+<<<<<<< HEAD
                       return _vm.goRoute("/course")
+=======
+                      return _vm.goRoute("/edit")
+>>>>>>> master
                     }
                   }
                 },
                 [
+<<<<<<< HEAD
                   _c("v-list-item-action", [_c("v-icon", [_vm._v("book")])], 1),
                   _vm._v(" "),
                   _c(
                     "v-list-item-content",
                     [_c("v-list-item-title", [_vm._v("Courses")])],
+=======
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v("person")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [_c("v-list-item-title", [_vm._v("Edit")])],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v("\n=======\n          "),
+              _c(
+                "v-list-item",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.goRoute("/activity")
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "v-list-item-action",
+                    [_c("v-icon", [_vm._v("local_activity")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item-content",
+                    [_c("v-list-item-title", [_vm._v("activity")])],
+>>>>>>> master
                     1
                   )
                 ],
@@ -25126,24 +25192,42 @@ var render = function() {
                 {
                   on: {
                     click: function($event) {
+<<<<<<< HEAD
                       return _vm.goRoute("/intake")
+=======
+                      return _vm.goRoute("/result")
+>>>>>>> master
                     }
                   }
                 },
                 [
                   _c(
                     "v-list-item-action",
+<<<<<<< HEAD
                     [_c("v-icon", [_vm._v("textsms")])],
+=======
+                    [_c("v-icon", [_vm._v("assignment")])],
+>>>>>>> master
                     1
                   ),
                   _vm._v(" "),
                   _c(
                     "v-list-item-content",
+<<<<<<< HEAD
                     [_c("v-list-item-title", [_vm._v("Intake")])],
+=======
+                    [_c("v-list-item-title", [_vm._v("result")])],
+>>>>>>> master
                     1
                   )
                 ],
                 1
+<<<<<<< HEAD
+=======
+              ),
+              _vm._v(
+                "\n\n\n\n\n\n\n\n\n\n\n        \n>>>>>>> f1ae66544a2410e2dd91089ee43c515065916662\n      "
+>>>>>>> master
               )
             ],
             1
@@ -25224,6 +25308,7 @@ render._withStripped = true
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/user/components/course/course.vue?vue&type=template&id=2e22208c&":
 /*!*********************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/user/components/course/course.vue?vue&type=template&id=2e22208c& ***!
@@ -26041,6 +26126,8 @@ render._withStripped = true
 
 /***/ }),
 
+=======
+>>>>>>> master
 /***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
 /*!********************************************************************!*\
   !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
@@ -79080,6 +79167,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var vue_resource__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-resource */ "./node_modules/vue-resource/dist/vue-resource.esm.js");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./routes */ "./resources/js/user/routes.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_routes__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var firebase_app__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! firebase/app */ "./node_modules/firebase/app/dist/index.cjs.js");
 /* harmony import */ var firebase_app__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(firebase_app__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var firebase_auth__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! firebase/auth */ "./node_modules/firebase/auth/dist/index.esm.js");
@@ -79099,7 +79187,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_resource__WEBPACK_IMPORTED_MODULE_3__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('app-view', __webpack_require__(/*! ./App.vue */ "./resources/js/user/App.vue")["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
-  routes: _routes__WEBPACK_IMPORTED_MODULE_4__["default"],
+  routes: _routes__WEBPACK_IMPORTED_MODULE_4___default.a,
   mode: 'history'
 });
 var vuetify = new vuetify__WEBPACK_IMPORTED_MODULE_1___default.a({
@@ -79154,6 +79242,7 @@ new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 
 /***/ }),
 
+<<<<<<< HEAD
 /***/ "./resources/js/user/components/course/course.vue":
 /*!********************************************************!*\
   !*** ./resources/js/user/components/course/course.vue ***!
@@ -79463,10 +79552,13 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+=======
+>>>>>>> master
 /***/ "./resources/js/user/routes.js":
 /*!*************************************!*\
   !*** ./resources/js/user/routes.js ***!
   \*************************************/
+<<<<<<< HEAD
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -79498,6 +79590,12 @@ __webpack_require__.r(__webpack_exports__);
   path: '/intake',
   component: _components_intake_intake_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
 }]);
+=======
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\ace\\resources\\js\\user\\routes.js: Unexpected token (2:0)\n\n\u001b[0m \u001b[90m 1 | \u001b[39m\u001b[36mimport\u001b[39m home from \u001b[32m'./components/home/home.vue'\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 2 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m   | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 3 | \u001b[39m\u001b[36mimport\u001b[39m userprofile from \u001b[32m'./components/userprofile/userprofile.vue'\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 4 | \u001b[39m\u001b[36mimport\u001b[39m edit from \u001b[32m'./components/userprofile/editprofile.vue'\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 5 | \u001b[39m\u001b[0m\n    at Parser.raise (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:6325:17)\n    at Parser.unexpected (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:7642:16)\n    at Parser.parseExprAtom (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:8841:20)\n    at Parser.parseExprSubscripts (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:8412:23)\n    at Parser.parseMaybeUnary (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:8392:21)\n    at Parser.parseExprOps (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:8267:23)\n    at Parser.parseMaybeConditional (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:8240:23)\n    at Parser.parseMaybeAssign (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:8187:21)\n    at Parser.parseExpression (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:8135:23)\n    at Parser.parseStatementContent (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:9958:23)\n    at Parser.parseStatement (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:9829:17)\n    at Parser.parseBlockOrModuleBlockBody (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:10405:25)\n    at Parser.parseBlockBody (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:10392:10)\n    at Parser.parseTopLevel (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:9758:10)\n    at Parser.parse (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:11270:17)\n    at parse (C:\\ace\\node_modules\\@babel\\parser\\lib\\index.js:11306:38)\n    at parser (C:\\ace\\node_modules\\@babel\\core\\lib\\transformation\\normalize-file.js:170:34)\n    at normalizeFile (C:\\ace\\node_modules\\@babel\\core\\lib\\transformation\\normalize-file.js:138:11)\n    at runSync (C:\\ace\\node_modules\\@babel\\core\\lib\\transformation\\index.js:44:43)\n    at runAsync (C:\\ace\\node_modules\\@babel\\core\\lib\\transformation\\index.js:35:14)\n    at process.nextTick (C:\\ace\\node_modules\\@babel\\core\\lib\\transform.js:34:34)\n    at process._tickCallback (internal/process/next_tick.js:61:11)");
+>>>>>>> master
 
 /***/ }),
 
@@ -79519,8 +79617,13 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+<<<<<<< HEAD
 __webpack_require__(/*! C:\Users\ASUS\Documents\GitHub\Talent-Management\resources\js\user\app.js */"./resources/js/user/app.js");
 module.exports = __webpack_require__(/*! C:\Users\ASUS\Documents\GitHub\Talent-Management\resources\sass\app.scss */"./resources/sass/app.scss");
+=======
+__webpack_require__(/*! C:\ace\resources\js\user\app.js */"./resources/js/user/app.js");
+module.exports = __webpack_require__(/*! C:\ace\resources\sass\app.scss */"./resources/sass/app.scss");
+>>>>>>> master
 
 
 /***/ }),

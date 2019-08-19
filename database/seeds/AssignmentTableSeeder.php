@@ -14,7 +14,7 @@ class AssignmentTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $teacher = User::all()->where('type','=',1)->pluck('id')->toArray();
+        $teacher = User::all()->where('type','=',2)->pluck('id')->toArray();
         foreach (range(1,20) as $index) {
             DB::table('assignment')->insert([
               'name'         => $faker->word,
