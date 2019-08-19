@@ -15,7 +15,7 @@ class BatchRepository implements BatchInterface
   }
 
   public function getAll($offset, $limit){
-    return $this->batch::with('courses')->orderBy('created_at', 'desc')
+    return $this->batch::orderBy('created_at', 'desc')
         ->skip($offset)
         ->take($limit)
         ->get();

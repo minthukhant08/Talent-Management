@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BatchCourse extends JsonResource
+class Intake extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,6 @@ class BatchCourse extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-          'id'      => $this->id,
-          'name'    => $this->name,
-          'image'   => url('/api/v1/courses/image').'/'.$this->id
-        ];
+        return parent::toArray($request);
     }
 }

@@ -5,20 +5,16 @@ namespace App\Http\ApiControllers;
 use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Batch\BatchRepositoryInterface as BatchInterface;
-use App\Repositories\BatchCourse\BatchCourseRepositoryInterface as BatchCourseInterface;
 use App\Http\Resources\Batch as BatchResource;
-use App\BatchCourse;
 use Validator;
 
 class BatchController extends BaseController
 {
     public $batchInterface;
-    public $batchCourseInterface;
 
-    public function __construct(Request $request, BatchInterface $batchInterface, BatchCourseInterface $batchCourseInterface)
+    public function __construct(Request $request, BatchInterface $batchInterface)
     {
         $this->batchInterface    = $batchInterface;
-        $this->batchCourseInterface = $batchCourseInterface;
         $this->method            = $request->getMethod();
         $this->endpoint          = $request->path();
         $this->startTime         = microtime(true);
@@ -69,11 +65,6 @@ class BatchController extends BaseController
 
          $batch = $request->only('name', 'start_date', 'end_date');
          $result = $this->batchInterface->store($batch);
-         if (isset($result)) {
-           $result->courses()->sync($request->course_id);
-            return $this->response('201');
-         }
-
          return $this->response('201');
     }
 

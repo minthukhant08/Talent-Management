@@ -11,14 +11,15 @@ class Comfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $value;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($value)
     {
-        //
+        $this->value = $value;
     }
 
     /**

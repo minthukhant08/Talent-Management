@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\BatchCourse;
 
 class Batch extends JsonResource
 {
@@ -19,8 +18,7 @@ class Batch extends JsonResource
             'id'        =>  $this->id,
             'name'      =>  $this->name,
             'start_date'=>  $this->start_date,
-            'end_date'  =>  $this->end_date,
-            'courses'   =>  BatchCourse::collection($this->courses)
+            'end_date'  =>  $this->end_date
         ];
     }
 }

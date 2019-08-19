@@ -97,3 +97,9 @@ Route::group(['prefix' => 'v1/replies'], function()
       Route::put('/{id}', 'BatchController@update');
       Route::delete('/{id}', 'LikeController@destroy');
 });
+
+Route::group(['prefix' => 'v1/intake'], function()
+{
+      Route::put('/update', 'IntakeController@update');
+      Route::get('/', 'IntakeController@get');
+});
