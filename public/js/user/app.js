@@ -24822,11 +24822,11 @@ var render = function() {
         [
           _vm._v("\n    Address: sadfdsfsdfsdf "),
           _c("br"),
-          _vm._v("\n    ph: 324323432 "),
+          _vm._v("\n    ph: 094343434 "),
           _c("br"),
           _vm._v("\n    batch: sadfdrtesfsdfsdf "),
           _c("br"),
-          _vm._v("\n    track: hjkjhk "),
+          _vm._v("\n    track: php "),
           _c("br")
         ]
       )
@@ -78099,8 +78099,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/exception/Documents/Talent-Management/resources/js/user/app.js */"./resources/js/user/app.js");
-module.exports = __webpack_require__(/*! /home/exception/Documents/Talent-Management/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/hponemoekhant/Talent-Management/resources/js/user/app.js */"./resources/js/user/app.js");
+module.exports = __webpack_require__(/*! /home/hponemoekhant/Talent-Management/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ }),
