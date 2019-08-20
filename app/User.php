@@ -2,38 +2,76 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    use SoftDeletes;
+    protected $table = 'user';
     protected $fillable = [
-        'name', 'email', 'password',
+        'image', 'name', 'email', 'gender', 'phone_no', 'nrc_no', 'address', 'date_of_birth', 'type', 'course_id', 'batch_id'
+    ];
+    protected $hidden = [
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
+    // Rest omitted for brevity
+
     /**
-     * The attributes that should be hidden for arrays.
+     * Get the identifier that will be stored in the subject claim of the JWT.
      *
-     * @var array
+     * @return mixed
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
+    public function likes()
+    {
+      return $this->hasMany(Like::class);
+    }
+
+    public function comments()
+    {
+      return $this->hasMany(Comment::class);
+    }
+
+    public function course()
+    {
+      return $this->belongsTo(Course::class);
+    }
+
+    public function batch()
+    {
+      return $this->belongsTo(Batch::class);
+    }
+
+    public function assignments()
+    {
+      return $this->hasMany(Assignment::class);
+    }
+
+
+
 }

@@ -12,6 +12,6 @@ export default[
   {path:'/admin/courseedit', component:courseedit},
   {path:'/admin/batch', component:batch},
   {path:'/admin/activity', component:activity},
-  
+
 
 ]
