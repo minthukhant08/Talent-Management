@@ -6,13 +6,45 @@
       clipped
       color=secondary
     >
-      <v-list dense>
+      <v-list shaped>
         <v-list-item @click="goRoute('/admin/color')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Dashboard</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="goRoute('/admin/course')">
+          <v-list-item-action>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Course</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="goRoute('/admin/courseedit')">
+          <v-list-item-action>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Course Edit</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="goRoute('/admin/batch')">
+          <v-list-item-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Batch</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="goRoute('/admin/activity')">
+          <v-list-item-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Activity</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
