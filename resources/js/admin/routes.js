@@ -7,7 +7,6 @@ import activity from './components/activity/activity.vue';
 
 export default[
   {path:'/admin/home', component:home},
-  // {path:'/admin/color', component:color},
   {path:'/admin/course', component:course},
   {path:'/admin/courseedit', component:courseedit},
   {path:'/admin/batch', component:batch},

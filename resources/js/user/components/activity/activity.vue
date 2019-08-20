@@ -53,7 +53,7 @@
         </v-flex>
 
         <v-flex lg6>
-          <v-card  width="100%;" dark>
+          <v-card  width="100%;" >
              <v-img
               :src="activity.image"
               height="300"

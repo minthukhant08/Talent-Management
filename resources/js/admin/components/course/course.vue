@@ -87,7 +87,11 @@
         },
         { text: 'Name', value: 'name' },
 
-        { text: 'Actions', value: 'action', sortable: false },
+        {
+          text: 'Actions',
+          value: 'action',
+          align: 'right',
+          sortable: false },
       ],
       desserts: [],
 

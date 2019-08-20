@@ -15,7 +15,7 @@
           Front-End Schedule
             <v-spacer></v-spacer>
             <v-card-actions>
-              <v-btn class="mx-2" fab dark small color="indigo"
+              <v-btn class="mx-2" fab dark small text color="accent"
                 @click="dialog = false"
               >
                 <v-icon>close</v-icon>
