@@ -16,12 +16,11 @@ class ResultRepository implements ResultInterface
 
   public function getAll($offset, $limit, $student_id)
   {
-          return $this->result::with('assignment')->orderBy('created_at', 'desc')
-                                ->where('student_id', '=', $student_id)
-                                ->skip($offset)
-                                ->take($limit)
-                                ->get();
-
+      return $this->result::with('assignment')->orderBy('created_at', 'desc')
+                            ->where('student_id', '=', $student_id)
+                            ->skip($offset)
+                            ->take($limit)
+                            ->get();
 
   }
 

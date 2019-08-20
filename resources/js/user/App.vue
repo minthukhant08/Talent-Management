@@ -6,24 +6,18 @@
       temporary
       color=secondary
     >
-<<<<<<< HEAD
       <v-list >
-=======
-      <v-list dense>
-
->>>>>>> 1985dad1040e2c207daa9ba2c97bbb5faca7fcec
-        <v-list-item @click="goRoute('/')">
+        <v-list-item @click="goRoute('/profile/1')">
           <v-list-item-action class="mr-3">
-            <v-avatar><img :src='User.image' alt="avatar"></v-avatar>
+            <v-avatar size="55"><img :src='User.image' alt="avatar"></v-avatar>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="User.name"></v-list-item-title>
-            <v-list-item-subtitle v-text="User.email"></v-list-item-subtitle>
+            <v-list-item-subtitle v-text="User.type"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-
-<<<<<<< HEAD
-        <v-list-item @click="goRoute('/course')">
+        <v-divider></v-divider>
+        <v-list-item @click="goRoute('/courses')">
           <v-list-item-action>
             <v-icon>book</v-icon>
           </v-list-item-action>
@@ -32,66 +26,42 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item @click="goRoute('/intake')">
-          <v-list-item-action>
-            <v-icon>textsms</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Intake</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-=======
-<<<<<<< HEAD
-        <v-list-item @click="goRoute('/userprofile')">
-          <v-list-item-action>
-            <v-icon>person</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>User</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item @click="goRoute('/edit')">
-          <v-list-item-action>
-            <v-icon>person</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Edit</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-=======
-          <v-list-item @click="goRoute('/activity')">
+        <v-list-item @click="goRoute('/activities')">
           <v-list-item-action>
             <v-icon>local_activity</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>activity</v-list-item-title>
+            <v-list-item-title>Activity</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-       
 
-
-       <v-list-item @click="goRoute('/result')">
+        <v-list-item v-if="User.type == 'student'" @click="goRoute('/results')">
           <v-list-item-action>
             <v-icon>assignment</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>result</v-list-item-title>
+            <v-list-item-title>Results</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
+        <v-list-item v-if="User.type == 'teacher'" @click="goRoute('/giveresults')">
+          <v-list-item-action>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Give Results</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
+        <v-list-item v-if="User.type == 'teacher'" @click="goRoute('/assignment')">
+          <v-list-item-action>
+            <v-icon>assignment</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Assignment</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
-
-
-
-
-
-
-
-        
->>>>>>> f1ae66544a2410e2dd91089ee43c515065916662
->>>>>>> master
       </v-list>
     </v-navigation-drawer>
 
@@ -229,3 +199,9 @@ export default {
   }
 }
 </script>
+<style>
+.gradient-box{
+  box-shadow: 0 0 20px inset rgba(0, 0, 0, 0.2);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 100px);
+}
+</style>

@@ -29,7 +29,13 @@ class ResultController extends BaseController
     {
         $this->offset = isset($request->offset)? $request->offset : 0;
         $this->limit  = isset($request->limit)? $request->limit : 30;
-        $student_id = isset($request->student_id)? $request->student_id : 3;
+        $student_id;
+        if(isset($request->student_id)){
+          $student_id = $request->student_id;
+        }else{
+          $this->setError('404');
+          return $this->response('404');
+        }
         $result =$this->resultInterface->getAll($this->offset, $this->limit, $student_id);
         $total = $this->resultInterface->total();
         $this->data($result);
@@ -51,7 +57,7 @@ class ResultController extends BaseController
                 'student_id' => 'required|exists:user,id',
                 'assignment_id'=>'required|exists:assignment,id',
                 'marks'      =>  'required',
-                
+
             ]);
 
         if ($validator->fails()) {
@@ -67,7 +73,7 @@ class ResultController extends BaseController
         }
 
          $result = $request->all();
-     
+
          $result = $this->resultInterface->store($result);
 
          if (isset($result)) {
@@ -161,5 +167,5 @@ class ResultController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
 }

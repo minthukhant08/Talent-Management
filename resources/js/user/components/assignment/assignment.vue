@@ -77,11 +77,11 @@
         confirm('Are you sure you want to delete this item?' + assignment) && this.assignments.splice(index, 1)
       },
       save(){
-        this.$http.post('http://localhost:8000/api/v1/assignments/', {
+        this.$http.post('http://localhost:8000/api/v1/assignments', {
           "name":this.assignment_name,
           "teacher_id": 1,
         }).then((response) =>{
-          this.assignments.push({"name":this.assignment_name, "teacher_id": 1});
+          this.assignments.unshift({"name":this.assignment_name, "teacher_id": 1});
           this.dialog = false;
         })
         .then((error) =>{

@@ -1,66 +1,55 @@
 <template>
-  <!-- <v-layout row>
-    <v-flex xs0 sm0 md1 lg1 xl1>
+  <v-layout row class="pt-3">
+    <v-flex xs0 sm1 md2 lg2 xl2>
     </v-flex>
 
-    <v-flex xs12 sm12 md10 lg10 xl10> -->
-      <v-layout row pl-5 pr-5 pt-3>
-        <v-flex xs12 sm6 md3 lg3 xl3
+    <v-flex xs12 sm10 md8 lg8 xl8>
+      <v-layout row >
+        <v-flex xs12 sm6 md4 lg4 xl4
           v-for="(course,index) in courses"
           :key="index"
-          class="pa-1">
-          <v-hover
-             v-slot:default="{hover}"
-             open-delay="200"
-             >
+          class="pa-4">
+          <v-hover  v-slot:default="{hover}">
              <v-card width="100%" height="100%"
-               :elevation="hover ? 16 : 2"
-               @click="goRoute('/topic/'+ course.id)"
-
+               :elevation="hover ? 16 : 5"
+               @click="goRoute('/courses/'+ course.id)"
+               dark
              >
                <v-img
-                 class="white--text"
-                 :aspect-ratio="16/9"
+                 :aspect-ratio="16/12"
                  :src="course.image"
-
-               ><v-card-title class="align-end fill-height">
-
-                     {{course.name}}
-
+               >
+                <v-card-title class="align-end fill-height gradient-box">
+                  {{course.name}}
                 </v-card-title>
-                </v-img>
+              </v-img>
 
                <v-card-text class="font-weight-medium  subtitle-1" >
-                     <v-icon dark >event</v-icon>
-                        <span class="blue--text" >StartDate:</span>
-                        <span class="white--text">{{course.start_date}}</span>
-                          <v-spacer></v-spacer>
-                     <v-icon dark >
-                       event
-                     </v-icon>
-                     <span class="blue--text">
-                       EndDate:
-                     </span>
-                     <span class="white--text">
-                       {{course.end_date}}
-                     </span>
+                 <v-icon>event</v-icon>
+                    <span class="blue--text">
+                      StartDate:
+                    </span>
+                    {{course.start_date}}
+                 <v-spacer></v-spacer>
+                 <v-icon>event</v-icon>
+                   <span>
+                     EndDate:
+                   </span>
+                    {{course.end_date}}
               </v-card-text>
 
                <v-card-text class="font-weight-medium  subtitle-1" >
-                 <p class="font-weight-light"><span class="white--text">{{course.descriptions}}</span></p>
-
-
-
+                 <p class="font-weight-light">{{course.descriptions}}</p>
                </v-card-text>
              </v-card>
            </v-hover>
         </v-flex>
       </v-layout>
-    <!-- </v-flex>
-
-    <v-flex xs0 sm0 md1 lg1 xl1>
     </v-flex>
-  </v-layout> -->
+
+    <v-flex xs0 sm1 md2 lg2 xl2>
+    </v-flex>
+  </v-layout>
 </template>
 
 

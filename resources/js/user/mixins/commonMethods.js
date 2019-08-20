@@ -3,7 +3,7 @@ import {bus} from '../app';
 export default{
   methods:{
     goRoute(route){
-      this.$router.push(route)
+      this.$router.push(route);
     },
     googleLogin(){
       var provider = new firebase.auth.GoogleAuthProvider();

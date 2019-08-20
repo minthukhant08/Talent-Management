@@ -5,123 +5,86 @@
       		</v-flex>
 
       		<v-flex xs12 sm12 md8 lg8 xl8 >
-	           
+
                 <v-layout row mr-3>
                 	<v-flex xs12 sm12 md4 lg4 xl4   class="text-center pt-5" >
                 		<v-avatar size="170"  >
-		                  <img src="https://cdn.vuetifyjs.com/images/lists/ali.png" alt="avatar"> 
+		                  <img src="https://cdn.vuetifyjs.com/images/lists/ali.png" alt="avatar">
 		                </v-avatar>
 		           	</v-flex  >
 
-		          
+
 		           	<v-flex xs12 sm12 md8 lg8 xl8  class="pt-8 " >
 		           		<v-layout>
 		           			<v-flex xs3 sm3 md3 lg3 xl3></v-flex>
 		           			<v-flex xs8 sm8 md8 lg8 xl8 >
 		           				<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Name</v-flex> 
+					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Name</v-flex>
 					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
 						           		<v-text-field
-								            v-model="user.name"
-								            :value="user.name"
-								            :rules="nameRules"
-								            label=" Name"
+								            v-model="User.name"
+								            :value="User.name"
 								            color="#F57C00"
-						          
+
 						            	></v-text-field>
 					           		</v-flex>
 
 					           	</v-layout>
 					           	<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Email</v-flex> 
+					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Email</v-flex>
 					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
 						           		<v-text-field
-								            v-model="user.email"
-								            :value="user.email"
-								            :rules="nameRules"
-								            label=" Email"
+								            v-model="User.email"
+								            :value="User.email"
 								            color="#F57C00"
-						          
+
 						            	></v-text-field>
 					           		</v-flex>
-					           		
+
 					           	</v-layout>
 					           	<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Phone No</v-flex> 
+					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Phone No</v-flex>
 					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
 						           		<v-text-field
-								            v-model="user.phone_no"
-								            :value="user.phone_no"
-								            :rules="nameRules"
-								            label="Phone No"
+								            v-model="User.phone_no"
+								            :value="User.phone_no"
 								            color="#F57C00"
-						          
+
 						            	></v-text-field>
 					           		</v-flex>
 					           	</v-layout>
 
 					           	<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Track</v-flex> 
+					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Address</v-flex>
 					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
 						           		<v-text-field
-								            v-model="user.course.name"
-								            :value="user.course.name"
-								            :rules="nameRules"
-								            label="Track"
+								            v-model="User.address"
+								            :value="User.address"
 								            color="#F57C00"
-						          
-						            	></v-text-field>
-					           		</v-flex>
-					           	</v-layout>
 
-					           	<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Batch</v-flex> 
-					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
-						           		<v-text-field
-								            v-model="user.batch.name"
-								            :value="user.batch.name"
-								            :rules="nameRules"
-								            label=" Batch"
-								            color="#F57C00"
-						          
 						            	></v-text-field>
+
 					           		</v-flex>
-					           	</v-layout>
-					           	<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Address</v-flex> 
-					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
-						           		<v-text-field
-								            v-model="user.address"
-								            :value="user.address"
-								            :rules="nameRules"
-								            label=" Address"
-								            color="#F57C00"
-						          
-						            	></v-text-field>
-						        
-					           		</v-flex>
-					           		
+
 					           	</v-layout>
 					           	<v-layout>
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8"></v-flex> 
+					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8"></v-flex>
 					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
-					           			<v-text>
-					           				<v-btn class="mx-2" fab bottom right fixed small color="accent" style="margin-bottom: 50px;">
-	      										<v-icon >update</v-icon>
-	   				 						</v-btn>
-					           			</v-text>
+					           				<v-btn class="mx-2 mb-10" fab bottom right fixed small color="accent">
+	      											<v-icon >update</v-icon>
+	   				 								</v-btn>
 					           		</v-flex>
-					           		
+
 					           	</v-layout>
 		           			</v-flex>
 		           			<!-- <v-flex xs1 sm1 md1 lg1 xl1></v-flex> -->
 		           		</v-layout>
-		           		
+
 		           	</v-flex>
 
 		           	<!-- body -->
-		           	
-		                     	
+
+
                 </v-layout>
     		</v-flex>
 
@@ -129,8 +92,8 @@
       		</v-flex>
 		</v-layout >
 
-			
-				
+
+
 
 	 </v-container>
 </template>
@@ -138,34 +101,18 @@
 	export default {
   data(){
     return{
-      
-        
         user:[],
-        
       }
   },
+	computed:{
+		User(){
+			return this.$store.getters.getUser;
+		}
+	},
   methods:{
 
-    getall(){
-    	console.log('http://localhost:8000/api/v1/users/' + this.$route.params.id);
-      this.$http.get('http://localhost:8000/api/v1/users/' + this.$route.params.id, {
-       
-      }).then(response => {
-          this.user = response.body.data[0];
-          console.log(response.body.data[0]);
-      }, response => {
-
-      });
-    },
-    
-  },
-
-  created(){
-  	
-  	this.getall();
-  },
-  computed:{
 
   }
+
 }
 </script>

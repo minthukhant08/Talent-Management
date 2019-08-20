@@ -35,12 +35,16 @@ class User extends JsonResource
 
        if ($this->course_id != null) {
            $course = ['id' => $this->course->id, 'name' => $this->course->name];
+       }else{
+           $course = ['id' => '', 'name' => ''];
        }
 
        if ($this->batch_id  != null) {
            $batch  = ['id' => $this->batch->id, 'name' => $this->batch->name];
+       }else{
+           $batch = ['id' => '', 'name' => ''];
        }
-    //    return parent::toArray(  $request);
+
        return [
          'id'            =>  $this->id,
          'name'          =>  $this->name,

@@ -91,12 +91,6 @@ Route::group(['prefix' => 'v1/likes'], function()
       Route::delete('/{id}', 'LikeController@destroy');
 });
 
-Route::group(['prefix' => 'v1/replies'], function()
-{
-      Route::post('/', 'LikeController@store');
-      Route::put('/{id}', 'BatchController@update');
-      Route::delete('/{id}', 'LikeController@destroy');
-});
 
 Route::group(['prefix' => 'v1/results'], function()
 {
@@ -105,4 +99,13 @@ Route::group(['prefix' => 'v1/results'], function()
       Route::post('/', 'ResultController@store');
       Route::put('/{id}', 'ResultController@update');
       Route::delete('/{id}', 'ResultController@destroy');
+});
+
+Route::group(['prefix' => 'v1/assignments'], function()
+{
+      Route::get('/', 'AssignmentController@index');
+      Route::get('/{id}', 'AssignmentController@show');
+      Route::post('/', 'AssignmentController@store');
+      Route::put('/{id}', 'AssignmentController@update');
+      Route::delete('/{id}', 'AssignmentController@destroy');
 });

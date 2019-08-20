@@ -15,7 +15,7 @@ class TopicTableSeeder extends Seeder
     {
       $faker = Faker::create();
       $courses = Course::all()->pluck('id')->toArray();
-        foreach (range(1,20) as $index) {
+        foreach (range(1,40) as $index) {
             DB::table('topic')->insert([
               'course_id' => $faker->randomElement($courses),
               'topic' => $faker->word,
