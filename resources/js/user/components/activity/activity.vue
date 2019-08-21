@@ -1,7 +1,13 @@
 <template>
     <div>
+   <div class="text-center">
+    <v-pagination
+      v-model="page"
+      :length="6"
+    ></v-pagination>
+  </div>
        <v-dialog
-          v-model="dialog"
+          v-model="commentDialog"
           width="300"
           height="500"
         >
@@ -11,7 +17,7 @@
                 <v-list-item
 
                   :key="comment.id"
-                  @click="comment"
+                  @click="getcomment"
                 >
                   <v-list-item-avatar>
                     <v-img :src="comment.user.image"></v-img>
@@ -23,50 +29,125 @@
                   </v-list-item-content>
                 </v-list-item>
               </template>
-
               <v-text-field
                 v-model="value"
-                color="cyan darken"
+                class="pa-3"
+                color="cyan"
                 placeholder="Start typing..."
-                loading
+                outlined
+                hide-details
+              
               >
-                <template v-slot:progress>
-                  <v-progress-linear
-                    v-if="custom"
-                   :value="progress"
-                   :color="color"
-                   absolute
-                   height="7">
-                  </v-progress-linear>
-                </template>
-              </v-text-field>
+             </v-text-field>
             </v-list>
           </v-card>
-      </v-dialog>
-      <v-layout
+       </v-dialog>
+        <v-dialog
+            v-model="seemoreDialog"
+          width="300"
+          height="500"        
+                  >
+         <v-card
+        
+    class="mx-auto my-12"
+    max-width="374"
+          >
+    <v-img
+      height="250"
+       :src="selectedActivity.image"
+    ></v-img>
+
+    <v-card-title>{{selectedActivity.name}}</v-card-title>
+    <v-card-text>
+      <v-row align="center">
+        <v-rating
+          :value="4.5"
+          color="amber"
+          half-increments
+          dense
+          size="14"
+          readonly
+        ></v-rating>
+
+        <div class="grey--text ml-4">{{selectedActivity.speaker}}</div>
+      </v-row>
+
+ <div>{{selectedActivity.descriptions}}</div>
+    </v-card-text>
+
+    <v-divider class="mx-4"></v-divider>
+
+    <v-card-text>
+      <div class="title text--primary">{{selectedActivity.date}}</div>
+      <v-chip-group
+        
+        active-class="deep-purple accent-4 white--text"
+        column
+      >
+        <v-chip>5:30PM</v-chip>
+        <v-chip>7:30PM</v-chip>
+        <v-chip>8:00PM</v-chip>
+        <v-chip>9:00PM</v-chip>
+      </v-chip-group>
+    </v-card-text>
+
+    <v-card-actions>
+      <v-btn
+        color="deep-purple accent-4"
+        text
+   
+      >
+        Reserve
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</v-dialog>
+<v-layout
          row
          v-for="activity in activities"
          :key="activity.id"
          pt-5
       >
-        <v-flex lg3 >
-        </v-flex>
+        <v-flex lg3 > </v-flex>
+       
 
         <v-flex lg6>
-          <v-card  width="100%;" >
-             <v-img
+          <v-card  width="100%;" dark>
+             <v-img @click="seeMore(activity)"
               :src="activity.image"
               height="300"
+              
               >
-                <v-card-title class="fill-height align-end gradient-box" >
-                  <span class="white--text">
-                    {{activity.name}}
-                    <div></div>
-                    By {{activity.speaker}}
-                   </span>
-                </v-card-title>
+          <v-layout class="fill-height align-end gradient-box" >
+           <v-card-title >
+                         <span class="white--text " >
+                            {{activity.name}}
+                          <div></div>
+                        <div class="subtitle-1">
+                         By {{activity.speaker}}
+                       </div>
+                         <div></div>
+                         <v-spacer></v-spacer>
+                        <v-card-action> 
+                          
+                           
+                        </v-card-action>
+                         </span>
+                      </v-card-title>
+                      <v-spacer></v-spacer>
+                       <v-btn @click="seeMore(activity)"
+                             text
+                            color="purple"
+                            
+                              > 
+                          See more
+                            </v-btn>
+            </v-layout>
             </v-img>
-           <v-card-actions>
+       
+        
+      
+         <v-card-actions>
               <v-layout>
 
                 <v-flex class="text-center">
@@ -76,7 +157,7 @@
                 </v-flex>
 
                 <v-flex class="text-center">
-                   <v-btn icon @click="comment(activity.id)">
+                   <v-btn icon @click="getcomment(activity.id);">
                       <v-icon>insert_comment</v-icon>
                    </v-btn>
                 </v-flex>
@@ -97,6 +178,20 @@
 
       </v-layout>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 </template>
 
 <script>
@@ -105,23 +200,41 @@ export default {
     return{
       activities: [],
       comments:[],
-      dialog: false,
+      commentDialog:false,
+      selectedActivity:{},
+       select: [
+          { text: 'State 1' },
+          { text: 'State 2' },
+          { text: 'State 3' },
+          { text: 'State 4' },
+          { text: 'State 5' },
+          { text: 'State 6' },
+          { text: 'State 7' },
+        ],
+      seemoreDialog: false,
       value:'',
-    }
+      selected:'',
+      page:1,
+     }
   },
   methods:{
-    comment($activity_id){
-      console.log($activity_id);
-      this.$http.get('http://localhost:8000/api/v1/comments?activity_id='+$activity_id).then(response => {
+    getcomment($activity_id){
+
+      this.$http.get('http://localhost:9000/api/v1/comments?activity_id=' + $activity_id).then(response => {
         console.log(response);
+         this.commentDialog = true;
       this.comments = response.body.data;
-       this.dialog = true;
+       
       }, response =>{
 
       });
     },
-    getall(){
-      this.$http.get('http://localhost:8000/api/v1/activities').then(response => {
+  seeMore(activity){
+    this.seemoreDialog = true;
+    this.selectedActivity = activity;
+  },
+  getall(){
+      this.$http.get('http://localhost:9000/api/v1/activities').then(response => {
         console.log('ssdfsd');
        this.activities = response.body.data;
       }, response =>{
