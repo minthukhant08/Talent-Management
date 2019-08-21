@@ -9,6 +9,7 @@ import student from './components/student/student.vue';
 import scanner from './components/scanner/scanner.vue';
 import teacher from './components/teacher/teacher.vue';
 import topicedit from './components/topic/topicedit.vue';
+
 export default[
   {path:'/admin/home', component:home},
   {path:'/admin/course', component:course},

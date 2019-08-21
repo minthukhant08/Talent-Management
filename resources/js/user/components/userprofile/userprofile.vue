@@ -1,70 +1,193 @@
 <template>
-	<v-container>
-		<v-layout row>
+  <v-card
+    max-width="480"
+    class="mx-auto mt-10 mb-10"
+  >
+    <v-img
+      src="https://cdn.vuetifyjs.com/images/lists/ali.png"
+      height="300px"
+      dark
+    >
+      <v-row class="fill-height">
+        <v-card-title> 
+          
 
-			<v-flex xs0 sm0 md2 lg2 xl2>
-      </v-flex>
+          <v-spacer></v-spacer>
 
-  		<v-flex xs12 sm12 md8 lg8 xl8 >
-				 <v-layout row mr-3>
-	          <v-flex xs12 sm12 md4 lg4 xl4 class="text-center pt-5" >
-	          		<v-avatar size="170"  >
-	                <img src="https://cdn.vuetifyjs.com/images/lists/ali.png" alt="avatar">
-	              </v-avatar>
-	         	</v-flex  >
-				    <v-flex xs12 sm12 md8 lg8 xl8  class="pt-8 " >
-							<v-layout>
-								<v-flex xs3 sm3 md3 lg3 xl3></v-flex>
-								<v-flex xs8 sm8 md8 lg8 xl8>
-									<v-layout >
-										<v-flex xs4 sm4 md4 lg4 xl4 >Name</v-flex>
-										<v-flex xs8 sm8 md8 lg8 xl8 >{{user.name}}</v-flex>
-									</v-layout>
+          
 
-									<v-layout>
-										<v-flex xs4 sm4 md4 lg4 xl4 class="pt-10" >Email</v-flex>
-										<v-flex xs8 sm8 md8 lg8 xl8 class="pt-10" >{{user.email}}</v-flex>
-									</v-layout>
+          
+        </v-card-title>
 
-									<v-layout >
-										<v-flex xs4 sm4 md4 lg4 xl4 class="pt-10" >Phone No</v-flex>
-										<v-flex xs8 sm8 md8 lg8 xl8 class="pt-10" >{{user.phone_no}}</v-flex>
-									</v-layout>
+        <v-spacer></v-spacer>
 
-									<v-layout >
-										<v-flex xs4 sm4 md4 lg4 xl4 class="pt-10" >Track</v-flex>
-										<v-flex xs8 sm8 md8 lg8 xl8 class="pt-10" >{{user.course.name}}</v-flex>
-									</v-layout>
+        <v-card-title class="white--text pl-12 pt-12">
+          <div class="display-1 pl-12 pt-12"></div>
+        </v-card-title>
+      </v-row>
+    </v-img>
 
-									<v-layout >
-										<v-flex xs4 sm4 md4 lg4 xl4 class="pt-10" >Batch</v-flex>
-										<v-flex xs8 sm8 md8 lg8 xl8 class="pt-10" >{{user.batch.name }}</v-flex>
-									</v-layout>
+    <v-list two-line >
+      <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">person</v-icon>
+        </v-list-item-icon>
 
-									<v-layout >
-										<v-flex xs4 sm4 md4 lg4 xl4 class="pt-10" >Address</v-flex>
-										<v-flex xs8 sm8 md8 lg8 xl8 class="pt-10" >{{user.address}}</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-layout>
-				    </v-flex>
-				 </v-layout>
-      </v-flex>
+        <v-list-item-content>
+          <v-list-item-title >Name</v-list-item-title>
+        </v-list-item-content>
 
-    	<v-flex xs0 sm0 md2 lg2 xl2>
-    	</v-flex>
-		</v-layout>
 
-		<v-btn class="mx-2 mb-10" fab bottom right fixed small
-			color="accent"
-			@click='goRoute("/editprofile")'
-			>
+        <v-list-item-content>
+          <v-list-item-title>{{user.name}}</v-list-item-title>
+        </v-list-item-content>
 
-	    <v-icon >edit</v-icon>
-	  </v-btn>
+      </v-list-item>
+      <v-divider inset></v-divider>
 
-	</v-container>
+      <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">email</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content >
+          <v-list-item-title >Email</v-list-item-title>
+        </v-list-item-content>
+
+
+        <v-list-item-content >
+          <v-list-item-title>{{user.email}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+
+      <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">phone</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content >
+          <v-list-item-title >Phone No</v-list-item-title>
+        </v-list-item-content>
+
+
+        <v-list-item-content >
+          <v-list-item-title>{{user.phone_no}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">public</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content >
+          <v-list-item-title >Nrc_no</v-list-item-title>
+        </v-list-item-content>
+
+
+        <v-list-item-content >
+          <v-list-item-title>{{user.nrc_no}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">cake</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content >
+          <v-list-item-title >Date Of Birth</v-list-item-title>
+        </v-list-item-content>
+
+
+        <v-list-item-content >
+          <v-list-item-title>{{user.date_of_birth}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">collections</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content >
+          <v-list-item-title >Track</v-list-item-title>
+        </v-list-item-content>
+
+
+        <v-list-item-content >
+          <v-list-item-title>{{user.course.name}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo"class="pt-4">class</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content >
+          <v-list-item-title >Batch</v-list-item-title>
+        </v-list-item-content>
+
+
+        <v-list-item-content >
+          <v-list-item-title>{{user.batch.name}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">home</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content >
+          <v-list-item-title >Address</v-list-item-title>
+        </v-list-item-content>
+
+
+        <v-list-item-content >
+          <v-list-item-title>{{user.address}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+
+      <v-divider inset></v-divider>
+      
+
+      <v-list-item >
+        <v-list-item-content >
+           <v-btn
+            color="accent"
+            @click="goRoute('/editprofile')"
+            >Edit</v-btn>
+          
+        </v-list-item-content>
+
+      </v-list-item>
+      
+
+       
+
+
+
+     
+    </v-list>
+  </v-card>
 </template>
+
 
 <script >
 import commonmethods from '../../mixins/commonMethods';
@@ -83,6 +206,11 @@ export default {
       }, response => {
 
       });
+    }
+  },
+  computed:{
+    User(){
+      return this.$store.getters.getUser;
     }
   },
   created(){
