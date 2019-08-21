@@ -105,9 +105,9 @@ export default{
       this.$router.push($route).catch(err => {});
     },
     getCourseDetail(){
-      this.$http.get('http://localhost:8000/api/v1/topics/'+this.$route.params.id).then(response=>{
-        // console.log(response.body.data);
-        this.cards= response.body.data;
+      this.$http.get('http://localhost:8000/api/v1/courses/'+this.$route.params.id).then(response=>{
+        //console.log(response.body.data);
+        this.cards= response.body.data[0].topic;
       }, response => {
         console.log('error');
       })

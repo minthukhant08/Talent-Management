@@ -1,9 +1,9 @@
 <template>
   <v-card>
     <v-card-title>
-      Course
+      Topic
       <v-spacer></v-spacer>
-      <v-btn color="accent" @click="dialog2 = true"><v-icon>add </v-icon></v-btn>
+      <v-btn color="accent"><v-icon>add </v-icon></v-btn>
     </v-card-title>
     <template>
     <v-data-table
@@ -16,7 +16,7 @@
           <v-dialog v-model="dialog" max-width="500px">
             <v-card>
               <v-card-title>
-                <span class="headline">Course Detail</span>
+                <span class="headline">Topic Detail</span>
               </v-card-title>
 
               <v-card-text>
@@ -41,56 +41,27 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-dialog v-model="dialog2" max-width="600px">
-            <v-card>
-              <v-card-title>
-                <span class="headline">Add Course</span>
-              </v-card-title>
-                <v-layout>
-                  <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
-                  <v-flex xs0 sm0 md10 lg10 xl10>
-                    <v-text-field
-                    label="name"
-                    color="accent"
-                    mx-width="100%"></v-text-field>
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="blue darken-1" @click="close()">Cancel</v-btn>
-                      <v-btn color="green" @click="save()">Post</v-btn>
-                    </v-card-actions>
-                  </v-flex>
-                  <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
-                </v-layout>
-
-            </v-card>
-          </v-dialog>
-
-      </template>
-      <template v-slot:item.image="{ item }">
-        <v-avatar>
-          <img :src="item.image" alt="course image">
-        </v-avatar>
       </template>
       <template v-slot:item.action="{ item }">
         <v-btn
-          color="green"
+        color="green"
           small
           class="mr-2"
-          @click="dialog=true"
+          @click=""
         >
           Details
         </v-btn>
         <v-action >
         <v-btn color="blue"
-        @click="goRoute('/admin/courseedit')"
+        @click="goRoute('/admin/topicedit')"
           small
         >
           Edit
         </v-btn>
         </v-action>
         <v-btn color="error"
-        @click="deletedItem(item)"
+        @click="close()"
           small
         ><v-icon>delete</v-icon>
 
@@ -113,12 +84,12 @@ import commonmethods from '../../mixins/commonMethods';
       courses:[],
       headers: [
         {
-          text: 'Image',
+          text: 'Name',
           align: 'left',
           sortable: false,
-          value: 'image',
+          value: 'topic',
         },
-        { text: 'Name', value: 'name' },
+        { text: 'Description', value: 'descriptions',width: '600px' },
 
         {
           text: 'Actions',
@@ -130,7 +101,7 @@ import commonmethods from '../../mixins/commonMethods';
     }),
     methods: {
       getCourses(){
-        this.$http.get('http://localhost:8000/api/v1/courses').then(response=>{
+        this.$http.get('http://localhost:8000/api/v1/topics/1').then(response=>{
           this.desserts= response.body.data;
         }, response => {
           console.log('error');

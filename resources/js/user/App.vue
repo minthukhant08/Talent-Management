@@ -7,7 +7,7 @@
       color=secondary
     >
       <v-list >
-        <v-list-item @click="goRoute('/profile/1')">
+        <v-list-item @click="goRoute('/profile/' + User.id)">
           <v-list-item-action class="mr-3">
             <v-avatar size="55"><img :src='User.image' alt="avatar"></v-avatar>
           </v-list-item-action>

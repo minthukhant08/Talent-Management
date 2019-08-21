@@ -1,116 +1,203 @@
 <template>
-	<v-container>
-		<v-layout row>
-			<v-flex xs0 sm0 md2 lg2 xl2>
-      		</v-flex>
+  <v-card
+    max-width="480"
+    class="mx-auto mt-10 mb-10"
+  >
+    <v-img
 
-      		<v-flex xs12 sm12 md8 lg8 xl8 >
+      :src="editeduser.image"
+      height="300px"
+      dark
+    >
+      <v-row class="fill-height">
+        <v-card-title> 
+          
 
-                <v-layout row mr-3>
-                	<v-flex xs12 sm12 md4 lg4 xl4   class="text-center pt-5" >
-                		<v-avatar size="170"  >
-		                  <img src="https://cdn.vuetifyjs.com/images/lists/ali.png" alt="avatar">
-		                </v-avatar>
-		           	</v-flex  >
+          <v-spacer></v-spacer>
 
+         
 
-		           	<v-flex xs12 sm12 md8 lg8 xl8  class="pt-8 " >
-		           		<v-layout>
-		           			<v-flex xs3 sm3 md3 lg3 xl3></v-flex>
-		           			<v-flex xs8 sm8 md8 lg8 xl8 >
-		           				<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Name</v-flex>
-					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
-						           		<v-text-field
-								            v-model="User.name"
-								            :value="User.name"
-								            color="#F57C00"
+          
+        </v-card-title>
 
-						            	></v-text-field>
-					           		</v-flex>
+        <v-spacer></v-spacer>
 
-					           	</v-layout>
-					           	<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Email</v-flex>
-					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
-						           		<v-text-field
-								            v-model="User.email"
-								            :value="User.email"
-								            color="#F57C00"
+        <v-card-title class="white--text pl-12 pt-12">
+          <div class="display-1 pl-12 pt-12"></div>
+        </v-card-title>
+      </v-row>
+    </v-img>
 
-						            	></v-text-field>
-					           		</v-flex>
+    <v-list two-line >
+      <v-list-item  >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">person</v-icon>
+        </v-list-item-icon>
 
-					           	</v-layout>
-					           	<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Phone No</v-flex>
-					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
-						           		<v-text-field
-								            v-model="User.phone_no"
-								            :value="User.phone_no"
-								            color="#F57C00"
-
-						            	></v-text-field>
-					           		</v-flex>
-					           	</v-layout>
-
-					           	<v-layout >
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8">Address</v-flex>
-					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
-						           		<v-text-field
-								            v-model="User.address"
-								            :value="User.address"
-								            color="#F57C00"
-
-						            	></v-text-field>
-
-					           		</v-flex>
-
-					           	</v-layout>
-					           	<v-layout>
-					           		<v-flex xs4 sm4 md4 lg4 xl4  class="pt-8"></v-flex>
-					           		<v-flex xs8 sm8 md8 lg8 xl8 class="pt-0">
-					           				<v-btn class="mx-2 mb-10" fab bottom right fixed small color="accent">
-	      											<v-icon >update</v-icon>
-	   				 								</v-btn>
-					           		</v-flex>
-
-					           	</v-layout>
-		           			</v-flex>
-		           			<!-- <v-flex xs1 sm1 md1 lg1 xl1></v-flex> -->
-		           		</v-layout>
-
-		           	</v-flex>
-
-		           	<!-- body -->
+        
 
 
-                </v-layout>
-    		</v-flex>
+        <v-list-item-content>
+          <v-text-field
+          v-model="editeduser.name"
+    			color="#F57C00"
+    			label="Name"
 
-      		<v-flex xs0 sm0 md2 lg2 xl2 >
-      		</v-flex>
-		</v-layout >
+		></v-text-field>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+      <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">email</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content >
+          <v-text-field
+			v-model="editeduser.email"
+			color="#F57C00"
+			label="Email"
+
+		></v-text-field>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+
+      <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">phone</v-icon>
+        </v-list-item-icon>
+
+        
+
+
+        <v-list-item-content >
+         	<v-text-field
+    			v-model="editeduser.phone_no"
+    			color="#F57C00"
+    			label="Phone No"
+
+    		></v-text-field>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">public</v-icon>
+        </v-list-item-icon>
+
+        
+
+        <v-list-item-content >
+          <v-text-field
+    			v-model="editeduser.nrc_no"
+    			color="#F57C00"
+    			label="NRC_No"
+
+		    ></v-text-field>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">cake</v-icon>
+        </v-list-item-icon>
+
+      
+
+
+        <v-list-item-content >
+        	<v-text-field
+    			v-model="editeduser.date_of_birth"
+    			color="#F57C00"
+    			label="Date Of Birth"
+
+    		></v-text-field>
+        </v-list-item-content>
+
+      </v-list-item>
+      
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="indigo" class="pt-4">home</v-icon>
+        </v-list-item-icon>
+
+
+        <v-list-item-content >
+          <v-text-field
+  			v-model="editeduser.address"
+  			color="#F57C00"
+  			label="Address"
+
+  		></v-text-field>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+      
+
+      <v-list-item >
+        <v-list-item-content >
+           <v-btn
+            color="accent"
+            @click="updateuser"
+            >save</v-btn>
+          
+        </v-list-item-content>
+
+      </v-list-item>
+
+       
 
 
 
-
-	 </v-container>
+     
+    </v-list>
+  </v-card>
 </template>
 <script>
+ import commonmethods from '../../mixins/commonMethods';
 	export default {
+    mixins:[commonmethods],
   data(){
     return{
-        user:[],
+        editeduser:[]
       }
   },
-	computed:{
-		User(){
-			return this.$store.getters.getUser;
-		}
-	},
   methods:{
+  		
 
+   updateuser(){
+      this.$http.put('http://localhost:8000/api/v1/users/'+ this.editeduser.id, {
+        name: this.editeduser.name,
+        email: this.editeduser.email,
+        phone_no: this.editeduser.phone_no,
+        nrc_no: this.editeduser.nrc_no,
+        nrc_no: this.editeduser.nrc_no,
+        address: this.editeduser.address,
+       
+      }).then((response) =>{
+        this.goRoute('/profile/' + this.editeduser.id);
+      })
+      .then((error)=>{
+
+      })
+
+    },
+
+  },
+  created(){
+    this.editeduser = this.$store.getters.getUser;
 
   }
 
