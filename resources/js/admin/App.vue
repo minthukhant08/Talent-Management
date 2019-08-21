@@ -28,7 +28,7 @@
           </template>
 
 
-          <v-list-item class="pl-9">
+          <v-list-item class="pl-9" @click="goRoute('/admin/student')">
             <v-list-item-action>
               <v-icon>person</v-icon>
             </v-list-item-action>
@@ -38,7 +38,7 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item class="pl-9">
+          <v-list-item class="pl-9" @click="goRoute('/admin/teacher')">
             <v-list-item-action>
               <v-icon>person</v-icon>
             </v-list-item-action>
@@ -48,7 +48,7 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item class="pl-9">
+          <v-list-item class="pl-9" @click="goRoute('/admin/scanner')">
             <v-list-item-action>
               <v-icon>person</v-icon>
             </v-list-item-action>
