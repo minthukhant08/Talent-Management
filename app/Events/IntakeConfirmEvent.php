@@ -9,23 +9,22 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Intake;
 use App\User;
 
-class IntakeAvailableEvent
+class IntakeConfirmEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $intake;
     public $user;
+    public $code;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Intake $intake, User $user)
+    public function __construct(User $user, $code)
     {
-        $this->intake = $intake;
         $this->user = $user;
+        $this->code = $code;
     }
 
     /**

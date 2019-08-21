@@ -182,6 +182,7 @@ return [
         App\Repositories\Batch\BatchRepoServiceProvider::class,
         App\Repositories\Like\LikeRepoServiceProvider::class,
         App\Repositories\Topic\TopicRepoServiceProvider::class,
+        App\Repositories\TopicDetail\TopicDetailRepoServiceProvider::class,
         App\Repositories\Notification\NotificationRepoServiceProvider::class,
         App\Repositories\Assignment\AssignmentRepoServiceProvider::class,
         App\Repositories\Result\ResultRepoServiceProvider::class,
@@ -237,7 +238,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
 ];

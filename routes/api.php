@@ -59,6 +59,14 @@ Route::group(['prefix' => 'v1/topics'], function()
       Route::delete('/{id}', 'TopicController@destroy');
 });
 
+Route::group(['prefix' => 'v1/topicdetails'], function()
+{
+      Route::get('/{id}', 'TopicDetailController@show');
+      Route::post('/', 'TopicDetailController@store');
+      Route::put('/{id}', 'TopicDetailController@update');
+      Route::delete('/{id}', 'TopicDetailController@destroy');
+});
+
 Route::group(['prefix' => 'v1/activities'], function()
 {
       Route::get('/', 'ActivityController@index');
@@ -108,4 +116,10 @@ Route::group(['prefix' => 'v1/assignments'], function()
       Route::post('/', 'AssignmentController@store');
       Route::put('/{id}', 'AssignmentController@update');
       Route::delete('/{id}', 'AssignmentController@destroy');
+});
+
+Route::group(['prefix' => 'v1/intake'], function()
+{
+      Route::get('/', 'IntakeController@get');
+      Route::post('/', 'IntakeController@update');
 });

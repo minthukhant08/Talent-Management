@@ -5,9 +5,13 @@ namespace App\Http\ApiControllers;
 use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Intake\IntakeRepositoryInterface as IntakeInterface;
-use App\Http\ApiControllers\IntakeAvailableEvent;
+use App\Events\IntakeAvailableEvent;
+use App\Events\IntakeConfirmEvent;
 use App\Http\Resources\Intake as IntakeResource;
 use Validator;
+use App\Mail\Confirmation;
+use Illuminate\Support\Facades\Mail;
+use App\User;
 
 class IntakeController extends BaseController
 {
@@ -25,7 +29,15 @@ class IntakeController extends BaseController
 
     public function get()
     {
+
         $intake = $this->intakeInterface->getIntake();
+        $normal_users = User::where('type', 0)->get();
+        foreach ($normal_users as $user) {
+           event(new IntakeAvailableEvent($intake, $user));
+        }
+
+        $user = User::find(1);
+        event(new IntakeConfirmEvent($user, 'ggg'));
         if (empty($intake)) {
             $this->setError('404', $id);
             return $this->response('404');
@@ -61,6 +73,7 @@ class IntakeController extends BaseController
         }
         $intake = $this->intakeInterface->getIntake();
         $newintake = $this->intakeInterface->update($request->all());
+        Mail::to('minthu@gmail.com')->send(new Confirmation('laho'));
         if (!empty($newintake)) {
             if ($newintake->available != $intake->available ) {
                 event(new IntakeAvailableEvent($newintake));

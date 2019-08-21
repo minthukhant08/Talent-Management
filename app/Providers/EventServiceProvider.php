@@ -15,10 +15,14 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        IntakeAvailableEvent::class => [
-            IntakeListener::class,
-        ],
+      'App\Events\IntakeAvailableEvent' => [
+        'App\Listeners\IntakeAvailableListener',
+      ],
+      'App\Events\IntakeConfirmEvent' => [
+        'App\Listeners\IntakeConfirmListener',
+      ],
     ];
+
 
     /**
      * Register any events for your application.

@@ -6,23 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\User;
 
-class Confirmation extends Mailable
+class Intake extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $user;
-    public $code;
+    public $form_link;
+    public $name;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $code)
+    public function __construct($form_link, $name)
     {
-        $this->user = $user;
-        $this->code = $code;
+        $this->form_link = $form_link;
+        $this->name = $name;
     }
 
     /**
@@ -32,6 +30,6 @@ class Confirmation extends Mailable
      */
     public function build()
     {
-        return $this->view('Mail.confirm');
+        return $this->view('Mail.intake');
     }
 }
