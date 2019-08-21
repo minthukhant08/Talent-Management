@@ -109,3 +109,10 @@ Route::group(['prefix' => 'v1/assignments'], function()
       Route::put('/{id}', 'AssignmentController@update');
       Route::delete('/{id}', 'AssignmentController@destroy');
 });
+
+Route::group(['prefix' => 'v1/intake'], function()
+{
+      Route::put('/', 'IntakeController@update');
+      Route::get('/', 'IntakeController@get');
+
+});

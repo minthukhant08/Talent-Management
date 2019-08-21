@@ -95,6 +95,23 @@
             <v-list-item-title>Activity</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="goRoute('/admin/topic')">
+          <v-list-item-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Topic</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="goRoute('/admin/topicedit')">
+          <v-list-item-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Topic Edit</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
 
       </v-list>
     </v-navigation-drawer>
