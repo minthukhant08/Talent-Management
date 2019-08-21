@@ -1,6 +1,7 @@
 <template>
-  <v-row>
 
+
+<v-row>
       <v-menu
         v-model="menu2"
         :close-on-content-click="false"
@@ -8,13 +9,13 @@
         transition="scale-transition"
         offset-y
         full-width
-        min-width="290px"
+        min-width="100px"
       >
         <template v-slot:activator="{ on }">
           <v-layout row ma-3>
 
             <v-flex xs0 sm0 md2 lg2 xl2>
-              <img src="" alt="">
+
             </v-flex>
 
             <v-flex xs12 sm12 md8 lg8 xl8>
@@ -30,7 +31,7 @@
 
 
                     <v-list-item-content>
-                      <v-list-item-title><h3>Course Edit</h3></v-list-item-title><br><br>
+                      <v-list-item-title><h3>Topic Edit</h3></v-list-item-title><br><br>
 
                       <v-list-item>
                         <v-layout row ma3>
@@ -38,7 +39,22 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Name</v-list-item-text>
+                            <v-list-item-text>Topic Name</v-list-item-text>
+                          </v-flex>
+                          <v-flex xs4 sm6 md8 lg8 xl8>
+                            <v-text-field
+                            filled
+                            color="accent"></v-text-field>
+                          </v-flex>
+                        </v-layout>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-layout row ma3>
+                          <v-flex xs6 sm6 md4 lg3 xl3
+                          mt-7
+                          ml-4
+                          >
+                            <v-list-item-text>Description</v-list-item-text>
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
@@ -53,12 +69,33 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Description</v-list-item-text>
+                            <v-list-item-text>Start Date</v-list-item-text>
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
-                            filled
-                            color="accent"></v-text-field>
+                              v-model="date"
+                              prepend-icon="event"
+                              readonly
+                              v-on="on"
+                            ></v-text-field>
+                          </v-flex>
+                        </v-layout>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-layout row ma3>
+                          <v-flex xs6 sm6 md4 lg3 xl3
+                          mt-7
+                          ml-4
+                          >
+                            <v-list-item-text>End Date</v-list-item-text>
+                          </v-flex>
+                          <v-flex xs4 sm6 md8 lg8 xl8>
+                            <v-text-field
+                              v-model="date"
+                              prepend-icon="event"
+                              readonly
+                              v-on="on"
+                            ></v-text-field>
                           </v-flex>
                         </v-layout>
                       </v-list-item>
@@ -165,8 +202,14 @@
         <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
       </v-menu>
 
+    <v-spacer></v-spacer>
   </v-row>
-
-
-
 </template>
+<script>
+  export default {
+    data: () => ({
+      date: new Date().toISOString().substr(0, 10),
+      menu2: false,
+    }),
+  }
+</script>
