@@ -1,23 +1,23 @@
 <template>
+  <v-layout row class="pt-3">
+    <v-flex xs0 sm1 md3 lg3 xl3>
+    </v-flex>
+
+  <v-flex xs12 sm10 md6 lg6 xl6>
   <v-data-table
     :headers="headers"
     :items="assignments"
     class="elevation-2"
+    dark
   >
+
       <template v-slot:top>
-              <v-btn dark class=" mb-2 mt-3 ml-3"
-                color="accent"
-                fab
-                fixed
-                bottom
-                right
-
-                @click.stop="dialog = true"
-              >
-                <v-icon>create</v-icon>
-            </v-btn>
-
+        <v-toolbar flat color="primary">
         <v-dialog v-model="dialog" max-width="500px" dark>
+          <template v-slot:activator="{ on }">
+            <v-spacer></v-spacer>
+           <v-btn color="accent" dark class="mb-2" v-on="on">Add Assignment</v-btn>
+          </template>
           <v-card>
             <v-col cols="12" sm="12" md="12">
                <v-text-field
@@ -35,6 +35,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+      </v-toolbar>
   </template>
 
     <template v-slot:item.action="{item}">
@@ -45,9 +46,11 @@
         delete
       </v-icon>
     </template>
-
-
   </v-data-table>
+ </v-flex>
+ <v-flex xs0 sm1 md3 lg3 xl3>
+ </v-flex>
+</v-layout>
 </template>
 
 
