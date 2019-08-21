@@ -3,11 +3,12 @@
     <v-navigation-drawer
       v-model="drawer"
       app
-      temporary
+      clipped
       color=secondary
     >
+
       <v-list >
-        <v-list-item @click="goRoute('/profile/1')">
+        <!-- <v-list-item @click="goRoute('/profile/1')">
           <v-list-item-action class="mr-3">
             <v-avatar><img :src='User.image' alt="avatar"></v-avatar>
           </v-list-item-action>
@@ -15,50 +16,83 @@
             <v-list-item-title v-text="User.name"></v-list-item-title>
             <v-list-item-subtitle v-text="User.email"></v-list-item-subtitle>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
 
-        <v-list-item @click="goRoute('/course')">
+
+        <v-list-group prepend-icon="person" >
+
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title>User</v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+
+          <v-list-item class="pl-9">
+            <v-list-item-action>
+              <v-icon>person</v-icon>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title>Students</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item class="pl-9">
+            <v-list-item-action>
+              <v-icon>person</v-icon>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title>Teachers</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+          <v-list-item class="pl-9">
+            <v-list-item-action>
+              <v-icon>person</v-icon>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title>Scanners</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+
+        </v-list-group>
+
+
+
+
+        <v-list-item @click="goRoute('/admin/course')">
           <v-list-item-action>
-            <v-icon>book</v-icon>
+            <v-icon>person</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Courses</v-list-item-title>
+            <v-list-item-title>Course</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <v-list-item @click="goRoute('/activity')">
+        <v-list-item @click="goRoute('/admin/courseedit')">
           <v-list-item-action>
-            <v-icon>book</v-icon>
+            <v-icon>person</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Course Edit</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="goRoute('/admin/batch')">
+          <v-list-item-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Batch</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="goRoute('/admin/activity')">
+          <v-list-item-action>
+            <v-icon>dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Activity</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item @click="goRoute('/results')">
-          <v-list-item-action>
-            <v-icon>book</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Results</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item @click="goRoute('/giveresults')">
-          <v-list-item-action>
-            <v-icon>book</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Give Results</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item @click="goRoute('/assignments')">
-          <v-list-item-action>
-            <v-icon>book</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Assignments</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -130,11 +164,15 @@
 </template>
 
 <script>
+import {bus} from './app';
 import firebase from 'firebase';
+import noti from './components/notification/notification.vue';
+import commonmethods from './mixins/commonMethods';
 export default {
   components:{
     'app-noti' : noti,
   },
+  mixins:[commonmethods],
     data(){
       return{
         drawer: null,
