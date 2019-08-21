@@ -16,7 +16,7 @@ class CourseTopic extends JsonResource
     {
       return [
         'id'              => $this->id,
-        'topic'            => $this->topic,
+        'topic'           => $this->topic,
         'descriptions'    => $this->descriptions,
         'start_date'      => $this->start_date,
         'end_date'        => $this->end_date

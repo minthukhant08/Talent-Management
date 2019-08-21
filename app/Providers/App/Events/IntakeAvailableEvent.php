@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Providers\App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -9,23 +9,19 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Intake;
-use App\User;
 
 class IntakeAvailableEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $intake;
-    public $user;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Intake $intake, User $user)
+    public function __construct()
     {
-        $this->intake = $intake;
-        $this->user = $user;
+        //
     }
 
     /**

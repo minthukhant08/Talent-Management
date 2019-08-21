@@ -13,8 +13,7 @@
                         <tbody><tr>
                             <td align="center" valign="middle">
                                 <a href="" style="Margin:0;color:#6441a4;font-family:Helvetica,Arial,sans-serif;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none" target="_blank" data-saferedirecturl="">
-                <img class="m_2042709656515179653float-center CToWUd" src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB" alt="Twitch" style="Margin:0 auto;border:none;clear:both;display:block;float:none;margin:0 auto;max-width:100%;outline:0;padding:25px 0;text-align:center;text-decoration:none;width:102px!important">
-
+                                  <img class="m_2042709656515179653float-center CToWUd" src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB" alt="Twitch" style="Margin:0 auto;border:none;clear:both;display:block;float:none;margin:0 auto;max-width:100%;outline:0;padding:25px 0;text-align:center;text-decoration:none;width:102px!important">
                                 </a>
                             </td>
                         </tr>
@@ -43,10 +42,10 @@
                         <tr>
                             <td align="center" valign="middle">
                                 <div class="m_2042709656515179653header-message" style="margin:10px">
-                                    Hey {{$user->name}} !<strong style="color:#6441a5"> You have been selected as a talented member of our Talent Program.</strong>
+                                    Hey {{$name}}!<strong style="color:#6441a5"> We are accepting another Intake for our Talent Program</strong>
                                 </div>
                                 <div class="m_2042709656515179653header-message">
-                                    Make Sure you don't miss this rare oppotunity!
+                                    Make Sure You enroll this time!
                                     <br>
                                 </div>
                                 <div class="m_2042709656515179653header-message" style="padding-top:10px;padding-left:90px;padding-right:90px">
@@ -63,7 +62,7 @@
                         <tbody><tr>
                             <td align="center" valign="middle">
                                 <div class="m_2042709656515179653header-message">
-                                     Show this QR code to our organizers when you come to our program for Confirmation.
+                                    Fill the following google form to enroll the Talent Program.
                                     <br>
                                     <br>
                                 </div>
@@ -71,11 +70,10 @@
                         </tr>
                             <tr><td align="center" valign="middle">
                                 <div>
-                                      {!! QrCode::size(250)->generate($code); !!}
                                     <br>
                                     <small class="m_2042709656515179653alternate-link" style="color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px"> website link:
-                                        <a href="" style="color:#999" target="_blank" data-saferedirecturl="">
-                                            https://www.talent.com
+                                        <a href={{$form_link}} style="color:#999" target="_blank" data-saferedirecturl="">
+                                            https://www.forms.google.com
                                         </a>
                                     </small>
                                 </div>

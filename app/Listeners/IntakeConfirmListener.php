@@ -2,14 +2,13 @@
 
 namespace App\Listeners;
 
+use App\Events\IntakeConfirmEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
-use App\User;
 use App\Mail\Confirmation;
 
-
-class IntakeListener
+class IntakeConfirmListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -18,21 +17,17 @@ class IntakeListener
      */
     public function __construct()
     {
-
+        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  IntakeConfirmEvent  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(IntakeConfirmEvent $event)
     {
-      dd('laho');
-      $normal_users = User::where('type', '=', 0)->get();
-      foreach ($normal_users as $user) {
-        Mail::to($user->email)->send(new Confirmation($event->intake));
-      }
+        Mail::to($event->user->email)->send(new Confirmation($event->user, $event->code));
     }
 }
