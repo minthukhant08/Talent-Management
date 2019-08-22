@@ -8,15 +8,17 @@
     :headers="headers"
     :items="assignments"
     class="elevation-2"
-    dark
+
+
   >
 
       <template v-slot:top>
-        <v-toolbar flat color="primary">
+        <v-toolbar flat color="#FF8883">
+
         <v-dialog v-model="dialog" max-width="500px" dark>
           <template v-slot:activator="{ on }">
-            <v-spacer></v-spacer>
-           <v-btn color="accent" dark class="mb-2" v-on="on">Add Assignment</v-btn>
+            <v-text>List Of Assignments</v-text>
+           <v-btn color=" drak gradient" dark class="mb-2" v-on="on" ><v-icon align="right">add</v-icon></v-btn>
           </template>
           <v-card>
             <v-col cols="12" sm="12" md="12">

@@ -9,6 +9,22 @@
               dark
         >
           <template v-slot:top>
+              <v-toolbar flat>
+                <v-toolbar-title class="title mr-6 hidden-sm-and-down">Choose Assignment</v-toolbar-title>
+                    <v-autocomplete
+                      v-model="choose"
+                      :items="items"
+                      clearable
+                      hide-details
+                      hide-selected
+                      item-text="name"
+                      item-value="id"
+                      label="Search for a assignment..."
+                      solo
+                      @change='getChosen'
+                    >
+                  </v-autocomplete>
+              </v-toolbar>
                <v-dialog v-model="dialog" max-width="500px" dark>
                  <v-card class="pa-3" >
                       <v-card-text>
@@ -81,7 +97,9 @@
         lists: [],
         dialog:false,
         selectedAssignment:'',
+        choose:'',
         assignments:[],
+        items:[],
         editedItem:'',
         editedIndex:''
 
@@ -136,7 +154,26 @@
         });
 
       },
+      getChosen(){
+        console.log(this.choose);
+      },
 
+      getAssignment1(){
+        var results=[];
+         this.$http.get('http://localhost:8000/api/v1/assignments').then(response =>{
+           results = response.body.data;
+           var i;
+           for (i = 0;i < results.length; i++) {
+             this.items.push(
+               {name:results[i].name, id: results[i].id});
+           }
+           this.choose = this.items[0].id;
+           console.log(this.items)
+         },response => {
+
+         });
+
+       },
 
      close () {
        this.dialog = false
@@ -150,7 +187,7 @@
 
      created(){
        this.getall();
-       this.getAssignment();
+       this.getAssignment1();
      },
   }
 </script>
