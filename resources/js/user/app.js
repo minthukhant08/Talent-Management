@@ -4,11 +4,11 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
+import '@mdi/font/css/materialdesignicons.css'
 import Routes from './routes';
 import {store} from './store/store';
 import firebaseConfig from './config/firebaseconfig.js';
 import theme from './config/theme.js';
-import api from './config/api.js';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/messaging';
@@ -22,6 +22,7 @@ const router= new VueRouter({
   routes:Routes,
   mode:'history'
 });
+const api = 'ffffffffffffffffff';
 
 const vuetify = new Vuetify(theme);
 
@@ -31,6 +32,11 @@ new Vue({
   vuetify : vuetify,
   el: '#app',
   router:router,
+  data(){
+    return{
+      api:'http//localhost:8000'
+    }
+  },
   created:function(){
     firebase.initializeApp(firebaseConfig);
     if ('serviceWorker' in navigator) {

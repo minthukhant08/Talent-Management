@@ -1,68 +1,55 @@
 <template>
-  <v-layout row class="pt-3">
-    <v-flex xs0 sm1 md2 lg2 xl2>
-    </v-flex>
-    <v-flex xs12 sm10 md8 lg8 xl8>
-        <v-data-table
-              :headers="headers"
-              :items="lists"
-              dark
-        >
-          <template v-slot:top>
-               <v-dialog v-model="dialog" max-width="500px" dark>
-                 <v-card class="pa-3" >
-                      <v-card-text>
-                              <v-text-field
-                               v-model="editedItem.name"
-                                label="Name"
-                                 clearable>
-                               </v-text-field>
+  <v-container>
+    <v-data-table
+          :headers="headers"
+          :items="lists"
+          
+    >
+      <template v-slot:top>
+           <v-dialog v-model="dialog" max-width="500px" dark>
+             <v-card class="pa-3" >
+                  <v-card-text>
+                     <v-select
+                        :items="assignments"
+                        menu-props="auto, overflowY"
+                        v-model='selectedAssignment'
+                        item-text='name'
+                        item-value='id'
+                        label="Name">
+                     </v-select>
 
-                               <v-select
-                               :items="assignments"
-                              menu-props="auto, overflowY"
-                               v-model='selectedAssignment'
-                                item-text='name'
-                                item-value='id'
-                                 label="Name"
-                                 clearable></v-select>
-
-                              <v-text-field
-                               v-model="editedItem.marks"
-                               label="Mark"
-                               clearable>
-                             </v-text-field>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
-                         <v-btn
-                         @click="save"
-                         text
-                        color="accent">
-                        Confirm
-                      </v-btn>
-                      </v-card-actions>
-                  </v-card>
-                 </v-dialog>
-           </template>
-          <template v-slot:item.image="{ item }">
-            <v-avatar>
-              <img :src="item.image" alt="avatar">
-            </v-avatar>
-         </template>
-         <template v-slot:item.action="{item}">
-           <v-icon
-             small
-             @click="editItem(item)"
-           >
-             create
-           </v-icon>
-         </template>
-       </v-data-table>
-     </v-flex>
-     <v-flex xs0 sm1 md2 lg2 xl2>
-     </v-flex>
-    </v-layout>
+                      <v-text-field
+                       v-model="editedItem.marks"
+                       label="Mark">
+                       </v-text-field>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                     <v-btn
+                     @click="save"
+                     text
+                    color="accent">
+                    Confirm
+                  </v-btn>
+                  </v-card-actions>
+              </v-card>
+             </v-dialog>
+       </template>
+      <template v-slot:item.image="{ item }">
+        <v-avatar>
+          <img :src="item.image" alt="avatar">
+        </v-avatar>
+     </template>
+     <template v-slot:item.action="{item}">
+       <v-icon
+         small
+         @click="editItem(item)"
+       >
+         create
+       </v-icon>
+     </template>
+   </v-data-table>
+  </v-container>
 </template>
 <script>
   export default {

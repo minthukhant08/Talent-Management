@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Repositories\User\UserRepoServiceProvider::class,
+        App\Repositories\Admin\AdminRepoServiceProvider::class,
         App\Repositories\Course\CourseRepoServiceProvider::class,
         App\Repositories\Activity\ActivityRepoServiceProvider::class,
         App\Repositories\Comment\CommentRepoServiceProvider::class,

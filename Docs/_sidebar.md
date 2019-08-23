@@ -3,7 +3,7 @@
 * [User](User.md)
 * [Course](Course.md)
 * [Topic](Topic.md)
-* [Course Detail](CourseDetail.md)
+* [Topic Detail](TopicDetail.md)
 * [Batch](Batch.md)
 * [Activity](Activity.md)
 * [Comments](Comments.md)

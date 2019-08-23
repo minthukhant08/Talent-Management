@@ -11,7 +11,7 @@ class Activity extends Model
         'name', 'date', 'descriptions', 'speaker_name', 'image', 'type'
     ];
     protected $hidden = [
-        'deleted_at', 'created_at', 'updated_at'
+        'deleted_at', 'created_at', 'updated_at', 'image'
     ];
 
     public function likes()

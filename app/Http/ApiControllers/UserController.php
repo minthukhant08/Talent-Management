@@ -74,6 +74,20 @@ class UserController extends BaseController
         return $this->response('200');
     }
 
+    public function giveResults(Request $request)
+    {
+        $this->offset = isset($request->offset)? $request->offset : 0;
+        $this->limit  = isset($request->limit)? $request->limit : 30;
+        $course_id       = isset($request->course_id)? $request->course_id : '%';
+        $batch_id        = isset($request->batch_id)? $request->batch_id : '%';
+
+        $users = $this->userInterface->giveResults($this->offset, $this->limit, $course_id, $batch_id);
+        $total = $this->userInterface->total();
+        $this->data($users);
+        $this->total($total);
+        return $this->response('200');
+    }
+
     public function login(Request $request)
     {
 
@@ -109,7 +123,8 @@ class UserController extends BaseController
         $validator = Validator::make($request->all(), [
               'name'      =>  'required',
               'email'     =>  'required',
-              'image'     => 'required'
+              'image'     =>  'required',
+              'auth_token'=>  'required'
           ]);
 
          if ($validator->fails()) {
@@ -133,9 +148,9 @@ class UserController extends BaseController
              $result = $this->userInterface->store($user);
 
              if (isset($result)) {
-                $token = JWTAuth::fromUser($result);
+                // $token = JWTAuth::fromUser($result);
                 $result = new UserResource($result);
-                $this->data(array('user' => $result, 'token' => $token));
+                $this->data(array('user' => $result, 'auth_token' => $result->auth_token));
                 return $this->response('201');
              }else{
                 return $this->response('500');
@@ -143,7 +158,7 @@ class UserController extends BaseController
          }else{
              $token = JWTAuth::fromUser($existing_user);
              $existing_user = new UserResource($existing_user);
-             $this->data(array('user' => $existing_user, 'token' => $token));
+             $this->data(array('user' => $existing_user, 'auth_token' => $existing_user->auth_token));
              return $this->response('201');
          }
     }

@@ -1,22 +1,15 @@
 <template>
-  <v-layout row class="pt-3">
-    <v-flex xs0 sm1 md3 lg3 xl3>
-    </v-flex>
+  <v-container>
+    <v-data-table
+      :headers="headers"
+      :items="assignments"
+      class="elevation-2"
+    >
 
-  <v-flex xs12 sm10 md6 lg6 xl6>
-  <v-data-table
-    :headers="headers"
-    :items="assignments"
-    class="elevation-2"
-    dark
-  >
-
-      <template v-slot:top>
-        <v-toolbar flat color="primary">
+    <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px" dark>
           <template v-slot:activator="{ on }">
-            <v-spacer></v-spacer>
-           <v-btn color="accent" dark class="mb-2" v-on="on">Add Assignment</v-btn>
+            <v-btn color="accent" fixed bottom right dark fab class="mb-2 elevation-2" v-on="on"><v-icon>mdi-plus</v-icon></v-btn>
           </template>
           <v-card>
             <v-col cols="12" sm="12" md="12">
@@ -35,21 +28,18 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-toolbar>
-  </template>
-
-    <template v-slot:item.action="{item}">
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        delete
-      </v-icon>
     </template>
-  </v-data-table>
- </v-flex>
- <v-flex xs0 sm1 md3 lg3 xl3>
- </v-flex>
+
+      <template v-slot:item.action="{item}">
+        <v-icon
+          small
+          @click="deleteItem(item)"
+        >
+          delete
+        </v-icon>
+      </template>
+    </v-data-table>
+  </v-container>
 </v-layout>
 </template>
 
@@ -60,7 +50,7 @@
       dialog: false,
       headers :[
         {text: 'Assignment', align: 'left',sortable: false,value: 'name',},
-        { text: 'Actions', value: 'action', sortable: false,align: 'center', },
+        { text: 'Actions', value: 'action', sortable: false,align: 'right', },
       ],
       assignment_name:'',
       assignments:[],

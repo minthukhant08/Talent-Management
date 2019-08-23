@@ -43,6 +43,24 @@ class ResultController extends BaseController
         return $this->response('200');
     }
 
+    public function getStudents(Request $request)
+    {
+        $this->offset = isset($request->offset)? $request->offset : 0;
+        $this->limit  = isset($request->limit)? $request->limit : 30;
+        $teacher_id;
+        if(isset($request->teacher_id)){
+          $teacher_id = $request->teacher_id;
+        }else{
+          $this->setError('404');
+          return $this->response('404');
+        }
+        $result =$this->resultInterface->getAll($this->offset, $this->limit, $teacher_id);
+        $total = $this->resultInterface->total();
+        $this->data($result);
+        $this->total($total);
+        return $this->response('200');
+    }
+
 
 
     /**

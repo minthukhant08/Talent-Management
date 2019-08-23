@@ -23,6 +23,7 @@ class CreateUserTable extends Migration
           $table->text('address')->nullable();
           $table->date('date_of_birth')->nullable();
           $table->tinyInteger('type');
+          $table->text('auth_token')->nullable();
           $table->unsignedBigInteger('course_id')->nullable();
           $table->unsignedBigInteger('batch_id')->nullable();
           $table->timestamps();

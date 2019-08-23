@@ -4,19 +4,19 @@
     class="mx-auto mt-10 mb-10"
   >
     <v-img
-      src="https://cdn.vuetifyjs.com/images/lists/ali.png"
+      :src="user.image"
       height="300px"
       dark
     >
       <v-row class="fill-height">
-        <v-card-title> 
-          
+        <v-card-title>
+
 
           <v-spacer></v-spacer>
 
-          
 
-          
+
+
         </v-card-title>
 
         <v-spacer></v-spacer>
@@ -142,7 +142,7 @@
 
 
         <v-list-item-content >
-          <v-list-item-title>{{user.batch.name}}</v-list-item-title>
+            <v-list-item-title>{{user.batch.name}}</v-list-item-title>
         </v-list-item-content>
 
       </v-list-item>
@@ -165,7 +165,7 @@
       </v-list-item>
 
       <v-divider inset></v-divider>
-      
+
 
       <v-list-item >
         <v-list-item-content >
@@ -173,17 +173,17 @@
             color="accent"
             @click="goRoute('/editprofile')"
             >Edit</v-btn>
-          
+
         </v-list-item-content>
 
       </v-list-item>
-      
-
-       
 
 
 
-     
+
+
+
+
     </v-list>
   </v-card>
 </template>
@@ -200,7 +200,8 @@ export default {
   },
   methods:{
     getuser(){
-      this.$http.get('http://localhost:8000/api/v1/users/' + this.$route.params.id).then(response => {
+      console.log(this.$parent.$root.api);
+      this.$http.get('/api/v1/users/' + this.$route.params.id).then(response => {
           this.user = response.body.data[0];
           console.log(response.body.data[0]);
       }, response => {
