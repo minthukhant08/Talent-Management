@@ -11,8 +11,14 @@
               Results
             </div>
            <template v-for="result in results">
-              <v-list-item :key="result.id">
+
+              <v-list-item :key="result.id" class="pa-3">
                  <v-list-item-content  >
+                  <v-card> 
+                   <v-list-item-title> 
+                     grade(result)
+                   </v-list-item-title>
+                  </v-card>  
                      <v-list-item-title class="blue--text">
                         <div class="title">
                          {{result.assignment.name}}
@@ -73,8 +79,25 @@
              return "#8BC34A";
          }
       },
+     
+     grade(result)
+     {
+         if(result <= 50) {
+           return "Grade C";
+         }else if (result <= 70){
+             return "Grade B";
+          }else{
+             return "Grade C";
+         }
+       },
+
+
+
+
+
+
       getall(){
-        this.$http.get('http://localhost:8000/api/v1/results?student_id=' + this.User.id).then(response => {
+        this.$http.get('http://localhost:9000/api/v1/results?student_id=' + this.User.id).then(response => {
         console.log(response.body);
          this.results = response.body.data;
         }, response =>{
