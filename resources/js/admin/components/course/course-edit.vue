@@ -38,11 +38,13 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Name</v-list-item-text>
+                            <v-list-item-text
+                            >Name</v-list-item-text>
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
                             filled
+                            v-model="courses.name"
                             color="accent"></v-text-field>
                           </v-flex>
                         </v-layout>
@@ -53,12 +55,14 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Description</v-list-item-text>
+                            <v-list-item-text
+                            >Description</v-list-item-text>
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
+                            v-model="courses.descriptions"
                             filled
-                            color="accent"></v-text-field>
+                            color="black"></v-text-field>
                           </v-flex>
                         </v-layout>
                       </v-list-item>
@@ -69,7 +73,9 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn text>Remove</v-btn>
-                  <v-btn text>Update</v-btn>
+                  <v-btn 
+                   @click="updatecourse" text>Update</v-btn>
+                  
                 </v-card-actions>
               </v-card>
 
@@ -78,6 +84,8 @@
                 width="100%"
                 style="border-radius:10px;"
                 color="accent"
+                v-for="topic in courses.topic"
+                :key="topic.id"
               >
                 <v-list>
                   <v-list-item>
@@ -91,13 +99,17 @@
                           <v-flex xs6 sm6 md4 lg3 xl3
                           mt-7
                           ml-4
+                         
                           >
                             <v-list-item-text>Topic</v-list-item-text>
                           </v-flex>
                           <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
+                            v-model="topic.topic"
+                            
                             filled
-                            color="accent"></v-text-field>
+                            color="accent"
+                           ></v-text-field>
                           </v-flex>
                         </v-layout>
                       </v-list-item>
@@ -107,12 +119,14 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Description</v-list-item-text>
+                            <v-list-item-text>descriptions</v-list-item-text>
                           </v-flex>
                           <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
+                            v-model="topic.descriptions"
                             filled
-                            color="accent"></v-text-field>
+                            color="accent"
+                           ></v-text-field>
                           </v-flex>
                         </v-layout>
                       </v-list-item>
@@ -126,7 +140,7 @@
                           </v-flex>
                           <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
-                              v-model="date"
+                              v-model="topic.date"
                               prepend-icon="event"
                               readonly
                               v-on="on"
@@ -141,7 +155,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn text>Remove</v-btn>
-                  <v-btn text>Update</v-btn>
+                  <v-btn @click="updatetopic" text>Update</v-btn>
                 </v-card-actions>
               </v-card>
 
@@ -170,3 +184,83 @@
 
 
 </template>
+<script>
+  import commonmethods from '../../mixins/commonMethods';
+  export default {
+
+  mixins:[commonmethods], 
+  data(){
+    return{
+        editedcourse:[],
+        courses:[],
+        topics:[],
+      }
+  },
+  methods:{
+      
+
+   updatecourse(){
+      this.$http.put('http://localhost:8000/api/v1/courses/'+ this.$route.params.id, {
+
+      name: this.courses.name,
+      descriptions: this.courses.descriptions
+        
+       
+      }).then((response) =>{
+        this.goRoute('/course/' + this.$route.params.id);
+
+      })
+      .then((error)=>{
+
+      })
+
+    },
+    updatetopic(){
+      console.log("dfdf");
+      console.log(this.topicss.topic);
+      this.$http.put('http://localhost:8000/api/v1/topics/'+ this.$route.params.id, {
+
+      topic: this.topics.topic,
+      descriptions: this.topic.descriptions
+        
+       
+      }).then((response) =>{
+        // this.goRoute('/course/' + this.$route.params.id);
+
+      })
+      .then((error)=>{
+
+      })
+
+    },
+
+    gettopic(){
+      this.$http.get('http://localhost:9000/api/v1/topics/1').then(response => {
+        
+       this.topics = response.body.data;
+      }, response =>{
+
+      });
+    },
+
+
+    getCourse(){
+      this.$http.get('http://localhost:8000/api/v1/courses/'+ this.$route.params.id).then((response) =>{
+          console.log(response.body.data[0]);
+          this.courses = response.body.data[0];
+      })
+      .then((error)=>{
+
+      })
+
+    }
+
+  },
+  created(){
+   this.getCourse();
+   this.gettopic();
+   
+
+  }
+}
+</script>

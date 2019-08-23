@@ -22,7 +22,7 @@
             </v-flex>
 
             <v-flex xs12 sm12 md12 lg12 xl12>
-              <v-layout row>
+              <v-layout col>
                   <v-flex xs3 sm3 md3 lg3 xl3>
                     Addresssds
                   </v-flex>

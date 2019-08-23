@@ -13,7 +13,7 @@ import topicedit from './components/topic/topicedit.vue';
 export default[
   {path:'/admin/home', component:home},
   {path:'/admin/course', component:course},
-  {path:'/admin/courseedit', component:courseedit},
+  {path:'/admin/courseedit/:id', component:courseedit},
   {path:'/admin/batch', component:batch},
   {path:'/admin/activity', component:activity},
   {path:'/admin/topic', component:topic},

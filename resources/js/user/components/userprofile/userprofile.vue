@@ -4,7 +4,7 @@
     class="mx-auto mt-10 mb-10"
   >
     <v-img
-      src="https://cdn.vuetifyjs.com/images/lists/ali.png"
+      :src="user.image"
       height="300px"
       dark
     >
@@ -116,7 +116,7 @@
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">collections</v-icon>
+          <v-icon color="indigo"class="pt-4">class</v-icon>
         </v-list-item-icon>
 
         <v-list-item-content >
@@ -133,7 +133,7 @@
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo"class="pt-4">class</v-icon>
+          <v-icon color="indigo"class="pt-4">group</v-icon>
         </v-list-item-icon>
 
         <v-list-item-content >
@@ -173,6 +173,19 @@
             color="accent"
             @click="goRoute('/editprofile')"
             >Edit</v-btn>
+          
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-content >
+           <v-btn
+            color="accent"
+            
+            >Log Out</v-btn>
+            
           
         </v-list-item-content>
 
