@@ -6,7 +6,9 @@
         background-color="#7266ba"
         color="#F57C00"
         centered
+
       >
+
         <v-tab >Scanners</v-tab>
         <v-tab >Manage</v-tab>
             	
@@ -39,22 +41,23 @@
         <v-tab-item>
           <v-container>
             <v-row>
-          <v-text-field      
-            class="mx-5 pt-5"
-            flat
-            hide-details
-            label="Search"
-            prepend-inner-icon="search"
-            solo-inverted
-            v-model='search'
-            style="width: 800px;"
-          >
-
+              
+              <v-text-field      
+                class="mx-5 pt-5"
+                flat
+                hide-details
+                label="Search"
+                prepend-inner-icon="search"
+                solo-inverted
+                v-model='search'
+                style="width: 800px;"
+              >
+              </v-text-field>
             
-          </v-text-field>
-          <v-btn class="mt-5 ml-3" style="height: 50px;" @click='searchScanner'>Search</v-btn>
-        </v-row>
-<!--end scanner list -->
+              </v-text-field>
+              <v-btn class="mt-5 ml-3" style="height: 50px;" @click='searchScanner'>Search</v-btn>
+            </v-row>
+          <!--end scanner list -->
       
             <v-list subheader  >
               <v-list-item 
