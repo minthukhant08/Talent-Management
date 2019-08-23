@@ -199,7 +199,7 @@ export default {
   watch:{
     page(val){
       console.log(val);
-      this.$http.get('http://localhost:9000/api/v1/activities?offset=' + (val-1)*5 + '&limit=5').then(response => {
+      this.$http.get(this.$root.api + '/activities?offset=' + (val-1)*5 + '&limit=5').then(response => {
         console.log(response.body.data);
        this.activities = response.body.data;
       }, response =>{
@@ -210,7 +210,7 @@ export default {
   methods:{
     getcomment($activity_id){
 
-      this.$http.get('http://localhost:8000/api/v1/comments?activity_id=' + $activity_id).then(response => {
+      this.$http.get(this.$root.api + '/comments?activity_id=' + $activity_id).then(response => {
         console.log(response);
          this.commentDialog = true;
       this.comments = response.body.data;
@@ -224,7 +224,7 @@ export default {
     this.selectedActivity = activity;
   },
   getall(){
-      this.$http.get('http://localhost:9000/api/v1/activities?offset=0&limit=5').then(response => {
+      this.$http.get(this.$root.api + '/activities?offset=0&limit=5').then(response => {
         this.total_pages = response.body.meta.total/5
        this.activities = response.body.data;
       }, response =>{

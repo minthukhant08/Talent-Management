@@ -49,7 +49,7 @@ export default{
       this.$router.push($route).catch(err => {});
     },
     getCourses(){
-      this.$http.get('http://localhost:8000/api/v1/courses').then(response=>{
+      this.$http.get(this.$root.api + '/courses').then(response=>{
         // console.log(response.body.data);
         this.courses= response.body.data;
       }, response => {

@@ -68,18 +68,6 @@ export default{
       }
     }
   },
-  methods:{
-    async getNotiToken(){
-      try {
-        const messaging = firebase.messaging();
-        await messaging.requestPermission();
-        const token = await messaging.getToken();
-        console.log('I got the token :', token);
-      } catch (error) {
-        console.error(error);
-      }
-   },
-  },
   created(){
     this.darkmode = this.$store.getters.getMode;
     this.noti = this.$store.getters.isNotiSubscribed;

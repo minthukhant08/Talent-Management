@@ -20,14 +20,14 @@
         <v-divider></v-divider>
         <v-list-item>
           <v-list-item-action>
-            <v-switch  color="accent"></v-switch>
+            <v-switch v-model="noti"  color="accent"></v-switch>
           </v-list-item-action>
           <v-list-item-title>Enable Notification</v-list-item-title>
         </v-list-item>
 
         <v-list-item>
           <v-list-item-action>
-            <v-switch color="accent"></v-switch>
+            <v-switch v-model="darkmode" color="accent"></v-switch>
           </v-list-item-action>
           <v-list-item-title>Enable Dark Mode</v-list-item-title>
         </v-list-item>
@@ -99,7 +99,7 @@
           <img src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB" alt="avatar">
         </v-avatar>
       </div>
-      <!-- <v-toolbar-title class="pink--text" style="padding-top:25px;">Talent Program</v-toolbar-title> -->
+
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <template v-if="$vuetify.breakpoint.mdAndUp && User.id!=null">
@@ -191,9 +191,11 @@
             </v-btn>
           </v-card-actions>
           <v-card-actions class="pb-3 pt-0 px-3">
-            <v-btn block @click="googleLogin">
-                <v-icon>fa fa-google</v-icon>
-                   &nbsp;&nbsp;Sign in with Google
+            <v-btn block color='#ffffff' @click="googleLogin">
+                <v-icon color='#000000'>fa fa-google</v-icon>
+                   <span class="black--text">
+                     &nbsp;&nbsp;Sign in with Google
+                   </span>
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -218,7 +220,8 @@ export default {
         drawer: null,
         dark:false,
         loginDialog:false,
-        api:'http'
+        darkmode:false,
+        noti:false
       }
     },
     computed:{
@@ -227,6 +230,18 @@ export default {
       },
       newNoti(){
         return this.$store.getters.getNewNotiCount;
+      }
+    },
+    watch: {
+      darkmode(value){
+        this.$store.dispatch('setmode',value);
+        this.$vuetify.theme.dark = value;
+      },
+      noti(value){
+        if (value) {
+          this.getNotiToken();
+          this.$store.dispatch('setNotiSubscribe',value);
+        }
       }
     },
     methods:{
@@ -255,7 +270,8 @@ export default {
         this.getNotification();
       });
       this.getNotification();
-      this.$vuetify.theme.dark = this.$store.getters.getMode;
+      this.darkmode = this.$store.getters.getMode;
+      this.noti = this.$store.getters.isNotiSubscribed;
   }
 }
 </script>

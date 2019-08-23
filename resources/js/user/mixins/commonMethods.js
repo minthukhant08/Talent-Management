@@ -9,7 +9,7 @@ export default{
       var provider = new firebase.auth.GoogleAuthProvider();
       var _this = this;
       firebase.auth().signInWithPopup(provider).then(function(result) {
-        _this.$http.post('http://localhost:8000/api/v1/users', {
+        _this.$http.post(_this.$root.api + '/users', {
           name  : result.user.displayName,
           email : result.user.email,
           image : result.user.photoURL,
@@ -18,7 +18,6 @@ export default{
           if(response.body.success){
             _this.$store.dispatch('setUser',response.body.data.user);
             _this.$store.dispatch('toggle_Login',true);
-            console.log(_this.$store.getters.getUser);
             bus.$emit('close_login');
           }
         })
@@ -79,11 +78,21 @@ export default{
       })
     },
     getNotification(user_id){
-      this.$http.get('http://localhost:8000/api/v1/notifications/6').then((response)=>{
+      this.$http.get(this.$root.api + '/notifications/6').then((response)=>{
         console.log(response.body);
         this.$store.dispatch('setNoti',response.body.data);
         this.$store.dispatch('setNotiCount',response.body.meta.total);
       })
-    }
+    },
+    async getNotiToken(){
+      try {
+        const messaging = firebase.messaging();
+        await messaging.requestPermission();
+        const token = await messaging.getToken();
+        console.log('I got the token :', token);
+      } catch (error) {
+        console.error(error);
+      }
+   },
   }
 }

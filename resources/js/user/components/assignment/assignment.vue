@@ -60,7 +60,7 @@
 
     methods: {
      getall(){
-       this.$http.get("http://localhost:8000/api/v1/assignments").then(response=>{
+       this.$http.get(this.$root.api + "/api/v1/assignments").then(response=>{
          this.assignments=response.body.data;
        },response=>{
        });
@@ -70,7 +70,7 @@
         confirm('Are you sure you want to delete this item?' + assignment) && this.assignments.splice(index, 1)
       },
       save(){
-        this.$http.post('http://localhost:8000/api/v1/assignments', {
+        this.$http.post(this.$root.api + '/assignments', {
           "name":this.assignment_name,
           "teacher_id": 1,
         }).then((response) =>{

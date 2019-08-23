@@ -83,8 +83,7 @@
     },
     methods: {
      getall(){
-       console.log('http://localhost:8000/api/v1/users?batch=' + this.User.batch.name + '&course=' + this.User.course.name);
-       this.$http.get('http://localhost:8000/api/v1/users?batch=' + this.User.batch.name + '&course=' + this.User.course.name ).then(response=>{
+       this.$http.get(this.$root.api + '/users?batch=' + this.User.batch.name + '&course=' + this.User.course.name ).then(response=>{
          this.lists=response.body.data;
        },response=>{
        });
@@ -111,7 +110,7 @@
 
      getAssignment(){
        var results=[];
-        this.$http.get('http://localhost:8000/api/v1/assignments').then(response =>{
+        this.$http.get(this.$root.api + '/assignments').then(response =>{
           results = response.body.data;
           var i;
           for (i = 0;i < results.length; i++) {
@@ -131,7 +130,7 @@
 
       getAssignment1(){
         var results=[];
-         this.$http.get('http://localhost:8000/api/v1/assignments').then(response =>{
+         this.$http.get(this.$root.api + '/assignments').then(response =>{
            results = response.body.data;
            var i;
            for (i = 0;i < results.length; i++) {

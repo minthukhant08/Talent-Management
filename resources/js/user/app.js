@@ -22,19 +22,17 @@ const router= new VueRouter({
   routes:Routes,
   mode:'history'
 });
-const api = 'ffffffffffffffffff';
 
 const vuetify = new Vuetify(theme);
 
 new Vue({
-  api:api,
   store:store,
   vuetify : vuetify,
   el: '#app',
   router:router,
   data(){
     return{
-      api:'http//localhost:8000'
+      api:'http://localhost:8000/api/v1'
     }
   },
   created:function(){

@@ -10,12 +10,7 @@
     >
       <v-row class="fill-height">
         <v-card-title>
-
-
           <v-spacer></v-spacer>
-
-
-
 
         </v-card-title>
 
@@ -27,120 +22,71 @@
       </v-row>
     </v-img>
 
-    <v-list two-line >
+    <v-list>
       <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">person</v-icon>
+          <v-icon color="accent">person</v-icon>
         </v-list-item-icon>
-
-        <v-list-item-content>
-          <v-list-item-title >Name</v-list-item-title>
-        </v-list-item-content>
-
-
         <v-list-item-content>
           <v-list-item-title>{{user.name}}</v-list-item-title>
         </v-list-item-content>
-
       </v-list-item>
       <v-divider inset></v-divider>
 
       <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">email</v-icon>
+          <v-icon color="accent">email</v-icon>
         </v-list-item-icon>
-
-        <v-list-item-content >
-          <v-list-item-title >Email</v-list-item-title>
+        <v-list-item-content>
+          <v-list-item-title >{{user.email}}</v-list-item-title>
         </v-list-item-content>
-
-
-        <v-list-item-content >
-          <v-list-item-title>{{user.email}}</v-list-item-title>
-        </v-list-item-content>
-
       </v-list-item>
       <v-divider inset></v-divider>
 
-
       <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">phone</v-icon>
+          <v-icon color="accent">phone</v-icon>
         </v-list-item-icon>
-
-        <v-list-item-content >
-          <v-list-item-title >Phone No</v-list-item-title>
-        </v-list-item-content>
-
-
         <v-list-item-content >
           <v-list-item-title>{{user.phone_no}}</v-list-item-title>
         </v-list-item-content>
-
       </v-list-item>
       <v-divider inset></v-divider>
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">public</v-icon>
+          <v-icon color="accent">public</v-icon>
         </v-list-item-icon>
-
-        <v-list-item-content >
-          <v-list-item-title >Nrc_no</v-list-item-title>
-        </v-list-item-content>
-
-
         <v-list-item-content >
           <v-list-item-title>{{user.nrc_no}}</v-list-item-title>
         </v-list-item-content>
-
       </v-list-item>
       <v-divider inset></v-divider>
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">cake</v-icon>
+          <v-icon color="accent">cake</v-icon>
         </v-list-item-icon>
-
-        <v-list-item-content >
-          <v-list-item-title >Date Of Birth</v-list-item-title>
-        </v-list-item-content>
-
-
         <v-list-item-content >
           <v-list-item-title>{{user.date_of_birth}}</v-list-item-title>
         </v-list-item-content>
-
       </v-list-item>
       <v-divider inset></v-divider>
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo"class="pt-4">class</v-icon>
+          <v-icon color="accent">class</v-icon>
         </v-list-item-icon>
-
-        <v-list-item-content >
-          <v-list-item-title >Track</v-list-item-title>
-        </v-list-item-content>
-
-
         <v-list-item-content >
           <v-list-item-title>{{user.course.name}}</v-list-item-title>
         </v-list-item-content>
-
       </v-list-item>
       <v-divider inset></v-divider>
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo"class="pt-4">group</v-icon>
+            <v-icon color="accent">group</v-icon>
         </v-list-item-icon>
-
-        <v-list-item-content >
-          <v-list-item-title >Batch</v-list-item-title>
-        </v-list-item-content>
-
-
         <v-list-item-content >
             <v-list-item-title>{{user.batch.name}}</v-list-item-title>
         </v-list-item-content>
@@ -150,14 +96,8 @@
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">home</v-icon>
+          <v-icon color="accent" >home</v-icon>
         </v-list-item-icon>
-
-        <v-list-item-content >
-          <v-list-item-title >Address</v-list-item-title>
-        </v-list-item-content>
-
-
         <v-list-item-content >
           <v-list-item-title>{{user.address}}</v-list-item-title>
         </v-list-item-content>
@@ -214,8 +154,7 @@ export default {
   },
   methods:{
     getuser(){
-      console.log(this.$parent.$root.api);
-      this.$http.get('/api/v1/users/' + this.$route.params.id).then(response => {
+      this.$http.get(this.$root.api + '/users/' + this.$route.params.id).then(response => {
           this.user = response.body.data[0];
           console.log(response.body.data[0]);
       }, response => {

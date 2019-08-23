@@ -95,7 +95,7 @@
 
 
       getall(){
-        this.$http.get('http://localhost:9000/api/v1/results?student_id=' + this.User.id).then(response => {
+        this.$http.get(this.$root.api + '/results?student_id=' + this.User.id).then(response => {
         console.log(response.body);
          this.results = response.body.data;
         }, response =>{
