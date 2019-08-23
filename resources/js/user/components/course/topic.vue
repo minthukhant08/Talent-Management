@@ -11,11 +11,11 @@
         dark
         flat
       >
-        <v-card-title class="pa-2 purple lighten-3">
+        <v-card-title class="pa-2 accent">
           Front-End Schedule
             <v-spacer></v-spacer>
             <v-card-actions>
-              <v-btn class="mx-2" fab dark small text color="accent"
+              <v-btn class="mx-2" fab dark small text color=primary
                 @click="dialog = false"
               >
                 <v-icon>close</v-icon>
@@ -53,18 +53,25 @@
     </v-dialog>
 
     <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-      <v-timeline-item v-for="(topic,index) in topics" :key="index"
-        color="purple lighten-2"
+      <v-timeline-item v-for="(card,index) in cards" :key="index"
+        color="accent"
       >
       <span slot="opposite">Tus eu perfecto</span>
         <v-card >
-          <v-card-title class="purple lighten-2" >
-            <h2 class="display-1 white--text font-weight-light">{{topic.topic}}</h2>
+          <v-card-title class="accent" >
+            <h2 class="display-1 white--text font-weight-light">{{card.topic}}</h2>
           </v-card-title>
-          <v-container>
+          <v-card-actions class="font-weight-medium  subtitle-1 pl-6 pb-0 pt-5" >
+            <v-icon>event</v-icon>&nbsp;&nbsp;
+               {{card.start_date}}&nbsp;-&nbsp;
+               {{card.end_date}}
+         </v-card-actions>
+          <v-container class="pt-0">
             <v-layout>
               <v-flex cols="12" md="12">
-                  <v-card-text>{{topic.descriptions}}</v-card-text>
+                  <v-card-text>
+                    {{card.descriptions}}
+                  </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn @click="topicdialog(topic)" color=accent text>
@@ -81,7 +88,7 @@
 
 <v-flex xs0 sm0 md2 lg1 xl1>
 </v-flex>
-  <v-btn class="mx-2" fab dark color="indigo" fixed bottom right
+  <v-btn class="mx-2" fab dark color="accent" fixed bottom right
     @click="goRoute('/courses')"
   >
     <v-icon dark>keyboard_arrow_left</v-icon>

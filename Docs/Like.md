@@ -45,7 +45,9 @@ The endpoint controls like Resources.
                     "limit": 30,
                     "offset": 0
                 },
-                "data": [],
+                "data": {
+                    "likes": 1
+                  },
                 "errors": {
                     "message": "The request parameters are incorrect, please make sure to follow the documentation.",
                     "code": 400002,

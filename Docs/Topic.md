@@ -1,5 +1,73 @@
 # Topic Feature
-The endpoint controls Details of courses.
+The endpoint controls Topics.
+
+# Retrieve the list of topics [/v1/topics]
+
+### GET
+
++ Parameters
+    + limit : `30` (optional, integer)
+    + offset : `0` (optional, integer)
+
+Retrieve the list of topics.
+
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+              "success": 1,
+              "code": 200,
+              "meta": {
+                  "method": "GET",
+                  "endpoint": "api/v1/topics",
+                  "limit": 30,
+                  "offset": 0,
+                  "total": 40
+              },
+              "data": [
+                  {
+                      "id": 14,
+                      "topic": "culpa",
+                      "descriptions": "Consequatur corporis repellat dolor atque quia fugiat. Ipsa amet repellat ut quia sequi doloremque fugiat. Ut officiis amet mollitia. Aut et sapiente ipsam et libero qui ut.",
+                      "start_date": "2013-12-07",
+                      "end_date": "1992-03-24",
+                      "detail": []
+                  },
+                  {
+                      "id": 15,
+                      "topic": "laboriosam",
+                      "descriptions": "Doloribus nulla deleniti explicabo quae unde excepturi. Est hic recusandae qui optio explicabo. Adipisci error necessitatibus corrupti omnis ut est similique sed.",
+                      "start_date": "1979-07-01",
+                      "end_date": "1971-01-27",
+                      "detail": []
+                  },
+                  {
+                      "id": 16,
+                      "topic": "unde",
+                      "descriptions": "Ea aperiam eum vitae porro aliquid consequuntur. Quos rerum et enim voluptas perferendis. Earum aut et ut et recusandae velit aut libero.",
+                      "start_date": "2002-07-16",
+                      "end_date": "2003-12-04",
+                      "detail": [
+                          {
+                              "id": 5,
+                              "name": "Lawrence Daugherty",
+                              "descriptions": "Iusto dolorem est voluptatum iure.",
+                              "date": "1984-10-01",
+                              "teacher": {
+                                  "name": "Dr. Mark Effertz V",
+                                  "id": 1,
+                                  "image": "https://vuetifyjs.com/apple-touch-icon-180x180.png"
+                              }
+                          }
+                      ]
+                  }
+              ],
+              "errors": {},
+              "duration": 0.218
+          }
+
 
 ### GET
 
@@ -92,7 +160,7 @@ Creates a Topic.
 
 ### POST
 + Parameters
-    + course_id: `1` (required, integer). - to make a relation with Course.
+    + id: `1` (required, integer).
     + topic: `Front End` (required, string).
     + descriptions: `some paragraph`  (required, string).
     + start_date: `1971-11-15` (required, date).
@@ -107,7 +175,7 @@ Creates a Topic.
                 "code": 201,
                 "meta": {
                     "method": "POST",
-                    "endpoint": "api/v1/course_detail",
+                    "endpoint": "api/v1/topics",
                     "limit": 30,
                     "offset": 0
                 },
@@ -128,7 +196,7 @@ Creates a Topic.
                 "code": 400,
                 "meta": {
                     "method": "POST",
-                    "endpoint": "api/v1/course_detail",
+                    "endpoint": "api/v1/topics",
                     "limit": 30,
                     "offset": 0
                 },
@@ -158,17 +226,19 @@ Creates a Topic.
                 "duration": 0.263
             }
 
-## Updates a Course Detail [/v1/course_detail/:id]
+## Updates a Topic [/v1/topics/:id]
 
-  Updates a detail of course that correspond to the ID as the last segment of the URL.
+  Updates a detail of topic that correspond to the ID as the last segment of the URL.
 
 ### PUT
 
   + Parameter
-    + id:`1` (required, string). - To filter by specific course detail id.
+    + id:`1` (required, string). - To filter by specific topic id.
     + topic: `Back End` (optional, string).
     + descriptons: `some paragraph` (optional, string).
     + course_id: `1` (optional, integer).
+    + start_date: `1971-11-15` (optional, date).
+    + end_date: `1971-11-15` (optional, date).
 
 
   + Response 201 (application/json; charset=utf-8)
@@ -180,7 +250,7 @@ Creates a Topic.
                 "code": 200,
                 "meta": {
                     "method": "PUT",
-                    "endpoint": "api\/v1\/course_detail\/1",
+                    "endpoint": "api/v1/topics/1",
                     "limit": 30,
                     "offset": 0
                 },
@@ -201,7 +271,7 @@ Creates a Topic.
                 "code": 400,
                 "meta": {
                     "method": "PUT",
-                    "endpoint": "api/v1/course_detail/1",
+                    "endpoint": "api/v1/topics/1",
                     "limit": 30,
                     "offset": 0
                 },
@@ -220,14 +290,14 @@ Creates a Topic.
             }
 
 
-## Deletes a Course Detail [/v1/course_detail/:id]
+## Deletes a Topic [/v1/topics/:id]
 
-  Deletes a course detail that correspond to the ID as the last segment of the URL.
+  Deletes a topic that correspond to the ID as the last segment of the URL.
 
 ### DELETE
 
 + Parameter
-    + id: `1` (required, integer) - A primary key of course detail id.
+    + id: `1` (required, integer) - A primary key of topic id.
 
 
 + Response 200 (application/json; charset=utf-8)
@@ -239,7 +309,7 @@ Creates a Topic.
                 "code": 200,
                 "meta": {
                     "method": "DELETE",
-                    "endpoint": "api\/v1\/course_detail\/1",
+                    "endpoint": "api/v1/topics/1",
                     "limit": 30,
                     "offset": 0
                 },
@@ -259,7 +329,7 @@ Creates a Topic.
                 "code": 404,
                 "meta": {
                     "method": "DELETE",
-                    "endpoint": "api/v1/course_detail/178",
+                    "endpoint": "api/v1/topics/178",
                     "limit": 30,
                     "offset": 0
                 },

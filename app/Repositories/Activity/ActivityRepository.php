@@ -22,7 +22,7 @@ class ActivityRepository implements ActivityInterface
         ])
         ->skip($offset)
         ->take($limit)
-        ->get();
+        ->paginate(4);
   }
 
   public function find($id)

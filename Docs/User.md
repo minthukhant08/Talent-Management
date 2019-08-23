@@ -163,6 +163,7 @@ Retrieve the list of users.
     + name: `Min Thu Khant` (required, string).
     + image: `image.png` (required, image url).
     + email: `example@mail.com` (required, unique, string).
+    + auth_token: `firebase token` (required, string).
     + gender: `male` (optional, string).
     + date_of_birth: `2015-12-22` (optional, date).
     + phone_no: `+092345456` (optional, string).
@@ -186,25 +187,28 @@ Retrieve the list of users.
                     "offset": 0
                 },
                 "data": {
-                    "id": 1,
-                    "name": "Prof. Oswald Ryan DVM",
-                    "email": "llangworth@example.org",
-                    "gender": "female",
-                    "date_of_birth": "1984-03-10",
-                    "nrc_no": "Xjz3CsaO1r",
-                    "phone_no": "+6601968990335",
-                    "address": "3970 Kenya Extension Suite 998\nNorth Jarredview, WI 94710-2329",
-                    "image": "http://localhost:8000/api/v1/users/image/1",
-                    "type": "teacher",
-                    "course": {
-                        "id": 7,
-                        "name": "Prof. Bernie Wehner DVM"
-                    },
-                    "batch": {
-                        "id": 20,
-                        "name": "Yoshiko Dicki V"
-                    }
-                },
+                      "user": {
+                          "id": 21,
+                          "name": "sdfs",
+                          "email": "asfasfd@gmail.com",
+                          "gender": "male",
+                          "date_of_birth": null,
+                          "nrc_no": null,
+                          "phone_no": null,
+                          "address": null,
+                          "image": "adsfdasf",
+                          "type": "normal",
+                          "course": {
+                              "id": "",
+                              "name": ""
+                          },
+                          "batch": {
+                              "id": "",
+                              "name": ""
+                          }
+                      },
+                      "auth_token": "hjhjh"
+                  },
                 "errors": {},
                 "duration": 0.274
             }
@@ -242,6 +246,10 @@ Retrieve the list of users.
                       {
                           "attribue": "image",
                           "message": "The image field is required."
+                      },
+                      {
+                          "attribue": "auth_token",
+                          "message": "The auth_token field is required."
                       }
                   ]
               },
@@ -258,6 +266,7 @@ Retrieve the list of users.
       + id: `1` (required, string). - To filter by specific user id.
       + name: `Min Thu Khant` (optional, string).
       + email: `example@mail.com` (optional, unique, email, string).
+      + auth_token: `firebase token` (optional, string).
       + gender: `male` (optional, string).
       + date_of_birth: `2015-12-22` (optional, date).
       + phone_no: `+092345456` (optional, string).

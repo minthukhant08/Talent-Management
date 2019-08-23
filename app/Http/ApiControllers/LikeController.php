@@ -29,9 +29,9 @@ class LikeController extends BaseController
     {
         $validator = Validator::make($request->all(), [
                 'user_id'       =>  'required|exists:user,id',
-                'activity_id'   =>  'required|exists:activities,id'
+                'activity_id'   =>  'required|exists:activity,id'
             ]);
-
+        $like = $request->all();
         if ($validator->fails()) {
             $this->setError('400');
             $messages=[];
@@ -41,14 +41,17 @@ class LikeController extends BaseController
             }
 
             $this->setValidationError(['validation' => $messages]);
+            $result = $this->likeInterface->isliked($like['activity_id'], $like['user_id']);
+            $this->data($result);
             return $this->response('400');
         }
 
-         $like = $request->all();
+
          $result = $this->likeInterface->store($like);
+         $result = $this->likeInterface->isliked($like['activity_id'], $like['user_id']);
 
          if (isset($result)) {
-            $this->data(array('id' =>  $result));
+            $this->data($result);
          }
 
          return $this->response('201');

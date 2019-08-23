@@ -11,7 +11,7 @@ class User extends Authenticatable implements JWTSubject
     use SoftDeletes;
     protected $table = 'user';
     protected $fillable = [
-        'image', 'name', 'email', 'gender', 'phone_no', 'nrc_no', 'address', 'date_of_birth', 'type', 'course_id', 'batch_id'
+        'image', 'name', 'email', 'gender', 'phone_no', 'nrc_no', 'address', 'date_of_birth', 'type', 'course_id', 'batch_id', 'auth_token'
     ];
     protected $hidden = [
         'created_at', 'updated_at', 'deleted_at'
@@ -69,7 +69,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function assignments()
     {
-      return $this->hasMany(Assignment::class);
+      return $this->hasMany(StudentAssignement::class, 'student_id');
     }
 
 
