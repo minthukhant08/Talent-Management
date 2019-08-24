@@ -7,6 +7,7 @@ use App\Http\ApiControllers\APIBaseController as BaseController;
 use Illuminate\Http\Request;
 use App\Repositories\Admin\AdminRepositoryInterface as AdminInterface;
 use App\Http\Resources\Admin as AdminResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 use Hash;
 use JWTAuth;
@@ -79,9 +80,6 @@ class AdminController extends BaseController
          $admin = $request->all();
          if ($this->adminInterface->total() <= 0) {
              $admin['role'] = 0;
-         }
-         $existing_admin = $this->adminInterface->findByEmail($admin['email']);
-         if (empty($existing_admin)) {
              $result = $this->adminInterface->store($admin);
              if (isset($result)) {
                 $result = new AdminResource($result);
@@ -91,11 +89,23 @@ class AdminController extends BaseController
                 return $this->response('500');
              }
          }else{
-             // $token = JWTAuth::fromUser($existing_user);
-             $existing_admin = new AdminResource($existing_admin);
-             $this->data(array('user' => $existing_admin, 'auth_token' => $existing_admin->auth_token));
-             return $this->response('201');
+            event(new ContentCRUDEvent('create', $existing_admin->id, 'Admin', 'Gave Admin privileges to' . $request->admin_id));
+              // $token = JWTAuth::fromUser($existing_user);
+            $existing_admin = new AdminResource($existing_admin);
+            $this->data(array('user' => $existing_admin, 'auth_token' => $existing_admin->auth_token));
+            return $this->response('201');
          }
+         //
+         // $existing_admin = $this->adminInterface->findByEmail($admin['email']);
+         // if (empty($existing_admin)) {
+         //
+         // }else{
+         //     event(new ContentCRUDEvent('create', $existing_admin->id, 'Admin', 'Gave Admin privileges to' . $request->admin_id));
+         //     // $token = JWTAuth::fromUser($existing_user);
+         //     $existing_admin = new AdminResource($existing_admin);
+         //     $this->data(array('user' => $existing_admin, 'auth_token' => $existing_admin->auth_token));
+         //     return $this->response('201');
+         // }
     }
 
     /**
