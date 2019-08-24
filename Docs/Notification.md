@@ -32,13 +32,15 @@ The endpoint controls Notification resource.-
                       "title": "dicta",
                       "type": "Offer",
                       "descriptions": "Hic et eum quis optio.",
-                      "date": "2017-05-20"
+                      "date": "2017-05-20",
+                      "code": "ssdfa3wsd"
                   },
                   {
                       "title": "voluptate",
                       "type": "Comfirmation",
                       "descriptions": "Quis quis dolores tenetur omnis porro repellat.",
-                      "date": "1985-04-14"
+                      "date": "1985-04-14",
+                      "code": "ssdfa3wsd"
                   }
               ],
               "errors": {},

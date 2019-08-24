@@ -14,6 +14,17 @@ class TopicDetailRepository implements TopicDetailInterface
      $this->topicdetail = $topicdetail;
   }
 
+  public function getAll($offset, $limit){
+    return $this->topicdetail::orderBy('created_at', 'desc')
+        ->skip($offset)
+        ->take($limit)
+        ->get();
+  }
+
+  public function total()
+  {
+    return $this->topicdetail::count();
+  }
 
   public function find($id)
   {

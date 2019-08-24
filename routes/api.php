@@ -30,9 +30,20 @@ Route::get('v1/activities/image/{id}', 'ActivityController@image');
 Route::group(['prefix' => 'v1/users'], function()
 {
       Route::get('/', 'UserController@index');
+      Route::get('/giveresults', 'UserController@giveresults');
+      Route::post('/login', 'UserController@login');
       Route::get('/{id}', 'UserController@show');
       Route::put('/{id}', 'UserController@update');
       Route::delete('/{id}', 'UserController@destroy');
+});
+
+
+Route::group(['prefix' => 'v1/admin'], function()
+{
+      Route::get('/', 'AdminController@index');
+      Route::get('/{id}', 'AdminController@show');
+      Route::post('/login', 'AdminController@login');
+      Route::delete('/{id}', 'AdminController@destroy');
 });
 
 Route::group(['prefix' => 'v1/courses'], function()
@@ -53,6 +64,7 @@ Route::group(['prefix' => 'v1/notifications'], function()
 
 Route::group(['prefix' => 'v1/topics'], function()
 {
+      Route::get('/', 'TopicController@index');
       Route::get('/{id}', 'TopicController@show');
       Route::post('/', 'TopicController@store');
       Route::put('/{id}', 'TopicController@update');
@@ -61,6 +73,7 @@ Route::group(['prefix' => 'v1/topics'], function()
 
 Route::group(['prefix' => 'v1/topicdetails'], function()
 {
+      Route::get('/', 'TopicDetailController@index');
       Route::get('/{id}', 'TopicDetailController@show');
       Route::post('/', 'TopicDetailController@store');
       Route::put('/{id}', 'TopicDetailController@update');

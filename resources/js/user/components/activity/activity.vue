@@ -1,10 +1,11 @@
 <template>
     <div>
-      <div class="text-center">
-         <v-dialog
-           v-model="commentDialog"
-           width="300"
-           height="500">
+      <v-btn fixed right bottom fab><v-icon>mid-plus</v-icon></v-btn>
+       <v-dialog
+          v-model="commentDialog"
+          width="300"
+          height="500"
+        >
           <v-card>
             <v-list three-line>
               <template  v-for="comment in comments">
@@ -19,7 +20,7 @@
                     <v-list-item-title >{{comment.user.name}}</v-list-item-title>
                     <v-list-item-subtitle>{{comment.descriptions}}</v-list-item-subtitle>
                   </v-list-item-content>
-                        
+
                 </v-list-item>
               </template>
               <v-text-field
@@ -28,16 +29,15 @@
                 color="cyan"
                 placeholder="Start typing..."
                 outlined
-                hide-details
-                >
-              </v-text-field>
+                hide-details >
+             </v-text-field>
             </v-list>
            </v-card>
         </v-dialog>
         <v-dialog
           v-model="seemoreDialog"
           width="300"
-          height="500"        
+          height="500"
         >
          <v-card
          class="mx-auto my-12"
@@ -101,7 +101,7 @@
         v-for="activity in activities"
         :key="activity.id"
         class="ma-3">
-      <v-img 
+      <v-img
       @click="seeMore(activity)"
       :src="activity.image"
       height="350">
@@ -158,7 +158,7 @@
           :length="total_pages"
         >
         </v-pagination>
-          </v-card> 
+          </v-card>
         </v-flex>
 
         <v-flex lg3 >
@@ -193,13 +193,13 @@ export default {
       total_pages:0,
       likecount:{},
       commentcount:{},
-      
+
      }
   },
   watch:{
     page(val){
       console.log(val);
-      this.$http.get('http://localhost:9000/api/v1/activities?offset=' + (val-1)*5 + '&limit=5').then(response => {
+      this.$http.get(this.$root.api + '/activities?offset=' + (val-1)*5 + '&limit=5').then(response => {
         console.log(response.body.data);
        this.activities = response.body.data;
       }, response =>{
@@ -210,28 +210,28 @@ export default {
   methods:{
     getcomment($activity_id){
 
-      this.$http.get('http://localhost:9000/api/v1/comments?activity_id=' + $activity_id).then(response => {
+      this.$http.get(this.$root.api + '/comments?activity_id=' + $activity_id).then(response => {
         console.log(response);
          this.commentDialog = true;
       this.comments = response.body.data;
-       
+
       }, response =>{
 
-      }); 
+      });
     },
   seeMore(activity){
     this.seemoreDialog = true;
     this.selectedActivity = activity;
   },
   getall(){
-      this.$http.get('http://localhost:9000/api/v1/activities?offset=0&limit=5').then(response => {
+      this.$http.get(this.$root.api + '/activities?offset=0&limit=5').then(response => {
         this.total_pages = response.body.meta.total/5
        this.activities = response.body.data;
       }, response =>{
 
       });
     },
-    
+
    getlikecount(activity){
        this.likecount=activity;
     },
@@ -239,7 +239,7 @@ export default {
    getcommentcount(activity){
        this.commentcount=activity;
     },
-   
+
     commentcolor(commenttype)
       {
           if (commenttype<= 20){
@@ -248,7 +248,7 @@ export default {
              return "#FF5722";
           }else{
              return "#8BC34A";
-         } 
+         }
          },
    },
 created(){

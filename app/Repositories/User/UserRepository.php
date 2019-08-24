@@ -32,6 +32,17 @@ class UserRepository implements UserInterface
         ->get();
   }
 
+  public function giveResults($offset, $limit, $course_id, $batch_id){
+    return $this->user::with('assignments')->orderBy('created_at', 'desc')
+        ->where([
+          ['course_id', '=', $course_id],
+          ['batch_id', '=', $batch_id]
+        ])
+        ->skip($offset)
+        ->take($limit)
+        ->get();
+  }
+
   public function find($id)
   {
     return $this->user::with('course','batch')->where('id', '=', $id)->first();

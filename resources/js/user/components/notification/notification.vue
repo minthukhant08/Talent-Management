@@ -1,7 +1,5 @@
 <template>
-  <v-layout row dark>
-    <v-flex >
-      <v-card max-width="400" class="pr-5">
+      <v-card class="pr-5">
         <v-list three-line>
           <template v-for="item in Notifications">
             <v-list-item>
@@ -26,9 +24,6 @@
           No Notification Available
         </v-card-actions>
       </v-card>
-
-    </v-flex>
-  </v-layout>
 </template>
 
 <script>
