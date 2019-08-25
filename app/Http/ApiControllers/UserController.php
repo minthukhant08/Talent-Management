@@ -121,10 +121,11 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-              'name'      =>  'required',
-              'email'     =>  'required',
-              'image'     =>  'required',
-              'auth_token'=>  'required'
+              'name'        =>  'required',
+              'email'       =>  'required',
+              'image'       =>  'required',
+              'provider_id' =>  'required',
+              'auth_token'  =>  'required'
           ]);
 
          if ($validator->fails()) {

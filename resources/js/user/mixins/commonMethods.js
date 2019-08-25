@@ -9,11 +9,13 @@ export default{
       var provider = new firebase.auth.GoogleAuthProvider();
       var _this = this;
       firebase.auth().signInWithPopup(provider).then(function(result) {
+        console.log(result.user.providerData[0].uid);
         _this.$http.post(_this.$root.api + '/users', {
           name  : result.user.displayName,
           email : result.user.email,
           image : result.user.photoURL,
-          auth_token :result.credential.accessToken
+          auth_token : result.credential.accessToken ,
+          provider_id: result.user.providerData[0].uid
         }).then((response)=>{
           if(response.body.success){
             _this.$store.dispatch('setUser',response.body.data.user);

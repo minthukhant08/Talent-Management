@@ -136,3 +136,10 @@ Route::group(['prefix' => 'v1/intake'], function()
       Route::get('/', 'IntakeController@get');
       Route::post('/', 'IntakeController@update');
 });
+
+Route::post('/v1/admin', 'AdminController@login');
+
+Route::group(['prefix' => 'v1/admin', 'middleware' => 'jwt.auth'], function()
+{
+      Route::get('/', 'AdminController@index');
+});

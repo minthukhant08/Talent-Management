@@ -6,6 +6,7 @@ use App\Admin;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use Illuminate\Http\Request;
 use App\Repositories\Admin\AdminRepositoryInterface as AdminInterface;
+use App\Repositories\User\UserRepositoryInterface as UserInterface;
 use App\Http\Resources\Admin as AdminResource;
 use App\Events\ContentCRUDEvent;
 use Validator;
@@ -20,10 +21,12 @@ class AdminController extends BaseController
      * @return \Illuminate\Http\Response
      */
     public $adminInterface;
+    public $userInterface;
 
-    public function __construct(Request $request, AdminInterface $adminInterface)
+    public function __construct(Request $request, AdminInterface $adminInterface, UserInterface $userInterface)
     {
         $this->adminInterface = $adminInterface;
+        $this->userInterface = $userInterface;
         $this->method        = $request->getMethod();
         $this->endpoint      = $request->path();
         $this->startTime     = microtime(true);
@@ -58,43 +61,26 @@ class AdminController extends BaseController
      */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-              'name'      =>  'required',
-              'email'     =>  'required|email',
-              'image'     =>  'required',
-              'auth_token'=>  'required'
-          ]);
-
-         if ($validator->fails()) {
-             $this->setError('400');
-             $messages=[];
-
-             foreach ($validator->messages()->toArray() as $key=>$value) {
-                  $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
-             }
-
-             $this->setValidationError(['validation' => $messages]);
-             return $this->response('400');
-         }
-
-         $admin = $request->all();
-         if ($this->adminInterface->total() <= 0) {
-             $admin['role'] = 0;
-             $result = $this->adminInterface->store($admin);
-             if (isset($result)) {
-                $result = new AdminResource($result);
-                $this->data(array('user' => $result, 'auth_token' => $result->auth_token));
-                return $this->response('201');
-             }else{
-                return $this->response('500');
-             }
-         }else{
-            event(new ContentCRUDEvent('create', $existing_admin->id, 'Admin', 'Gave Admin privileges to' . $request->admin_id));
-              // $token = JWTAuth::fromUser($existing_user);
-            $existing_admin = new AdminResource($existing_admin);
-            $this->data(array('user' => $existing_admin, 'auth_token' => $existing_admin->auth_token));
-            return $this->response('201');
-         }
+       $admin = $request->all();
+       if ($this->adminInterface->total() <= 0) {
+           $admin['role'] = 0;
+           $result = $this->adminInterface->store($admin);
+           if (isset($result)) {
+              $token = JWTAuth::fromUser($result);
+              $result = new AdminResource($result);
+              $this->data(array('user' => $result, 'auth_token' => $token));
+              return $this->response('201');
+           }else{
+              return $this->response('500');
+           }
+       }else{
+          $existing_admin = $this->adminInterface->findByEmail($admin['email']);
+          event(new ContentCRUDEvent('create', $existing_admin->id, 'Admin', 'Gave Admin privileges to' . $request->admin_id));
+          $token = JWTAuth::fromUser($existing_admin);
+          $existing_admin = new AdminResource($existing_admin);
+          $this->data(array('user' => $existing_admin, 'auth_token' => $token));
+          return $this->response('201');
+       }
          //
          // $existing_admin = $this->adminInterface->findByEmail($admin['email']);
          // if (empty($existing_admin)) {
@@ -106,6 +92,46 @@ class AdminController extends BaseController
          //     $this->data(array('user' => $existing_admin, 'auth_token' => $existing_admin->auth_token));
          //     return $this->response('201');
          // }
+    }
+
+    public function store(Request $request)
+    {
+      $validator = Validator::make($request->all(), [
+            'user_id'   =>  'required|exists,user,id',
+            'role'      =>  'required'
+        ]);
+
+       if ($validator->fails()) {
+           $this->setError('400');
+           $messages=[];
+
+           foreach ($validator->messages()->toArray() as $key=>$value) {
+                $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+           }
+
+           $this->setValidationError(['validation' => $messages]);
+           return $this->response('400');
+       }
+
+       $user = $this->userInterface->find($request->user_id);
+       $admin = [
+         'id'   => $user->id,
+         'name' => $user->name,
+         'image'=> $user->image,
+         'email'=> $user->email,
+         'auth_token'=> $user->auth_token,
+         'role' => $request->role,
+         'provider_id'=> $user->provider_id
+       ];
+       $result = $this->adminInterface->store($admin);
+       if (isset($result))
+          $token = JWTAuth::fromUser($result);
+          $result = new AdminResource($result);
+          $this->data(array('user' => $result, 'auth_token' => $token));
+          return $this->response('201');
+       }else{
+          return $this->response('500');
+       }
     }
 
     /**

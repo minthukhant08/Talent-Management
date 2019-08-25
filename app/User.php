@@ -11,10 +11,10 @@ class User extends Authenticatable implements JWTSubject
     use SoftDeletes;
     protected $table = 'user';
     protected $fillable = [
-        'image', 'name', 'email', 'gender', 'phone_no', 'nrc_no', 'address', 'date_of_birth', 'type', 'course_id', 'batch_id', 'auth_token'
+        'image', 'name', 'email', 'provider_id', 'gender', 'phone_no', 'nrc_no', 'address', 'date_of_birth', 'type', 'course_id', 'batch_id', 'auth_token'
     ];
     protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at'
+        'created_at', 'updated_at', 'deleted_at', 'provider_id'
     ];
 
     // Rest omitted for brevity
