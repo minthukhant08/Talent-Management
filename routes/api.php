@@ -137,9 +137,12 @@ Route::group(['prefix' => 'v1/intake'], function()
       Route::post('/', 'IntakeController@update');
 });
 
-Route::post('/v1/admin', 'AdminController@login');
+Route::post('/v1/admin/login', 'AdminController@login');
+Route::post('/v1/admin', 'AdminController@index')->middleware('admin');
+Route::post('/v1/admin/promote', 'AdminController@store')->middleware('superadmin');
+Route::post('/v1/admin/demote', 'AdminController@destroy')->middleware('superadmin');
 
-Route::group(['prefix' => 'v1/admin', 'middleware' => 'jwt.auth'], function()
-{
-      Route::get('/', 'AdminController@index');
-});
+// Route::group(['prefix' => 'v1/admin'], function()
+// {
+//       Route::get('/', 'AdminController@index');
+// });

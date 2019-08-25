@@ -10,8 +10,6 @@ use App\Repositories\User\UserRepositoryInterface as UserInterface;
 use App\Http\Resources\Admin as AdminResource;
 use App\Events\ContentCRUDEvent;
 use Validator;
-use Hash;
-use JWTAuth;
 
 class AdminController extends BaseController
 {
@@ -61,44 +59,55 @@ class AdminController extends BaseController
      */
     public function login(Request $request)
     {
+      $validator = Validator::make($request->all(), [
+            'uid'   =>  'required',
+            'email' =>  'email',
+            'image' =>  'required'
+        ]);
+
+       if ($validator->fails()) {
+           $this->setError('400');
+           $messages=[];
+
+           foreach ($validator->messages()->toArray() as $key=>$value) {
+                $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+           }
+
+           $this->setValidationError(['validation' => $messages]);
+           return $this->response('400');
+       }
+
        $admin = $request->all();
        if ($this->adminInterface->total() <= 0) {
            $admin['role'] = 0;
            $result = $this->adminInterface->store($admin);
+           event(new ContentCRUDEvent('Login', $result->id, 'Initial', 'root admin login'));
            if (isset($result)) {
-              $token = JWTAuth::fromUser($result);
               $result = new AdminResource($result);
-              $this->data(array('user' => $result, 'auth_token' => $token));
+              $this->data(array('user' => $result));
               return $this->response('201');
            }else{
-              return $this->response('500');
+              return $this->response('401');
            }
        }else{
-          $existing_admin = $this->adminInterface->findByEmail($admin['email']);
-          event(new ContentCRUDEvent('create', $existing_admin->id, 'Admin', 'Gave Admin privileges to' . $request->admin_id));
-          $token = JWTAuth::fromUser($existing_admin);
-          $existing_admin = new AdminResource($existing_admin);
-          $this->data(array('user' => $existing_admin, 'auth_token' => $token));
-          return $this->response('201');
+          $existing_admin = $this->adminInterface->findByUid($admin['uid']);
+          if (!empty($existing_admin)) {
+             $existing_admin = new AdminResource($existing_admin);
+             $this->data(array('user' => $existing_admin));
+             return $this->response('201');
+          }else{
+              return $this->response('401');
+          }
+
        }
-         //
-         // $existing_admin = $this->adminInterface->findByEmail($admin['email']);
-         // if (empty($existing_admin)) {
-         //
-         // }else{
-         //     event(new ContentCRUDEvent('create', $existing_admin->id, 'Admin', 'Gave Admin privileges to' . $request->admin_id));
-         //     // $token = JWTAuth::fromUser($existing_user);
-         //     $existing_admin = new AdminResource($existing_admin);
-         //     $this->data(array('user' => $existing_admin, 'auth_token' => $existing_admin->auth_token));
-         //     return $this->response('201');
-         // }
     }
 
     public function store(Request $request)
     {
       $validator = Validator::make($request->all(), [
-            'user_id'   =>  'required|exists,user,id',
-            'role'      =>  'required'
+            'user_id'   =>  'required|exists:user,id',
+            'role'      =>  'required',
+            'admin_id'  =>  'required|exists:admin,id'
         ]);
 
        if ($validator->fails()) {
@@ -119,15 +128,14 @@ class AdminController extends BaseController
          'name' => $user->name,
          'image'=> $user->image,
          'email'=> $user->email,
-         'auth_token'=> $user->auth_token,
-         'role' => $request->role,
-         'provider_id'=> $user->provider_id
+         'uid'  => $user->uid,
+         'role' => $request->role
        ];
        $result = $this->adminInterface->store($admin);
-       if (isset($result))
-          $token = JWTAuth::fromUser($result);
+       if (isset($result)){
+          event(new ContentCRUDEvent('Create Admin', $request->admin_id, 'Promote', 'Gave admin privileges to '. $result->id));
           $result = new AdminResource($result);
-          $this->data(array('user' => $result, 'auth_token' => $token));
+          $this->data(array('user' => $result));
           return $this->response('201');
        }else{
           return $this->response('500');
@@ -163,6 +171,7 @@ class AdminController extends BaseController
     {
         $admin = $this->adminInterface->find($id);
         if (empty($admin)) {
+           event(new ContentCRUDEvent('Remove Admin', $request->admin_id, 'Promote', 'Remove admin privileges from '. $id));
             $this->setError('404', $id);
             return $this->response('404');
         }else{

@@ -9,7 +9,6 @@ use App\Repositories\User\UserRepositoryInterface as UserInterface;
 use App\Http\Resources\User as UserResource;
 use Validator;
 use Hash;
-use JWTAuth;
 
 class UserController extends BaseController
 {
@@ -124,8 +123,7 @@ class UserController extends BaseController
               'name'        =>  'required',
               'email'       =>  'required',
               'image'       =>  'required',
-              'provider_id' =>  'required',
-              'auth_token'  =>  'required'
+              'uid'         =>  'required',
           ]);
 
          if ($validator->fails()) {
