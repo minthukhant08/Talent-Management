@@ -25,9 +25,8 @@ Route::group(['prefix' => 'v1/users'], function()
 Route::get('v1/courses/image/{id}', 'CourseController@image');
 Route::get('v1/activities/image/{id}', 'ActivityController@image');
 
-// 'middleware' => 'jwt.auth'
 
-Route::group(['prefix' => 'v1/users'], function()
+Route::group(['prefix' => 'v1/users', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'UserController@index');
       Route::get('/giveresults', 'UserController@giveresults');
@@ -38,15 +37,7 @@ Route::group(['prefix' => 'v1/users'], function()
 });
 
 
-Route::group(['prefix' => 'v1/admin'], function()
-{
-      Route::get('/', 'AdminController@index');
-      Route::get('/{id}', 'AdminController@show');
-      Route::post('/login', 'AdminController@login');
-      Route::delete('/{id}', 'AdminController@destroy');
-});
-
-Route::group(['prefix' => 'v1/courses'], function()
+Route::group(['prefix' => 'v1/courses', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'CourseController@index');
       Route::get('/{id}', 'CourseController@show');
@@ -55,14 +46,14 @@ Route::group(['prefix' => 'v1/courses'], function()
       Route::delete('/{id}', 'CourseController@destroy');
 });
 
-Route::group(['prefix' => 'v1/notifications'], function()
+Route::group(['prefix' => 'v1/notifications', 'middleware'=> 'firebase'], function()
 {
       Route::get('/{id}', 'NotificationController@show');
       Route::post('/', 'NotificationController@store');
       Route::delete('/{id}', 'CourseController@destroy');
 });
 
-Route::group(['prefix' => 'v1/topics'], function()
+Route::group(['prefix' => 'v1/topics', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'TopicController@index');
       Route::get('/{id}', 'TopicController@show');
@@ -71,7 +62,7 @@ Route::group(['prefix' => 'v1/topics'], function()
       Route::delete('/{id}', 'TopicController@destroy');
 });
 
-Route::group(['prefix' => 'v1/topicdetails'], function()
+Route::group(['prefix' => 'v1/topicdetails', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'TopicDetailController@index');
       Route::get('/{id}', 'TopicDetailController@show');
@@ -80,7 +71,7 @@ Route::group(['prefix' => 'v1/topicdetails'], function()
       Route::delete('/{id}', 'TopicDetailController@destroy');
 });
 
-Route::group(['prefix' => 'v1/activities'], function()
+Route::group(['prefix' => 'v1/activities', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'ActivityController@index');
       Route::get('/{id}', 'ActivityController@show');
@@ -89,7 +80,7 @@ Route::group(['prefix' => 'v1/activities'], function()
       Route::delete('/{id}', 'ActivityController@destroy');
 });
 
-Route::group(['prefix' => 'v1/comments'], function()
+Route::group(['prefix' => 'v1/comments', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'CommentController@index');
       Route::post('/', 'CommentController@store');
@@ -97,7 +88,7 @@ Route::group(['prefix' => 'v1/comments'], function()
       Route::delete('/{id}', 'CommentController@destroy');
 });
 
-Route::group(['prefix' => 'v1/batches'], function()
+Route::group(['prefix' => 'v1/batches', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'BatchController@index');
       Route::get('/{id}', 'BatchController@show');
@@ -106,14 +97,14 @@ Route::group(['prefix' => 'v1/batches'], function()
       Route::delete('/{id}', 'BatchController@destroy');
 });
 
-Route::group(['prefix' => 'v1/likes'], function()
+Route::group(['prefix' => 'v1/likes', 'middleware'=> 'firebase'], function()
 {
       Route::post('/', 'LikeController@store');
       Route::delete('/{id}', 'LikeController@destroy');
 });
 
 
-Route::group(['prefix' => 'v1/results'], function()
+Route::group(['prefix' => 'v1/results', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'ResultController@index');
       Route::get('/{id}', 'ResultController@show');
@@ -122,7 +113,7 @@ Route::group(['prefix' => 'v1/results'], function()
       Route::delete('/{id}', 'ResultController@destroy');
 });
 
-Route::group(['prefix' => 'v1/assignments'], function()
+Route::group(['prefix' => 'v1/assignments', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'AssignmentController@index');
       Route::get('/{id}', 'AssignmentController@show');
@@ -131,7 +122,7 @@ Route::group(['prefix' => 'v1/assignments'], function()
       Route::delete('/{id}', 'AssignmentController@destroy');
 });
 
-Route::group(['prefix' => 'v1/intake'], function()
+Route::group(['prefix' => 'v1/intake', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'IntakeController@get');
       Route::post('/', 'IntakeController@update');
