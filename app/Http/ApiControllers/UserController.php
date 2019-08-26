@@ -93,7 +93,7 @@ class UserController extends BaseController
         // dd($request->only('email', 'password'));
         $email = $request->email;
         $password = $request->password;
-        $user = $this->userInterface->findByEmail($request->email);
+        $user = $this->userInterface->findByUid($request->uid);
         if (empty($user)) {
             $this->setError('401');
             return $this->response('401');
@@ -147,17 +147,15 @@ class UserController extends BaseController
              $result = $this->userInterface->store($user);
 
              if (isset($result)) {
-                // $token = JWTAuth::fromUser($result);
                 $result = new UserResource($result);
-                $this->data(array('user' => $result, 'auth_token' => $result->auth_token));
+                $this->data(array($result));
                 return $this->response('201');
              }else{
                 return $this->response('500');
              }
          }else{
-             $token = JWTAuth::fromUser($existing_user);
              $existing_user = new UserResource($existing_user);
-             $this->data(array('user' => $existing_user, 'auth_token' => $existing_user->auth_token));
+             $this->data(array($existing_user));
              return $this->response('201');
          }
     }

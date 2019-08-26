@@ -44,7 +44,9 @@ class AdminController extends BaseController
 
     public function index(Request $request)
     {
-        $admin = AdminResource::collection($this->adminInterface->getAll());
+        $type  = isset($request->type)? $request->type : 'admin';
+        $type  = $this->convertRoleType($type,1);
+        $admin = AdminResource::collection($this->adminInterface->getAll($type));
         $total = $this->adminInterface->total();
         $this->data($admin);
         $this->total($total);

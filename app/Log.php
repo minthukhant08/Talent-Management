@@ -10,4 +10,9 @@ class Log extends Model
     protected $fillable = [
         'admin_id', 'action', 'category', 'descriptions'
     ];
+
+    public function admin()
+    {
+       return $this->belongsTo(Admin::class);
+    }
 }

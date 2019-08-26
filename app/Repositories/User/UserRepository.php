@@ -48,9 +48,9 @@ class UserRepository implements UserInterface
     return $this->user::with('course','batch')->where('id', '=', $id)->first();
   }
 
-  public function findByEmail($email)
+  public function findByUid($uid)
   {
-    return $this->user::with('course','batch')->where('email', '=', $email)->first();
+    return $this->user::with('course','batch')->where('uid', '=', $uid)->first();
   }
 
   public function destroy($id)
