@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use App\User;
+use App\Notification;
 
 class ComfirmTableSeeder extends Seeder
 {
@@ -15,9 +16,12 @@ class ComfirmTableSeeder extends Seeder
     {
       $faker = Faker::create();
       $user = User::all()->pluck('id')->toArray();
+      $noti = Notification::all()->pluck('id')->toArray();
       foreach (range(1,20) as $index) {
-          DB::table('comfirm')->insert([
+          DB::table('confirm')->insert([
             'user_id'      => $faker->randomElement($user),
+            'noti_id'      => $faker->randomElement($noti),
+            'code'         => 'sdfds',
             'created_at'   => now(),
             'updated_at'   => now()
           ]);

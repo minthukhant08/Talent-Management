@@ -13,12 +13,17 @@ class CreateComfirmTable extends Migration
      */
     public function up()
     {
-        Schema::create('comfirm', function (Blueprint $table) {
+        Schema::create('confirm', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('noti_id')->nullable();
+            $table->text('code')->nullable();
             $table->timestamps();
             $table->foreign('user_id')
                   ->references('id')->on('user')
+                  ->onDelete('cascade');
+            $table->foreign('noti_id')
+                  ->references('id')->on('notification')
                   ->onDelete('cascade');
         });
     }

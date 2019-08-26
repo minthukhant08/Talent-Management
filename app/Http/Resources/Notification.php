@@ -14,6 +14,7 @@ class Notification extends JsonResource
      */
     public function toArray($request)
     {
+        $code='';
         if ($this->type == 0) {
           $this->type = 'Info';
         }elseif ($this->type == 1) {
@@ -22,11 +23,19 @@ class Notification extends JsonResource
           $this->type = 'Confirmation';
         };
 
+        if ($this->confirmation == null) {
+            $code = null;
+        }else{
+            $code = $this->confirmation->code;
+        }
+
         return [
           'title'         => $this->title,
           'type'          => $this->type,
           'descriptions'  => $this->descriptions,
-          'date'          => $this->date
+          'date'          => $this->date,
+          'seen'          => $this->seen,
+          'code'          => $code
         ];
     }
 }

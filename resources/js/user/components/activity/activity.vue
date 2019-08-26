@@ -6,6 +6,7 @@
            width="400"
            height="350">
            <v-card>
+
             <v-list three-line>
               <template  v-for="comment in comments">
                 <v-list-item
@@ -42,14 +43,13 @@
                <v-card-actions>
                    <v-btn  color="accent" text @click="save(1)">Post</v-btn>
               </v-card-actions>
-
             </v-list>
            </v-card>
         </v-dialog>
         <v-dialog
           v-model="seemoreDialog"
           width="300"
-          height="500"        
+          height="500"
         >
          <v-card
          class="mx-auto my-12"
@@ -113,7 +113,7 @@
         v-for="activity in activities"
         :key="activity.id"
         class="ma-3">
-      <v-img 
+      <v-img
       @click="seeMore(activity)"
       :src="activity.image"
       height="350">
@@ -170,7 +170,7 @@
           :length="total_pages"
         >
         </v-pagination>
-          </v-card> 
+          </v-card>
         </v-flex>
 
         <v-flex lg3 >
@@ -211,7 +211,11 @@ export default {
   watch:{
     page(val){
       console.log(val);
-      this.$http.get('http://localhost:9000/api/v1/activities?offset=' + (val-1)*5 + '&limit=5').then(response => {
+      this.$http.get(this.$root.api + '/activities?offset=' + (val-1)*5 + '&limit=5',{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         console.log(response.body.data);
        this.activities = response.body.data;
       }, response =>{
@@ -221,34 +225,43 @@ export default {
   },
   computed:{
     User(){
-      this.$store.getters.getUser;
+      return this.$store.getters.getUser;
     }
   },
   methods:{
     getcomment($activity_id){
 
-      this.$http.get('http://localhost:9000/api/v1/comments?activity_id=' + $activity_id).then(response => {
+      this.$http.get(this.$root.api + '/comments?activity_id=' + $activity_id, {
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         console.log(response);
          this.commentDialog = true;
       this.comments = response.body.data;
-       
+
       }, response =>{
 
-      }); 
+      });
     },
   seeMore(activity){
     this.seemoreDialog = true;
     this.selectedActivity = activity;
   },
   getall(){
-      this.$http.get('http://localhost:9000/api/v1/activities?offset=0&limit=5').then(response => {
+
+      this.$http.get(this.$root.api + '/activities?offset=0&limit=5',{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         this.total_pages = response.body.meta.total/5
        this.activities = response.body.data;
       }, response =>{
 
       });
     },
-    
+
    getlikecount(activity){
        this.likecount=activity;
     },

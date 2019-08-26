@@ -31,7 +31,7 @@ class IntakeController extends BaseController
     {
 
         $intake = $this->intakeInterface->getIntake();
-        $normal_users = User::where('type', 0)->get();
+        $normal_users = User::get();
         foreach ($normal_users as $user) {
            event(new IntakeAvailableEvent($intake, $user));
         }

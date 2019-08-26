@@ -39,7 +39,7 @@ export default{
       this.$router.push($route).catch(err => {});
     },
     getIntake(){
-      this.$http.get('http://localhost:8000/api/v1/intake').then(response=>{
+      this.$http.get(this.$root.api + '/intake').then(response=>{
         console.log(response.body.data[0]);
         this.intakes= response.body.data[0];
         console.log(this.intakes);
@@ -49,7 +49,7 @@ export default{
     },
 
     editIntake(){
-      this.$http.put('http://localhost:8000/api/v1/intake',{available:0,form_link:"htuhjhjh"}).then(response=>{
+      this.$http.put(this.$root.api + '/intake',{available:0,form_link:"htuhjhjh"}).then(response=>{
 
       }, response => {
         console.log('error');

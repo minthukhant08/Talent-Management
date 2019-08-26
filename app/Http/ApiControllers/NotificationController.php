@@ -86,13 +86,15 @@ class NotificationController extends BaseController
      */
     public function show($id)
     {
-        $notification = $this->notificationInterface->getByUserID($id);
+        $this->limit  = isset($request->limit)? $request->limit : 10;
+        $notification = $this->notificationInterface->getByUserID($id, $this->limit);
         if (empty($notification)) {
             $this->setError('404', $id);
             return $this->response('404');
         }else{
             $notification = NotificationResource::collection($notification);
             $this->data($notification);
+            $this->total($this->notificationInterface->getUnseen($id));
             return $this->response('201');
         }
     }

@@ -21,6 +21,22 @@ class TopicDetailController extends BaseController
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $this->offset = isset($request->offset)? $request->offset : 0;
+        $this->limit  = isset($request->limit)? $request->limit : 30;
+        $topicdetail  = TopicDetailResource::collection($this->topicdetailInterface->getAll($this->offset, $this->limit));
+        $total = $this->topicdetailInterface->total();
+        $this->data($topicdetail);
+        $this->total($total);
+        return $this->response('200');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -29,9 +45,11 @@ class TopicDetailController extends BaseController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                        'course_id'   =>  'required|exists:course,id',
-                        'topic'       =>  'required',
-                        'descriptions'=>  'required'
+                        'topic_id'     =>  'required|exists:topic,id',
+                        'name'         =>  'required',
+                        'descriptions' =>  'required',
+                        'date'         =>  'required|date',
+                        'teacher_id'   =>  'required|exists:user,id'
                     ]);
 
         if ($validator->fails()) {
@@ -85,8 +103,10 @@ class TopicDetailController extends BaseController
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-                        'course_id'  =>  'exists:course,id'
-                    ]);
+                        'date'         =>  'date',
+                        'teacher_id'   =>  'exists:user,id',
+                        'topic_id'     =>  'exists:topic,id'
+                      ]);
 
         if ($validator->fails()) {
             $this->setError('400');

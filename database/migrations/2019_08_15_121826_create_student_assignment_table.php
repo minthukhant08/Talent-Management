@@ -18,6 +18,7 @@ class CreateStudentAssignmentTable extends Migration
           $table->unsignedBigInteger('student_id');
           $table->unsignedBigInteger('assignment_id');
           $table->tinyInteger('marks');
+          $table->text('comments');
           $table->timestamps();
           $table->foreign('student_id')
                 ->references('id')->on('user')

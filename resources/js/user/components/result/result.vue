@@ -1,5 +1,5 @@
 <template>
-  <v-layout row>
+  <!-- <v-layout row>
     <v-flex xs0 sm0 md1 lg2 xl2>
     </v-flex>
     <v-flex xs12 sm12 md10 lg8 xl8>
@@ -52,8 +52,7 @@
               Results
             </div>
            <template v-for="result in results">
-
-              <v-list-item :key="result.id" class="pa-3">
+              <v-list-item :key="result.id" three-line>
                  <v-list-item-content  >
                   <v-card> 
                   <v-item-group>
@@ -65,10 +64,9 @@
                          {{result.assignment.name}}
                         </div>
                      </v-list-item-title>
-                     <div class="my-4"></div>
-                  <!-- <v-list-item-subtitle> -->
-                    <!-- {{item.subtitle}}      -->
-                  <!-- </v-list-item-subtitle>  -->
+                  <v-list-item-subtitle>
+                    {{result.comments}}
+                  </v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-progress-circular
@@ -87,11 +85,11 @@
           </v-list>
         </v-card>
       </v-container>
-    </v-flex>
+    <!-- </v-flex>
 
     <v-flex  xs0 sm0 md1 lg2 xl2>
     </v-flex>
-  </v-layout>
+  </v-layout> -->
 </template>
 <script>
   export default {
@@ -142,10 +140,9 @@
              return "#8BC34A";
          }
       },
-     
 
     getall(){
-      this.$http.get('http://localhost:9000/api/v1/results?student_id=' + this.User.id).then(response => {
+      this.$http.get('http://localhost:9000/api/v1/results?student_id=' + this.User.id).then(response => 
         console.log(response.body);
           this.results = response.body.data;
           console.log(response.body.data);
