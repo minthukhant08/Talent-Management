@@ -10,4 +10,10 @@ class Admin extends Model
   protected $fillable = [
       'image', 'name', 'email', 'uid', 'role'
   ];
+
+  public function logs()
+  {
+     return $this->hasMany(Log::class);
+  }
+
 }

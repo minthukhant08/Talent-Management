@@ -20,7 +20,8 @@ class Admin extends JsonResource
           'name'          =>  $this->name,
           'email'         =>  $this->email,
           'image'         =>  $this->image,
-          'uid'          =>  $this->uid
+          'uid'           =>  $this->uid,
+          'role'          =>  $this->role
         ];
     }
 }

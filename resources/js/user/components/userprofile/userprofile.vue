@@ -154,7 +154,11 @@ export default {
   },
   methods:{
     getuser(){
-      this.$http.get(this.$root.api + '/users/' + this.$route.params.id).then(response => {
+      this.$http.get(this.$root.api + '/users/' + this.$route.params.id, {
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
           this.user = response.body.data[0];
           console.log(response.body.data[0]);
       }, response => {

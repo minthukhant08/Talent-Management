@@ -30,7 +30,6 @@ Route::group(['prefix' => 'v1/users', 'middleware'=> 'firebase'], function()
 {
       Route::get('/', 'UserController@index');
       Route::get('/giveresults', 'UserController@giveresults');
-      Route::post('/login', 'UserController@login');
       Route::get('/{id}', 'UserController@show');
       Route::put('/{id}', 'UserController@update');
       Route::delete('/{id}', 'UserController@destroy');
@@ -129,9 +128,15 @@ Route::group(['prefix' => 'v1/intake', 'middleware'=> 'firebase'], function()
 });
 
 Route::post('/v1/admin/login', 'AdminController@login');
-Route::post('/v1/admin', 'AdminController@index')->middleware('admin');
+Route::post('/v1/admin', 'AdminController@index');
 Route::post('/v1/admin/promote', 'AdminController@store')->middleware('superadmin');
 Route::post('/v1/admin/demote', 'AdminController@destroy')->middleware('superadmin');
+
+Route::group(['prefix' => 'v1/admin/logs', 'middleware'=> 'firebase'], function()
+{
+      Route::post('/', 'LogController@index');
+      Route::delete('/{id}', 'LogController@destroy');
+});
 
 // Route::group(['prefix' => 'v1/admin'], function()
 // {

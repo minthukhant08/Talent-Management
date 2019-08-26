@@ -14,8 +14,10 @@ class AdminRepository implements AdminInterface
      $this->admin = $admin;
   }
 
-  public function getAll(){
-    return $this->admin::orderBy('created_at', 'desc')->get();
+  public function getAll($type){
+    return $this->admin::orderBy('created_at', 'desc')
+                ->where('role', '=', $type)
+                ->get();
   }
 
   public function find($id)

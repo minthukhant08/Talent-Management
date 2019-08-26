@@ -199,7 +199,11 @@ export default {
   watch:{
     page(val){
       console.log(val);
-      this.$http.get(this.$root.api + '/activities?offset=' + (val-1)*5 + '&limit=5').then(response => {
+      this.$http.get(this.$root.api + '/activities?offset=' + (val-1)*5 + '&limit=5',{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         console.log(response.body.data);
        this.activities = response.body.data;
       }, response =>{
@@ -207,10 +211,19 @@ export default {
       });
     }
   },
+  computed:{
+    User(){
+      return this.$store.getters.getUser;
+    }
+  },
   methods:{
     getcomment($activity_id){
 
-      this.$http.get(this.$root.api + '/comments?activity_id=' + $activity_id).then(response => {
+      this.$http.get(this.$root.api + '/comments?activity_id=' + $activity_id, {
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         console.log(response);
          this.commentDialog = true;
       this.comments = response.body.data;
@@ -224,7 +237,12 @@ export default {
     this.selectedActivity = activity;
   },
   getall(){
-      this.$http.get(this.$root.api + '/activities?offset=0&limit=5').then(response => {
+
+      this.$http.get(this.$root.api + '/activities?offset=0&limit=5',{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         this.total_pages = response.body.meta.total/5
        this.activities = response.body.data;
       }, response =>{

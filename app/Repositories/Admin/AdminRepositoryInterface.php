@@ -2,7 +2,7 @@
 namespace App\Repositories\Admin;
 
 interface AdminRepositoryInterface{
-  public function getAll();
+  public function getAll($type);
   public function find($id);
   public function findByUid($uid);
   public function total();
