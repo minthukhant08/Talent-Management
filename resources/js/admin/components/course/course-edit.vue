@@ -73,9 +73,9 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn text>Remove</v-btn>
-                  <v-btn 
+                  <v-btn
                    @click="updatecourse" text>Update</v-btn>
-                  
+
                 </v-card-actions>
               </v-card>
 
@@ -99,14 +99,14 @@
                           <v-flex xs6 sm6 md4 lg3 xl3
                           mt-7
                           ml-4
-                         
+
                           >
                             <v-list-item-text>Topic</v-list-item-text>
                           </v-flex>
                           <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
                             v-model="topic.topic"
-                            
+
                             filled
                             color="accent"
                            ></v-text-field>
@@ -188,7 +188,7 @@
   import commonmethods from '../../mixins/commonMethods';
   export default {
 
-  mixins:[commonmethods], 
+  mixins:[commonmethods],
   data(){
     return{
         editedcourse:[],
@@ -197,15 +197,15 @@
       }
   },
   methods:{
-      
+
 
    updatecourse(){
       this.$http.put('http://localhost:8000/api/v1/courses/'+ this.$route.params.id, {
 
       name: this.courses.name,
       descriptions: this.courses.descriptions
-        
-       
+
+
       }).then((response) =>{
         this.goRoute('/course/' + this.$route.params.id);
 
@@ -222,8 +222,8 @@
 
       topic: this.topics.topic,
       descriptions: this.topic.descriptions
-        
-       
+
+
       }).then((response) =>{
         // this.goRoute('/course/' + this.$route.params.id);
 
@@ -236,7 +236,7 @@
 
     gettopic(){
       this.$http.get('http://localhost:9000/api/v1/topics/1').then(response => {
-        
+
        this.topics = response.body.data;
       }, response =>{
 
@@ -259,7 +259,7 @@
   created(){
    this.getCourse();
    this.gettopic();
-   
+
 
   }
 }

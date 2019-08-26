@@ -1,77 +1,76 @@
 <template>
-  <v-card>
-    <v-card-title>
-      Topic
-      <v-spacer></v-spacer>
-      <v-btn color="accent"><v-icon>add </v-icon></v-btn>
-    </v-card-title>
-    <template>
-    <v-data-table
-      :headers="headers"
-      :items="desserts"
-      sort-by="calories"
-      class="elevation-1"
-    >
-      <template v-slot:top>
-          <v-dialog v-model="dialog" max-width="500px">
-            <v-card>
-              <v-card-title>
-                <span class="headline">Topic Detail</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text>TimeTable</v-text>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text>Description</v-text>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-
-                <v-btn color="blue darken-1" @click="close()">Exit</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-
-      </template>
-      <template v-slot:item.action="{ item }">
-        <v-btn
-        color="green"
-          small
-          class="mr-2"
-          @click=""
+  <v-layout>
+    <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
+    <v-flex xs12 sm12 md10 lg10 xl10>
+      <v-card>
+        <v-card-title>
+          Topic
+          <v-spacer></v-spacer>
+          <v-btn color="accent"><v-icon>add </v-icon></v-btn>
+        </v-card-title>
+        <template>
+        <v-data-table
+          :headers="headers"
+          :items="desserts"
+          sort-by="calories"
+          class="elevation-1"
         >
-          Details
-        </v-btn>
-        <v-action >
-        <v-btn color="blue"
-        @click="goRoute('/admin/topicedit')"
-          small
-        >
-          Edit
-        </v-btn>
-        </v-action>
-        <v-btn color="error"
-        @click="close()"
-          small
-        ><v-icon>delete</v-icon>
+          <template v-slot:top>
+              <v-dialog v-model="dialog" max-width="500px">
+                <v-card>
+                  <v-card-title>
+                    <span class="headline">Topic Detail</span>
+                  </v-card-title>
 
-        </v-btn>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text>TimeTable</v-text>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="12" sm="6" md="4">
+                          <v-text>Description</v-text>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn color="blue darken-1" @click="close()">Exit</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+          </template>
+          <template v-slot:item.action="{ item }">
+
+            <v-action >
+            <v-btn color="blue"
+            @click="goRoute('/admin/topicedit')"
+              small
+            >
+              <v-icon>edit</v-icon>
+            </v-btn>
+            </v-action>
+            <v-btn color="error"
+            @click="close()"
+              small
+            ><v-icon>delete</v-icon>
+
+            </v-btn>
+          </template>
+
+        </v-data-table>
       </template>
 
-    </v-data-table>
-  </template>
+      </v-card>
+    </v-flex>
+    <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
+  </v-layout>
 
-  </v-card>
 </template>
 
 <script>
