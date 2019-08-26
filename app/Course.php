@@ -8,7 +8,7 @@ class Course extends Model
 {
     protected $table = 'course';
     protected $fillable = [
-        'name', 'image', 'start_date', 'end_date'
+        'name', 'image', 'start_date', 'end_date', 'descriptions'
     ];
 
     protected $hidden = [

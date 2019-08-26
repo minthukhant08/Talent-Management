@@ -36,7 +36,7 @@ Route::group(['prefix' => 'v1/users', 'middleware'=> 'firebase'], function()
 });
 
 
-Route::group(['prefix' => 'v1/courses', 'middleware'=> 'firebase'], function()
+Route::group(['prefix' => 'v1/courses'], function()
 {
       Route::get('/', 'CourseController@index');
       Route::get('/{id}', 'CourseController@show');
@@ -52,7 +52,7 @@ Route::group(['prefix' => 'v1/notifications', 'middleware'=> 'firebase'], functi
       Route::delete('/{id}', 'CourseController@destroy');
 });
 
-Route::group(['prefix' => 'v1/topics', 'middleware'=> 'firebase'], function()
+Route::group(['prefix' => 'v1/topics'], function()
 {
       Route::get('/', 'TopicController@index');
       Route::get('/{id}', 'TopicController@show');
@@ -61,7 +61,7 @@ Route::group(['prefix' => 'v1/topics', 'middleware'=> 'firebase'], function()
       Route::delete('/{id}', 'TopicController@destroy');
 });
 
-Route::group(['prefix' => 'v1/topicdetails', 'middleware'=> 'firebase'], function()
+Route::group(['prefix' => 'v1/topicdetails'], function()
 {
       Route::get('/', 'TopicDetailController@index');
       Route::get('/{id}', 'TopicDetailController@show');

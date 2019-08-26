@@ -107,7 +107,6 @@ class TopicController extends BaseController
                         'start_date'  =>  'date',
                         'end_date'    =>  'date'
                     ]);
-
         if ($validator->fails()) {
             $this->setError('400');
             $messages=[];

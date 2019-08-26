@@ -1,16 +1,6 @@
 <template>
   <v-row>
 
-      <v-menu
-        v-model="menu2"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on }">
           <v-layout row ma-3>
 
             <v-flex xs0 sm0 md2 lg2 xl2>
@@ -38,8 +28,7 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text
-                            >Name</v-list-item-text>
+                            Name
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
@@ -55,8 +44,7 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text
-                            >Description</v-list-item-text>
+                          Description
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
@@ -84,8 +72,8 @@
                 width="100%"
                 style="border-radius:10px;"
                 color="accent"
-                v-for="topic in courses.topic"
-                :key="topic.id"
+                v-for="(topic,index) in courses.topic"
+                :key="index"
               >
                 <v-list>
                   <v-list-item>
@@ -101,11 +89,11 @@
                           ml-4
 
                           >
-                            <v-list-item-text>Topic</v-list-item-text>
+                            Topic
                           </v-flex>
                           <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
-                            v-model="topic.topic"
+                            v-model="courses.topic[index].topic"
 
                             filled
                             color="accent"
@@ -119,11 +107,11 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>descriptions</v-list-item-text>
+                            descriptions
                           </v-flex>
                           <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
-                            v-model="topic.descriptions"
+                            v-model="courses.topic[index].descriptions"
                             filled
                             color="accent"
                            ></v-text-field>
@@ -136,16 +124,36 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Date</v-list-item-text>
+                            Start Date
                           </v-flex>
                           <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
-                              v-model="topic.date"
+                              v-model="courses.topic[index].start_date"
                               prepend-icon="event"
                               readonly
-                              v-on="on"
+                              @click= "showDatePicker(index, courses.topic[index].start_date, 'start')"
                             ></v-text-field>
                           </v-flex>
+
+                        </v-layout>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-layout row ma3>
+                          <v-flex xs6 sm6 md3 lg3 xl3
+                          mt-7
+                          ml-4
+                          >
+                            End Date
+                          </v-flex>
+                          <v-flex xs4 sm4 md8 lg8 xl8>
+                            <v-text-field
+                              v-model="courses.topic[index].end_date"
+                              prepend-icon="event"
+                              readonly
+                              @click= "showDatePicker(index,courses.topic[index].end_date, 'end')"
+                            ></v-text-field>
+                          </v-flex>
+
                         </v-layout>
                       </v-list-item>
                     </v-list-item-content>
@@ -154,18 +162,16 @@
                 </v-list>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn text>Remove</v-btn>
-                  <v-btn @click="updatetopic" text>Update</v-btn>
+                  <v-btn text @click="removetopic(topic, index)">Remove</v-btn>
+                  <v-btn @click="updatetopic(topic.id, index)" text>Update</v-btn>
                 </v-card-actions>
               </v-card>
 
-              <v-action>
                     <v-btn
                     class="ma-2"
                     outlined
                     color="accent"
                     >ADD<v-icon>add</v-icon></v-btn>
-              </v-action>
             </v-layout>
             </v-flex>
 
@@ -174,10 +180,10 @@
             </v-flex>
 
           </v-layout>
+          <v-dialog v-model="datepicker" max-width="300">
+            <v-date-picker v-model="picker" @change="changeDate()"></v-date-picker>
+          </v-dialog>
 
-        </template>
-        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
-      </v-menu>
 
   </v-row>
 
@@ -194,20 +200,46 @@
         editedcourse:[],
         courses:[],
         topics:[],
+        datepicker:false,
+        picker:'',
+        currenttextbox:'',
+        datetype:''
       }
   },
+  computed:{
+    User(){
+      this.$store.getters.getUser;
+    }
+  },
   methods:{
+   changeDate(){
+     if (this.datetype == "end") {
+       this.courses.topic[this.currenttextbox].end_date = this.picker;
+     }else{
+       this.courses.topic[this.currenttextbox].start_date = this.picker;
+     }
+   },
+   showDatePicker(index, current, type){
+      this.picker = current;
+      this.datepicker = true;
+      this.currenttextbox = index;
+      this.datetype = type;
+   },
+   removetopic(topic, index){
+     this.$http.delete(this.$root.api + '/topics/' + topic.id).then((response) =>{
+       this.courses.topic.splice(index, 1);
+     })
+     .then((error)=>{
 
-
+     })
+   },
    updatecourse(){
-      this.$http.put('http://localhost:8000/api/v1/courses/'+ this.$route.params.id, {
-
-      name: this.courses.name,
-      descriptions: this.courses.descriptions
-
-
+      this.$http.put(this.$root.api + '/courses/'+ this.$route.params.id, {
+        name: this.courses.name,
+        descriptions: this.courses.descriptions
       }).then((response) =>{
-        this.goRoute('/course/' + this.$route.params.id);
+        console.log(response);
+        this.goRoute('/admin/courseedit/' + this.$route.params.id);
 
       })
       .then((error)=>{
@@ -215,16 +247,17 @@
       })
 
     },
-    updatetopic(){
-      console.log("dfdf");
-      console.log(this.topicss.topic);
-      this.$http.put('http://localhost:8000/api/v1/topics/'+ this.$route.params.id, {
+    updatetopic(id,index){
+      this.$http.put(this.$root.api + '/topics/'+ id, {
 
-      topic: this.topics.topic,
-      descriptions: this.topic.descriptions
+        topic: this.courses.topic[index].topic,
+        descriptions: this.courses.topic[index].descriptions,
+        start_date: this.courses.topic[index].start_date,
+        end_date: this.courses.topic[index].end_date
 
 
       }).then((response) =>{
+        console.log(response);
         // this.goRoute('/course/' + this.$route.params.id);
 
       })
