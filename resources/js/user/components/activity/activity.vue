@@ -1,36 +1,48 @@
 <template>
     <div>
-      <v-btn fixed right bottom fab><v-icon>mid-plus</v-icon></v-btn>
-       <v-dialog
-          v-model="commentDialog"
-          width="300"
-          height="500"
-        >
-          <v-card>
+      <div class="text-center">
+         <v-dialog
+           v-model="commentDialog"
+           width="400"
+           height="350">
+           <v-card>
+
             <v-list three-line>
               <template  v-for="comment in comments">
                 <v-list-item
                   :key="comment.id"
                   @click="getcomment">
-                  <v-list-item-avatar>
+                   <v-list-item-avatar>
                     <v-img :src="comment.user.image"></v-img>
-                  </v-list-item-avatar>
+                   </v-list-item-avatar>
 
-                  <v-list-item-content>
-                    <v-list-item-title >{{comment.user.name}}</v-list-item-title>
-                    <v-list-item-subtitle>{{comment.descriptions}}</v-list-item-subtitle>
+                   <v-list-item-content >
+                     <v-list-item-title >{{comment.user.name}}</v-list-item-title>
+                    <v-chip
+                    class="pa-5"
+                    color="green accent-1"
+                    text-color="white">
+    
+                      <v-list-item-subtitle>{{comment.descriptions}}</v-list-item-subtitle> 
+                    </v-chip>
                   </v-list-item-content>
-
-                </v-list-item>
-              </template>
+              </v-list-item>
+             </template>
               <v-text-field
-                v-model="value"
-                class="pa-3"
+                v-model="comment_description"
+                 class="ma-5"
+                 width="20"
+                 height="25"
                 color="cyan"
-                placeholder="Start typing..."
+                placeholder="Write your comment here..."
                 outlined
-                hide-details >
-             </v-text-field>
+                hide-details
+                >
+              </v-text-field>
+
+               <v-card-actions>
+                   <v-btn  color="accent" text @click="save(1)">Post</v-btn>
+              </v-card-actions>
             </v-list>
            </v-card>
         </v-dialog>
@@ -119,13 +131,13 @@
       </v-img>
        <v-card-text class="pa-0 mr-0" >
             <v-layout>
-              <v-flex xs8 sm8 md8 lg8 xl8>
+              <v-flex xs7 sm7 md7 lg7 xl7>
 
               </v-flex>
-              <v-flex xs2 sm2 md2 lg2 xl2 class="text-right pr-1">
+              <v-flex xs3 sm3 md3 lg3 xl class="text-right">
                 {{activity.likes}}Likes
               </v-flex>
-              <v-flex xs2 sm2 md2 lg2 xl2 class="text-right pr-1">
+              <v-flex xs3 sm3 md3 lg3 xl3 class="">
                 {{activity.comments}}Comments
               </v-flex>
             </v-layout>
@@ -193,7 +205,7 @@ export default {
       total_pages:0,
       likecount:{},
       commentcount:{},
-
+      comment_description:[],
      }
   },
   watch:{
@@ -257,18 +269,23 @@ export default {
    getcommentcount(activity){
        this.commentcount=activity;
     },
+   
+   save(activity_id){
+        this.$http.post(this.$root.api+'/comments', {
+          "descriptions":this.comment_description,
+          "activity_id": activity_id,
+          "user_id"     : 1
+      
+        }).then((response) =>{
+              this.assignments.unshift({"descriptions":this.comment_description, "activity_id": 1});
+          this.dialog = false;
+        })
+        .then((error) =>{
 
-    commentcolor(commenttype)
-      {
-          if (commenttype<= 20){
-             return"#F44336";
-          }else if (commenttype <= 40){
-             return "#FF5722";
-          }else{
-             return "#8BC34A";
-         }
-         },
-   },
+        })
+
+   }
+ },
 created(){
     this.getall();
   }
