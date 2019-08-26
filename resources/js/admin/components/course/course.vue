@@ -82,7 +82,7 @@
         </v-btn>
         <v-action >
         <v-btn color="blue"
-        @click="goRoute('/admin/courseedit')"
+        @click="goRoute('/admin/courseedit/'+ item.id)"
           small
         >
           <v-icon>edit</v-icon>
@@ -158,5 +158,6 @@ import commonmethods from '../../mixins/commonMethods';
     created(){
       this.getCourses()
     }
+    
   }
 </script>

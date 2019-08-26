@@ -22,60 +22,56 @@
       </v-row>
     </v-img>
 
-    <v-list two-line >
+    <v-list >
       <v-list-item  >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">person</v-icon>
+          <v-icon color="accent">person</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-text-field
           v-model="editeduser.name"
-    			color="#F57C00"
+    			color="accent"
     			label="Name"
 
 		></v-text-field>
         </v-list-item-content>
 
       </v-list-item>
-      <v-divider inset></v-divider>
 
       <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">email</v-icon>
+          <v-icon color="accent" class="pt-4">email</v-icon>
         </v-list-item-icon>
 
         <v-list-item-content >
           <v-text-field
 			v-model="editeduser.email"
-			color="#F57C00"
+			color="accent"
 			label="Email"
 
 		></v-text-field>
         </v-list-item-content>
 
       </v-list-item>
-      <v-divider inset></v-divider>
-
 
       <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">phone</v-icon>
+          <v-icon color="accent">phone</v-icon>
         </v-list-item-icon>
         <v-list-item-content >
          	<v-text-field
     			v-model="editeduser.phone_no"
-    			color="#F57C00"
+    			color="accent"
     			label="Phone No"
 
     		></v-text-field>
         </v-list-item-content>
 
       </v-list-item>
-      <v-divider inset></v-divider>
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">public</v-icon>
+          <v-icon color="accent">public</v-icon>
         </v-list-item-icon>
 
 
@@ -83,18 +79,17 @@
         <v-list-item-content >
           <v-text-field
     			v-model="editeduser.nrc_no"
-    			color="#F57C00"
+    			color="accent"
     			label="NRC_No"
 
 		    ></v-text-field>
         </v-list-item-content>
 
       </v-list-item>
-      <v-divider inset></v-divider>
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">cake</v-icon>
+          <v-icon color="accent">cake</v-icon>
         </v-list-item-icon>
 
 
@@ -103,7 +98,7 @@
         <v-list-item-content >
         	<v-text-field
     			v-model="editeduser.date_of_birth"
-    			color="#F57C00"
+    			color="accent"
     			label="Date Of Birth"
 
     		></v-text-field>
@@ -115,14 +110,14 @@
 
        <v-list-item >
         <v-list-item-icon>
-          <v-icon color="indigo" class="pt-4">home</v-icon>
+          <v-icon color="accent">home</v-icon>
         </v-list-item-icon>
 
 
         <v-list-item-content >
           <v-text-field
   			v-model="editeduser.address"
-  			color="#F57C00"
+  			color="accent"
   			label="Address"
 
   		></v-text-field>
@@ -158,7 +153,7 @@
 
 
    updateuser(){
-      this.$http.put('http://localhost:8000/api/v1/users/'+ this.editeduser.id, {
+      this.$http.put(this.$root.api + '/users/'+ this.editeduser.id, {
         name: this.editeduser.name,
         email: this.editeduser.email,
         phone_no: this.editeduser.phone_no,

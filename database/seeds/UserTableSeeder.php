@@ -22,6 +22,7 @@ class UserTableSeeder extends Seeder
             DB::table('user')->insert([
               'name'          =>  $faker->name,
               'email'         =>  $faker->unique()->safeEmail,
+              'uid'           =>  $faker->randomNumber(),
               'date_of_birth' =>  $faker->date('Y-m-d', now()),
               'nrc_no'        =>  Str::random(10),
               'phone_no'      =>  $faker->e164PhoneNumber,

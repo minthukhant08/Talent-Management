@@ -22,6 +22,7 @@ class StudentAssignementTableSeeder extends Seeder
               'student_id'   => $faker->randomElement($student),
               'assignment_id'=> $faker->randomElement($assignment),
               'marks'        => $faker->numberBetween(1,100),
+              'comments'     => $faker->paragraph,
               'created_at'   =>  now(),
               'updated_at'   =>  now()
             ]);

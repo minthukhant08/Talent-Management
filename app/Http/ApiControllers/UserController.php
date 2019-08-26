@@ -9,7 +9,6 @@ use App\Repositories\User\UserRepositoryInterface as UserInterface;
 use App\Http\Resources\User as UserResource;
 use Validator;
 use Hash;
-use JWTAuth;
 
 class UserController extends BaseController
 {
@@ -74,13 +73,27 @@ class UserController extends BaseController
         return $this->response('200');
     }
 
+    public function giveResults(Request $request)
+    {
+        $this->offset = isset($request->offset)? $request->offset : 0;
+        $this->limit  = isset($request->limit)? $request->limit : 30;
+        $course_id       = isset($request->course_id)? $request->course_id : '%';
+        $batch_id        = isset($request->batch_id)? $request->batch_id : '%';
+
+        $users = $this->userInterface->giveResults($this->offset, $this->limit, $course_id, $batch_id);
+        $total = $this->userInterface->total();
+        $this->data($users);
+        $this->total($total);
+        return $this->response('200');
+    }
+
     public function login(Request $request)
     {
 
         // dd($request->only('email', 'password'));
         $email = $request->email;
         $password = $request->password;
-        $user = $this->userInterface->findByEmail($request->email);
+        $user = $this->userInterface->findByUid($request->uid);
         if (empty($user)) {
             $this->setError('401');
             return $this->response('401');
@@ -107,9 +120,10 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-              'name'      =>  'required',
-              'email'     =>  'required',
-              'image'     => 'required'
+              'name'        =>  'required',
+              'email'       =>  'required',
+              'image'       =>  'required',
+              'uid'         =>  'required',
           ]);
 
          if ($validator->fails()) {
@@ -133,17 +147,15 @@ class UserController extends BaseController
              $result = $this->userInterface->store($user);
 
              if (isset($result)) {
-                $token = JWTAuth::fromUser($result);
                 $result = new UserResource($result);
-                $this->data(array('user' => $result, 'token' => $token));
+                $this->data(array($result));
                 return $this->response('201');
              }else{
                 return $this->response('500');
              }
          }else{
-             $token = JWTAuth::fromUser($existing_user);
              $existing_user = new UserResource($existing_user);
-             $this->data(array('user' => $existing_user, 'token' => $token));
+             $this->data(array($existing_user));
              return $this->response('201');
          }
     }

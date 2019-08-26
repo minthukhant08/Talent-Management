@@ -1,27 +1,31 @@
 <template>
-  <v-layout row>
+  <!-- <v-layout row>
     <v-flex xs0 sm0 md1 lg2 xl2>
     </v-flex>
 
-    <v-flex xs12 sm12 md10 lg8 xl8>
-      <v-container style="height: calc(100% - 50px);">
-        <v-card>
+    <v-flex xs12 sm12 md10 lg8 xl8> -->
+      <v-container style="height: calc(100% - 50px);" >
+        <v-card  class="ma-6">
           <v-list two-line >
             <div class=" pl-5 headline">
               Results
             </div>
            <template v-for="result in results">
-              <v-list-item :key="result.id">
+              <v-list-item :key="result.id" three-line>
                  <v-list-item-content  >
+                  <v-card>
+                   <v-list-item-title>
+                     grade(result)
+                   </v-list-item-title>
+                  </v-card>
                      <v-list-item-title class="blue--text">
                         <div class="title">
                          {{result.assignment.name}}
                         </div>
                      </v-list-item-title>
-                     <div class="my-4"></div>
-                  <!-- <v-list-item-subtitle> -->
-                    <!-- {{item.subtitle}}      -->
-                  <!-- </v-list-item-subtitle>  -->
+                  <v-list-item-subtitle>
+                    {{result.comments}}
+                  </v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-progress-circular
@@ -40,11 +44,11 @@
           </v-list>
         </v-card>
       </v-container>
-    </v-flex>
+    <!-- </v-flex>
 
     <v-flex  xs0 sm0 md1 lg2 xl2>
     </v-flex>
-  </v-layout>
+  </v-layout> -->
 </template>
 <script>
   export default {
@@ -73,8 +77,25 @@
              return "#8BC34A";
          }
       },
+
+     grade(result)
+     {
+         if(result <= 50) {
+           return "Grade C";
+         }else if (result <= 70){
+             return "Grade B";
+          }else{
+             return "Grade C";
+         }
+       },
+
+
+
+
+
+
       getall(){
-        this.$http.get('http://localhost:8000/api/v1/results?student_id=' + this.User.id).then(response => {
+        this.$http.get(this.$root.api + '/results?student_id=' + this.User.id).then(response => {
         console.log(response.body);
          this.results = response.body.data;
         }, response =>{

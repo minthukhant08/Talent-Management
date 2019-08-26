@@ -9,11 +9,14 @@ import student from './components/student/student.vue';
 import scanner from './components/scanner/scanner.vue';
 import teacher from './components/teacher/teacher.vue';
 import topicedit from './components/topic/topicedit.vue';
+import superadmin from './components/super/super.vue';
+import log from './components/logs/log.vue';
 import activityedit from './components/activity/activity-edit.vue';
+
 export default[
   {path:'/admin/home', component:home},
   {path:'/admin/course', component:course},
-  {path:'/admin/courseedit', component:courseedit},
+  {path:'/admin/courseedit/:id', component:courseedit},
   {path:'/admin/batch', component:batch},
   {path:'/admin/activity', component:activity},
   {path:'/admin/topic', component:topic},
@@ -22,5 +25,6 @@ export default[
   {path:'/admin/scanner', component:scanner},
   {path:'/admin/topicedit', component:topicedit},
   {path:'/admin/activityedit/:id', component:activityedit},
-
+  {path:'/admin/super', component:superadmin},
+  {path:'/admin/logs', component:log}
 ]
