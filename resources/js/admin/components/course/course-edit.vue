@@ -170,3 +170,11 @@
 
 
 </template>
+<script>
+  export default {
+    data: () => ({
+      date: new Date().toISOString().substr(0, 10),
+      menu2: false,
+    }),
+  }
+</script>

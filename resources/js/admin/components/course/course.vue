@@ -76,17 +76,16 @@
         <v-btn
           color="green"
           small
-          class="mr-2"
           @click="dialog=true"
         >
-          Details
+          <v-icon>short_text</v-icon>
         </v-btn>
         <v-action >
         <v-btn color="blue"
         @click="goRoute('/admin/courseedit')"
           small
         >
-          Edit
+          <v-icon>edit</v-icon>
         </v-btn>
         </v-action>
         <v-btn color="error"

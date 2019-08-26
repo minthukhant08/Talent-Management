@@ -10,14 +10,8 @@
       dark
     >
       <v-row class="fill-height">
-        <v-card-title> 
-          
-
+        <v-card-title>
           <v-spacer></v-spacer>
-
-         
-
-          
         </v-card-title>
 
         <v-spacer></v-spacer>
@@ -33,10 +27,6 @@
         <v-list-item-icon>
           <v-icon color="indigo" class="pt-4">person</v-icon>
         </v-list-item-icon>
-
-        
-
-
         <v-list-item-content>
           <v-text-field
           v-model="editeduser.name"
@@ -71,10 +61,6 @@
         <v-list-item-icon>
           <v-icon color="indigo" class="pt-4">phone</v-icon>
         </v-list-item-icon>
-
-        
-
-
         <v-list-item-content >
          	<v-text-field
     			v-model="editeduser.phone_no"
@@ -92,7 +78,7 @@
           <v-icon color="indigo" class="pt-4">public</v-icon>
         </v-list-item-icon>
 
-        
+
 
         <v-list-item-content >
           <v-text-field
@@ -111,7 +97,7 @@
           <v-icon color="indigo" class="pt-4">cake</v-icon>
         </v-list-item-icon>
 
-      
+
 
 
         <v-list-item-content >
@@ -124,7 +110,7 @@
         </v-list-item-content>
 
       </v-list-item>
-      
+
       <v-divider inset></v-divider>
 
        <v-list-item >
@@ -144,7 +130,7 @@
 
       </v-list-item>
       <v-divider inset></v-divider>
-      
+
 
       <v-list-item >
         <v-list-item-content >
@@ -152,16 +138,10 @@
             color="accent"
             @click="updateuser"
             >save</v-btn>
-          
+
         </v-list-item-content>
 
       </v-list-item>
-
-       
-
-
-
-     
     </v-list>
   </v-card>
 </template>
@@ -175,7 +155,7 @@
       }
   },
   methods:{
-  		
+
 
    updateuser(){
       this.$http.put('http://localhost:8000/api/v1/users/'+ this.editeduser.id, {
@@ -185,7 +165,7 @@
         nrc_no: this.editeduser.nrc_no,
         nrc_no: this.editeduser.nrc_no,
         address: this.editeduser.address,
-       
+
       }).then((response) =>{
         this.goRoute('/profile/' + this.editeduser.id);
       })

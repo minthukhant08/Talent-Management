@@ -9,14 +9,14 @@
       dark
     >
       <v-row class="fill-height">
-        <v-card-title> 
-          
+        <v-card-title>
+
 
           <v-spacer></v-spacer>
 
-          
 
-          
+
+
         </v-card-title>
 
         <v-spacer></v-spacer>
@@ -165,7 +165,7 @@
       </v-list-item>
 
       <v-divider inset></v-divider>
-      
+
 
       <v-list-item >
         <v-list-item-content >
@@ -173,17 +173,10 @@
             color="accent"
             @click="goRoute('/editprofile')"
             >Edit</v-btn>
-          
+
         </v-list-item-content>
 
       </v-list-item>
-      
-
-       
-
-
-
-     
     </v-list>
   </v-card>
 </template>

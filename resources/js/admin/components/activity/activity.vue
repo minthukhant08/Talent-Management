@@ -15,8 +15,24 @@
               <v-data-table
                 :headers="headers"
                 :items="desserts"
-                :search="search"
-              ></v-data-table>
+
+              ><template v-slot:item.action="{ item }">
+                <v-action>
+                <v-btn color="blue"
+                @click="goRoute('/admin/activityedit')"
+                  small
+                >
+                  <v-icon>edit</v-icon>
+                </v-btn>
+                </v-action>
+                <v-btn color="error"
+                @click="deletedItem(item)"
+                  small
+                ><v-icon>delete</v-icon>
+
+                </v-btn>
+              </template>
+            </v-data-table>
             </v-card>
           </v-flex>
           <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
@@ -37,7 +53,7 @@
                   class="grey lighten-2"
                   max-width="200"
                   max-height="200"
-                ></v-img>
+                ><v-icon>camera</v-icon></v-img>
             </v-col>
             </v-flex>
             <v-flex xs12 sm12 md7 lg7 xl7>
@@ -92,43 +108,72 @@
                 outlined
                 label="Outlined textarea"
           ></v-textarea>
-          <v-card-actions>
+          <v-card-action>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
             <v-btn color="blue darken-1" text @click="dialog = false">Post</v-btn>
-          </v-card-actions>
+          </v-card-action>
       </v-card>
     </v-dialog>
   </v-row>
 </template>
+
 <script>
+import commonmethods from '../../mixins/commonMethods';
   export default {
+    mixins:[commonmethods],
     data: () => ({
       dialog: false,
-        headers: [
-          {
-            text: 'Dessert ',
-            align: 'left',
-            sortable: false,
-            value: 'name',
-          },
-          { text: 'Calories', value: 'calories' },
-          { text: 'Fat (g)', value: 'fat' },
-          { text: 'Carbs (g)', value: 'carbs' },
-          { text: 'Protein (g)', value: 'protein' },
-          { text: 'Iron (%)', value: 'iron' },
-        ],
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%',
-          },
-        ],
+      dialog2: false,
+      courses:[],
+      headers: [
+        {
+          text: 'Name',
+          align: 'left',
+          sortable: false,
+          value: 'name',
+        },
+        { text: 'Date', value: 'date' },
+        { text: 'Speaker Name', value: 'speaker' },
+        {
+          text: 'Actions',
+          value: 'action',
+          align: 'right',
+          sortable: false },
+      ],
+  desserts:[],
     }),
+    methods: {
+      getactivity(){
+        this.$http.get('http://localhost:8000/api/v1/activities').then(response=>{
+          this.desserts= response.body.data;
+        }, response => {
+          console.log('error');
+        })
+      },
+      putactivity(){
+        this.$http.put('http://localhost:8000/api/v1/activities',{name}).then(response=>{
+          this.desserts= response.body.data;
+        }, response => {
+          console.log('error');
+        })
+      },
+      deletedItem(activity){
+        const index = this.desserts.indexOf(activity)
+        confirm('Are you sure you want to delete this item?'+activity) && this.desserts.splice(index, 1)
+      },
+      close() {
+        this.dialog = false
+        setTimeout(()=>{
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        },300)
+      }
+    },
+
+    created(){
+      this.getactivity()
+    }
   }
 </script>
 <style lang="sass">

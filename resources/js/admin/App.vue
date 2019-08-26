@@ -59,10 +59,6 @@
           </v-list-item>
 
         </v-list-group>
-
-
-
-
         <v-list-item @click="goRoute('/admin/course')">
           <v-list-item-action>
             <v-icon>person</v-icon>
@@ -111,8 +107,6 @@
             <v-list-item-title>Topic Edit</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-
       </v-list>
     </v-navigation-drawer>
 
