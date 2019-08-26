@@ -9,21 +9,30 @@ export default{
       var provider = new firebase.auth.GoogleAuthProvider();
       var _this = this;
       firebase.auth().signInWithPopup(provider).then(function(result) {
-        _this.$http.post(_this.$root.api + '/users', {
-          name  : result.user.displayName,
-          email : result.user.email,
-          image : result.user.photoURL,
-          auth_token :result.credential.accessToken
-        }).then((response)=>{
-          if(response.body.success){
-            _this.$store.dispatch('setUser',response.body.data.user);
-            _this.$store.dispatch('toggle_Login',true);
-            bus.$emit('close_login');
-          }
-        })
-        .then((error)=>{
+
+        firebase.auth().currentUser.getIdToken(false).then(function(token) {
+          _this.$http.post(_this.$root.api + '/users', {
+            name  : result.user.displayName,
+            email : result.user.email,
+            image : result.user.photoURL,
+            uid   : result.user.uid,
+            provider_id: result.user.providerData[0].uid
+          }).then((response)=>{
+            if(response.body.success){
+              response.body.data.user.token = token;
+              _this.$store.dispatch('setUser',response.body.data.user);
+              _this.$store.dispatch('toggle_Login',true);
+              bus.$emit('close_login');
+            }
+          })
+          .then((error)=>{
+            console.log(error);
+          })
+        }).catch(function(error) {
           console.log(error);
-        })
+        });
+
+
 
       }).catch(function(error) {
         // Handle Errors here.
@@ -35,6 +44,7 @@ export default{
         var credential = error.credential;
         // ...
       });
+
     },
     facebooklogin(){
       console.log('logged');

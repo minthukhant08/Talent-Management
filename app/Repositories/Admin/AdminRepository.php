@@ -23,9 +23,9 @@ class AdminRepository implements AdminInterface
     return $this->admin::where('id', '=', $id)->first();
   }
 
-  public function findByEmail($email)
+  public function findByUid($uid)
   {
-    return $this->admin::where('email', '=', $email)->first();
+    return $this->admin::where('uid', '=', $uid)->first();
   }
 
   public function destroy($id)

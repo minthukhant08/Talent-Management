@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        csrui\LaravelFirebaseAuth\FirebaseAuthServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -188,6 +188,7 @@ return [
         App\Repositories\Assignment\AssignmentRepoServiceProvider::class,
         App\Repositories\Result\ResultRepoServiceProvider::class,
         App\Repositories\Intake\IntakeRepoServiceProvider::class,
+        App\Repositories\Log\LogRepoServiceProvider::class,
     ],
 
     /*
@@ -238,7 +239,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ],
 
