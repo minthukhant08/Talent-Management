@@ -8,7 +8,7 @@
     <template>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="courses"
       sort-by="calories"
       class="elevation-1"
     >
@@ -76,19 +76,16 @@
         <v-btn
           color="green"
           small
-          class="mr-2"
           @click="dialog=true"
         >
-          Details
+          <v-icon>short_text</v-icon>
         </v-btn>
-        <v-action >
         <v-btn color="blue"
         @click="goRoute('/admin/courseedit/'+ item.id)"
           small
         >
-          Edit
+          <v-icon>edit</v-icon>
         </v-btn>
-        </v-action>
         <v-btn color="error"
         @click="deletedItem(item)"
           small
@@ -125,13 +122,22 @@ import commonmethods from '../../mixins/commonMethods';
           value: 'action',
           align: 'right',
           sortable: false },
-      ],
-  desserts:[],
+      ]
     }),
+    computed:{
+      User(){
+        return this.$store.getters.getUser;
+      }
+    },
     methods: {
       getCourses(){
-        this.$http.get('http://localhost:8000/api/v1/courses').then(response=>{
-          this.desserts= response.body.data;
+        this.$http.get('http://localhost:8000/api/v1/courses',{
+          headers: {
+              Authorization: 'Bearer '+ this.User.token
+          }
+        }).then(response=>{
+          this.courses= response.body.data;
+          console.log(this.desserts);
         }, response => {
           console.log('error');
         })
@@ -159,6 +165,6 @@ import commonmethods from '../../mixins/commonMethods';
     created(){
       this.getCourses()
     }
-    
+
   }
 </script>

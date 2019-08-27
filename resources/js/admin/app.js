@@ -31,6 +31,11 @@ new Vue({
   vuetify : vuetify,
   el: '#app',
   router:router,
+  data(){
+    return{
+      api:'http://localhost:9000/api/v1'
+    }
+  },
   created:function(){
     firebase.initializeApp(firebaseConfig);
     if ('serviceWorker' in navigator) {

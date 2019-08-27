@@ -30,7 +30,6 @@ Route::group(['prefix' => 'v1/users'], function()
 {
       Route::get('/', 'UserController@index');
       Route::get('/giveresults', 'UserController@giveresults');
-      Route::post('/login', 'UserController@login');
       Route::get('/{id}', 'UserController@show');
       Route::put('/{id}', 'UserController@update');
       Route::delete('/{id}', 'UserController@destroy');
@@ -46,14 +45,14 @@ Route::group(['prefix' => 'v1/courses'], function()
       Route::delete('/{id}', 'CourseController@destroy');
 });
 
-Route::group(['prefix' => 'v1/notifications', 'middleware'=> 'firebase'], function()
+Route::group(['prefix' => 'v1/notifications'], function()
 {
       Route::get('/{id}', 'NotificationController@show');
       Route::post('/', 'NotificationController@store');
       Route::delete('/{id}', 'CourseController@destroy');
 });
 
-Route::group(['prefix' => 'v1/topics', 'middleware'=> 'firebase'], function()
+Route::group(['prefix' => 'v1/topics'], function()
 {
       Route::get('/', 'TopicController@index');
       Route::get('/{id}', 'TopicController@show');
@@ -129,9 +128,15 @@ Route::group(['prefix' => 'v1/intake'], function()
 });
 
 Route::post('/v1/admin/login', 'AdminController@login');
-Route::post('/v1/admin', 'AdminController@index')->middleware('admin');
+Route::post('/v1/admin', 'AdminController@index');
 Route::post('/v1/admin/promote', 'AdminController@store')->middleware('superadmin');
 Route::post('/v1/admin/demote', 'AdminController@destroy')->middleware('superadmin');
+
+Route::group(['prefix' => 'v1/admin/logs'], function()
+{
+      Route::post('/', 'LogController@index');
+      Route::delete('/{id}', 'LogController@destroy');
+});
 
 // Route::group(['prefix' => 'v1/admin'], function()
 // {

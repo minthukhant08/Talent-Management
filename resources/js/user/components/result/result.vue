@@ -1,37 +1,74 @@
 <template>
-  <!-- <v-layout row>
+  <v-layout row>
     <v-flex xs0 sm0 md1 lg2 xl2>
     </v-flex>
-
-    <v-flex xs12 sm12 md10 lg8 xl8> -->
-      <v-container style="height: calc(100% - 50px);" >
-        <v-card  class="ma-6">
-          <v-list two-line >
+    <v-flex xs12 sm12 md10 lg8 xl8>
+      <v-container style="height: calc(100% - 50px);">
+        <v-card style="border:1px solid red;">
+          <v-item v-slot:default="{ active, toggle }">
+            <v-card
+              :color="active ? 'primary' : ''"
+              dark
+              height="200"
+              @click="toggle"
+              style="border:1px solid blue;"
+            >
+            <v-flex xs12 sm12 md12 lg12 xl12 >
+              <v-layout>
+            <v-flex xs10 sm10 md10 lg10 xl10 class="pl-10 pt-5">
+              Total Result
+            </v-flex>
+            <v-flex xs2 sm2 md2 lg2 xl2 class="ml-10  headline">
+              Overall Grade
+            {{grade}}
+            </v-flex>
+        </v-layout>
+            <div class=" pl-12  headline text-left">
+              {{total}}
+            </div>
+            
+            <div class=" pl-10 my-5 text-left">
+              Average
+            </div>
+            
+             <div class=" pl-12 my-1 headline text-left">
+              {{average}}
+            </div>
+            </v-flex>
+            </v-card>
+          </v-item>
+         </v-card>
+         <v-card>
+<v-list two-line >
+  <span class="grey">
             <div class=" pl-5 headline">
               Results
             </div>
+  </span>
            <template v-for="result in results">
-              <v-list-item :key="result.id" three-line>
+
+              <v-list-item :key="result.id" class="pa-3">
                  <v-list-item-content  >
-                  <v-card>
-                   <v-list-item-title>
-                     grade(result)
-                   </v-list-item-title>
-                  </v-card>
+                  <v-card> 
+                  <v-item-group>
+    
+              </v-item-group>
+                  </v-card>  
                      <v-list-item-title class="blue--text">
-                        <div class="title">
+                        <div class="pl-0 title" >
                          {{result.assignment.name}}
                         </div>
                      </v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{result.comments}}
-                  </v-list-item-subtitle>
+                     <div class="my-4"></div>
+                  <!-- <v-list-item-subtitle> -->
+                    <!-- {{item.subtitle}}      -->
+                  <!-- </v-list-item-subtitle>  -->
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-progress-circular
                         :rotate="90"
                         :size="100"
-                        :width="9"
+                        :width="11"
                         :value="result.marks"
                         :color='progresscolor(result.marks)'
                       >
@@ -39,28 +76,50 @@
                     </v-progress-circular>
                   </v-list-item-action>
               </v-list-item>
-              <v-divider green></v-divider>
+              <v-divider class="green"></v-divider>
             </template>
           </v-list>
         </v-card>
       </v-container>
-    <!-- </v-flex>
+    </v-flex>
 
     <v-flex  xs0 sm0 md1 lg2 xl2>
     </v-flex>
-  </v-layout> -->
+  </v-layout>
 </template>
 <script>
   export default {
     data(){
       return{
-        results:[]
+        results:[],
+        avg:0,
       }
     },
     computed:{
       User(){
         return this.$store.getters.getUser;
-      }
+      },
+      grade(){
+          if(this.average <= 40) {
+            return "Grade C";
+          }else if (this.average <= 70){
+              return "Grade B";
+            }else{
+              return "Grade A";
+          }
+      },
+      total(){
+        return this.results.length;
+      },
+      average(){
+        var total_marks=0;
+        console.log(this.results);
+        for(var i=0; i <= this.results.length -1; i++){
+            total_marks = this.results[i].marks + total_marks;
+        }
+        this.avg = (total_marks / this.results.length);
+        return this.avg;
+      },
     },
     methods:{
       progresscolor(mark)
@@ -77,27 +136,13 @@
              return "#8BC34A";
          }
       },
+     
 
-     grade(result)
-     {
-         if(result <= 50) {
-           return "Grade C";
-         }else if (result <= 70){
-             return "Grade B";
-          }else{
-             return "Grade C";
-         }
-       },
-
-
-
-
-
-
-      getall(){
-        this.$http.get(this.$root.api + '/results?student_id=' + this.User.id).then(response => {
+    getall(){
+      this.$http.get('http://localhost:9000/api/v1/results?student_id=' + this.User.id).then(response => {
         console.log(response.body);
-         this.results = response.body.data;
+          this.results = response.body.data;
+          console.log(response.body.data);
         }, response =>{
 
         });

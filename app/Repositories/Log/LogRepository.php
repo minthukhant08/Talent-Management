@@ -15,8 +15,8 @@ class LogRepository implements LogInterface
   }
 
   public function getAll($offset, $limit, $admin_id){
-    if ($admin_id > 0 ) {
-      return $this->log::with('admins')->orderBy('created_at', 'desc')
+    if ($admin_id >= 0 ) {
+      return $this->log::with('admin')->orderBy('created_at', 'desc')
           ->where([
             ['admin_id','=', $admin_id]
           ])

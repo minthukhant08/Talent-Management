@@ -11,13 +11,7 @@
     >
       <v-row class="fill-height">
         <v-card-title>
-
-
           <v-spacer></v-spacer>
-
-
-
-
         </v-card-title>
 
         <v-spacer></v-spacer>
@@ -33,7 +27,6 @@
         <v-list-item-icon>
           <v-icon color="accent">person</v-icon>
         </v-list-item-icon>
-
         <v-list-item-content>
           <v-text-field
           v-model="editeduser.name"
@@ -65,10 +58,6 @@
         <v-list-item-icon>
           <v-icon color="accent">phone</v-icon>
         </v-list-item-icon>
-
-
-
-
         <v-list-item-content >
          	<v-text-field
     			v-model="editeduser.phone_no"
@@ -117,6 +106,8 @@
 
       </v-list-item>
 
+      <v-divider inset></v-divider>
+
        <v-list-item >
         <v-list-item-icon>
           <v-icon color="accent">home</v-icon>
@@ -133,6 +124,8 @@
         </v-list-item-content>
 
       </v-list-item>
+      <v-divider inset></v-divider>
+
 
       <v-list-item >
         <v-list-item-content >
@@ -144,12 +137,6 @@
         </v-list-item-content>
 
       </v-list-item>
-
-
-
-
-
-
     </v-list>
   </v-card>
 </template>
