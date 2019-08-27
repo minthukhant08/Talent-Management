@@ -71,7 +71,7 @@
               prepend-inner-icon="search"
               solo-inverted
               v-model='search'
-  						v-on:keyup.enter="searchScanner"
+  						v-on:keyup.enter="searchUser"
             >
             </v-text-field>
             <v-list subheader>
@@ -126,14 +126,15 @@
         <v-overflow-btn
             class="my-2"
             v-model="type"
-            :items="['Admin', 'Super Admin']"
-            label="Overflow Btn"
-            target="#dropdown-example"
+            :items="admintypes"
+            item-text="name"
+            item-value="id"
+            label="choose admin"
         ></v-overflow-btn>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn>Confirm</v-btn>
+        <v-btn @click='promoteAdmin'>Confirm</v-btn>
       </v-card-actions>
    </v-card>
   </v-dialog>
@@ -143,7 +144,9 @@
 export default{
   data(){
     return{
-      type:"Admin",
+      type:1,
+      admintypes:[{'id':0, name:'Super Admin'},{'id':1, name:'Admin'}],
+      selectedUser:'',
       promoteDialog:false,
       create:false,
       superadmins:[],
@@ -172,6 +175,7 @@ export default{
   },
   methods:{
     showDialog(user){
+      this.selectedUser=user;
       this.promoteDialog = true;
     },
     deleteAdmin(item){
@@ -190,6 +194,21 @@ export default{
       }, response =>{
 
       });
+    },
+    promoteAdmin(){
+      this.$http.post(this.$root.api +'/admin/promote',
+      {
+          user_id: this.selectedUser.id,
+          role : this.type,
+          admin_id: this.User.id
+      }).then((response) =>{
+        this.dialog = false;
+        var index = this.searchresult.indexOf(this.selectedUser)
+        this.searchresult.splice(index, 1)
+      })
+      .then((error)=>{
+
+      })
     },
     getAdmins(){
       console.log(this.User.token);
@@ -222,9 +241,8 @@ export default{
 
       });
     },
-    searchScanner(){
-      console.log('dfd');
-       this.$http.get(this.$root.api +'/users?name='+this.search).then((response) => {
+    searchUser(){
+       this.$http.get(this.$root.api +'/users?promote=1&name='+this.search).then((response) => {
          console.log(this.searchresult );
          this.searchresult = response.body.data;
      }, response => {

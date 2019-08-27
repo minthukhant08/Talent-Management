@@ -7,6 +7,7 @@ use App\Http\ApiControllers\APIBaseController as BaseController;
 use Illuminate\Http\Request;
 use App\Repositories\User\UserRepositoryInterface as UserInterface;
 use App\Http\Resources\User as UserResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 use Hash;
 
@@ -62,11 +63,12 @@ class UserController extends BaseController
         $batch        = isset($request->batch)? $request->batch : '%';
         $gender       = isset($request->gender)? $request->gender : '%';
         $type         = isset($request->type)? $request->type : '%';
+        $promote      = isset($request->promote)? $request->promote : 0;
 
         $type = $this->convertUserType($type, '%');
         $gender    = $this->convertGender($gender, '%');
 
-        $users = UserResource::collection($this->userInterface->getAll($this->offset, $this->limit, $type, $name, $course, $batch, $gender));
+        $users = UserResource::collection($this->userInterface->getAll($this->offset, $this->limit, $type, $name, $course, $batch, $gender, $promote));
         $total = $this->userInterface->total();
         $this->data($users);
         $this->total($total);
@@ -192,7 +194,8 @@ class UserController extends BaseController
         $validator = Validator::make($request->all(), [
               'email'     =>  'email',
               'date_of_birth'=> 'date',
-              'image'     =>  'image'
+              'image'     =>  'image',
+              'admin_id'  =>  'exists:admin,id'
           ]);
 
          if ($validator->fails()) {
@@ -208,6 +211,13 @@ class UserController extends BaseController
          }
 
         $user = $this->userInterface->find($id);
+        if (isset($request->promotedby)) {
+           if ($request->type == 'student') {
+              event(new ContentCRUDEvent('Promote', $request->promotedby, 'Student', 'Promoted '. $user->name . ' to student.'));
+           }else{
+              event(new ContentCRUDEvent('Demote', $request->promotedby, 'Student', 'Demoted '. $user->name . ' to normal user.'));
+           }
+        }
         if (empty($user)) {
             $this->setError('404', $id);
             return $this->response('404');

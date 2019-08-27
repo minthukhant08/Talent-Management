@@ -36,7 +36,14 @@ class CourseController extends BaseController
         return $this->response('200');
     }
 
-
+    public function list()
+    {
+        $course  =$this->courseInterface->getList();
+        $total = $this->courseInterface->total();
+        $this->data($course);
+        $this->total($total);
+        return $this->response('200');
+    }
 
     /**
      * Store a newly created resource in storage.

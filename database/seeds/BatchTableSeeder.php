@@ -14,9 +14,9 @@ class BatchTableSeeder extends Seeder
     {
       $faker = Faker::create();
       $batches = ['Batch-1', 'Batch-2'];
-      foreach (range(1,20) as $index) {
+      foreach (range(0,1) as $index) {
           DB::table('batch')->insert([
-            'name'       => $faker->randomElement($batches),
+            'name'       => $batches[$index],
             'start_date' => $faker->date('Y-m-d', now()),
             'end_date'   => $faker->date('Y-m-d', strtotime('+3 Months')),
             'created_at' =>  now(),

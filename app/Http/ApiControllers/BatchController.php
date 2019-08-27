@@ -20,6 +20,14 @@ class BatchController extends BaseController
         $this->startTime         = microtime(true);
     }
 
+    public function list()
+    {
+        $batch =$this->batchInterface->getList();
+        $total = $this->batchInterface->total();
+        $this->data($batch);
+        $this->total($total);
+        return $this->response('200');
+    }
     /**
      * Display a listing of the resource.
      *

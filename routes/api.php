@@ -40,6 +40,7 @@ Route::group(['prefix' => 'v1/users'], function()
 Route::group(['prefix' => 'v1/courses'], function()
 {
       Route::get('/', 'CourseController@index');
+      Route::get('/list', 'CourseController@list');
       Route::get('/{id}', 'CourseController@show');
       Route::post('/', 'CourseController@store');
       Route::put('/{id}', 'CourseController@update');
@@ -99,6 +100,7 @@ Route::group(['prefix' => 'v1/comments'], function()
 Route::group(['prefix' => 'v1/batches'], function()
 {
       Route::get('/', 'BatchController@index');
+      Route::get('/list', 'BatchController@list');
       Route::get('/{id}', 'BatchController@show');
       Route::post('/', 'BatchController@store');
       Route::put('/{id}', 'BatchController@update');
@@ -140,7 +142,7 @@ Route::group(['prefix' => 'v1/intake'], function()
 
 Route::post('/v1/admin/login', 'AdminController@login');
 Route::post('/v1/admin', 'AdminController@index');
-Route::post('/v1/admin/promote', 'AdminController@store')->middleware('superadmin');
+Route::post('/v1/admin/promote', 'AdminController@store');
 Route::post('/v1/admin/demote/{id}', 'AdminController@destroy');
 
 

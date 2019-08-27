@@ -15,9 +15,9 @@ class Admin extends JsonResource
     public function toArray($request)
     {
         $type='Admin';
-        if ($this->type == 0) {
+        if ($this->role == 0) {
            $type = "Super Admin";
-        }elseif ($this->type == 1){
+        }else{
            $type = "Admin";
         }
 

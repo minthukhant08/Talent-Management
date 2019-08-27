@@ -99,6 +99,17 @@ export default{
         await messaging.requestPermission();
         const token = await messaging.getToken();
         console.log('I got the token :', token);
+        var _this =this;
+        this.$http.post(_this.$root.api + '/notificationtokens/', {
+          user_id   : _this.$store.getters.getUser.id,
+          token     : token,
+          subscribe : 1
+        }).then((response)=>{
+          
+        })
+        .then((error)=>{
+          console.log(error);
+        })
       } catch (error) {
         console.error(error);
       }

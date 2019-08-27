@@ -15,9 +15,9 @@ class CourseTableSeeder extends Seeder
       $faker = Faker::create();
       $courses =['PHP', 'Java', 'Offshore', 'Android'];
       $img = file_get_contents('public/images/fake.png');
-        foreach (range(1,20) as $index) {
+        foreach (range(0,3) as $index) {
             DB::table('course')->insert([
-              'name'         =>  $faker->randomElement($courses),
+              'name'         =>  $courses[$index],
               'image'        =>  base64_encode($img),
               'descriptions' =>  $faker->paragraph,
               'start_date'   =>  $faker->date('Y-m-d', now()),

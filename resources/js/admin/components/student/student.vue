@@ -12,8 +12,8 @@
 						<v-layout>
 							<v-flex>
 								<v-autocomplete
-								 v-model='stucourse'
-								 :items="tracks"
+								 v-model='search_selected_course'
+								 :items="search_courses"
 								 item-text='name'
 								 item-value='name'
 								 label="Track"
@@ -22,8 +22,8 @@
 							</v-flex>
 							<v-flex>
 								<v-autocomplete
-								 v-model='stubatch'
-								 :items="batchess"
+								 v-model='search_selected_batch'
+								 :items="search_batches"
 								 item-text='name'
 								 item-value='name'
 								 label="Batch"
@@ -34,7 +34,7 @@
 
             <v-data-table
             :headers="headers"
-            :items="userss"
+            :items="users"
             class="elevation-1"
 
             >
@@ -47,6 +47,7 @@
 							<template v-slot:item.action="{item}">
 				        <v-icon
 				          small
+									@click="demoteuser(item)"
 				        >
 				          delete
 				        </v-icon>
@@ -66,7 +67,7 @@
 	            prepend-inner-icon="search"
 	            solo-inverted
 	            v-model='search'
-							v-on:keyup.enter="searchScanner"
+							v-on:keyup.enter="searchUser"
 	          >
 	          </v-text-field>
             <v-list subheader  >
@@ -120,8 +121,8 @@
               <v-row align="center">
                 <v-col class="d-flex" cols="12" sm="12">
                    <v-autocomplete
-                    v-model='selectedCourse'
-                    :items="tracks"
+                    v-model='promote_selected_course'
+                    :items="promote_courses"
                     item-text='name'
                     item-value='id'
                     label="Track"
@@ -132,8 +133,8 @@
               <v-row align="center">
                 <v-col class="d-flex" cols="12" sm="12">
                    <v-autocomplete
-                    v-model='selectedBatch'
-                    :items="batchess"
+                    v-model='promote_selected_batch'
+                    :items="promote_batches"
                     item-text='name'
                     item-value='id'
                      label="Batch"
@@ -157,7 +158,7 @@
         <v-btn
           color="accent"
           text
-          @click="updateuser"
+          @click="promoteuser"
         >
           Save
         </v-btn>
@@ -173,16 +174,19 @@
   data(){
     return{
         search:'',
-        userss:[],
-				stucourse:'',
-				stubatch:'',
-        searchresult:[],
+        users:[],
+				searchresult:[],
+				search_courses:[],
+				search_batches:[],
+				search_selected_course:'',
+				search_selected_batch:'',
+				promote_courses:[],
+				promote_batches:[],
+      	promote_selected_course:'',
+				promote_selected_batch:'',
         dialog: false,
         selectedUser:[],
-        selectedCourse:'',
-        selectedBatch:'',
         headers: [
-
         { text: 'Image', value: 'image' },
         { text: 'Name', value: 'name' },
 				{ text: 'Track', value: 'course.name' },
@@ -192,44 +196,45 @@
 				{ text: 'Address', value: 'address' },
 				{ text: 'Action', value: 'action' }
       ],
-      tracks:[],
-      batchess:[],
-
-
-        }
+    }
   },
+	computed:{
+		User(){
+			return this.$store.getters.getUser;
+		}
+	},
   methods:{
-
     getStudents(){
 			var batch, course;
-			if (this.stubatch == "All") {
+			if (this.search_selected_batch == "All") {
 					batch = "%";
 			}else{
-					batch = this.stubatch;
+					batch = this.search_selected_batch;
 			}
-			if (this.stucourse == "All") {
+			if (this.search_selected_course == "All") {
 					course = "%";
 			}else{
-					course = this.stucourse;
+					course = this.search_selected_course;
 			}
 			console.log(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch);
       this.$http.get(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch).then(response => {
-          this.userss = response.body.data;
+          this.users = response.body.data;
       }, response => {
 
       });
     },
     getCourse(){
         var results=[];
-        this.$http.get(this.$root.api + '/courses').then(response => {
+        this.$http.get(this.$root.api + '/courses/list').then(response => {
           results = response.body.data;
           var i;
           for (i = 0; i < results.length; i++) {
-            this.tracks.push({name:results[i].name, id: results[i].id});
+            this.promote_courses.push({name:results[i].name, id: results[i].id});
           }
-					this.tracks.push({name:'All', id: -1});
-          this.selectedCourse = this.tracks[0].id;
-          console.log(this.tracks)
+					this.search_courses = Array.from(this.promote_courses);
+					this.search_courses.push({name:'All', id: -1});
+          this.promote_selected_course = this.promote_courses[0].id;
+					this.search_selected_course = 'All';
       }, response => {
 
       });
@@ -237,42 +242,63 @@
 
     getBatch(){
         var results=[];
-        this.$http.get('http://localhost:8000/api/v1/batches').then(response => {
-          results = response.body.data;
-          var i;
-          for (i = 0; i < results.length; i++) {
-            this.batchess.push(
-              {name:results[i].name, id: results[i].id});
-          }
-					this.batchess.push({name:'All', id: -1});
-          this.selectedBatch = this.batchess[0].id;
-          console.log(this.batchess)
+      this.$http.get(this.$root.api + '/batches/list').then(response => {
+				results = response.body.data;
+				var i;
+				for (i = 0; i < results.length; i++) {
+					this.promote_batches.push({name:results[i].name, id: results[i].id});
+				}
+				this.search_batches = Array.from(this.promote_batches);
+				this.search_batches.push({name:'All', id: -1});
+				this.promote_selected_batch = this.promote_batches[0].id;
+				this.search_selected_batch = 'All';
       }, response => {
 
       });
     },
-     searchScanner(){
-        this.$http.get(this.$root.api +'/users?type=normal&name='+this.search).then((response) => {
+     searchUser(){
+
+        this.$http.get(this.$root.api +'/users?type=normal&promote=1&name='+this.search).then((response) => {
           this.searchresult = response.body.data;
       }, response => {
 
       });
     },
 
-    updateuser(){
-      this.$http.put('http://localhost:8000/api/v1/users/'+ this.selectedUser.id,
-        {
-          course_id: this.selectedCourse,
-          batch_id:this.selectedBatch,
+    promoteuser(){
+      this.$http.put(this.$root.api +'/users/'+ this.selectedUser.id + '?promotedby=1',
+      {
+          course_id: this.promote_selected_course,
+          batch_id : this.promote_selected_batch,
           type:'student'
       }).then((response) =>{
         this.dialog = false;
+				var index = this.searchresult.indexOf(this.selectedUser)
+        this.searchresult.splice(index, 1)
       })
       .then((error)=>{
 
       })
 
     },
+
+		demoteuser(user){
+      this.$http.put(this.$root.api +'/users/'+ user.id + '?promotedby=1',
+      {
+          course_id: null,
+          batch_id : null,
+          type:'normal'
+      }).then((response) =>{
+        this.dialog = false;
+				var index = this.users.indexOf(user)
+        this.users.splice(index, 1)
+      })
+      .then((error)=>{
+
+      })
+
+    },
+
     showDialog(user){
       this.dialog =true;
       this.selectedUser = user;
@@ -280,12 +306,10 @@
   },
 
   created(){
-		// this.stucourse = 'All';
-    this.getCourse();
+		this.getCourse();
     this.getBatch();
+		this.getStudents();
 
-  },
-  computed:{
 
   }
 }

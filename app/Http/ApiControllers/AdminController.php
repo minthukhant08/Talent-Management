@@ -95,9 +95,11 @@ class AdminController extends BaseController
           $existing_admin = $this->adminInterface->findByUid($admin['uid']);
           if (!empty($existing_admin)) {
              $existing_admin = new AdminResource($existing_admin);
-             $this->data(array('user' => $existing_admin));
+             $this->data(array($existing_admin));
              return $this->response('201');
           }else{
+              $this->setError('501');
+              $this->setValidationError(['message' => 'Access Denied']);
               return $this->response('401');
           }
 
@@ -137,7 +139,7 @@ class AdminController extends BaseController
        if (isset($result)){
           event(new ContentCRUDEvent('Create Admin', $request->admin_id, 'Promote', 'Gave admin privileges to '. $result->name));
           $result = new AdminResource($result);
-          $this->data(array('user' => $result));
+          $this->data(array($result));
           return $this->response('201');
        }else{
           return $this->response('500');

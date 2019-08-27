@@ -14,23 +14,35 @@ class UserRepository implements UserInterface
      $this->user = $user;
   }
 
-  public function getAll($offset, $limit, $type, $name, $course, $batch, $gender){
-    return $this->user::with('course','batch')->orderBy('created_at', 'desc')
-        ->whereHas('course', function($query) use ($course) {
-          $query->where('name', 'like', '%'.$course.'%');
-          })
-        ->whereHas('batch', function($query) use ($batch) {
-          $query->where('name', 'like', '%'.$batch.'%');
-          })
-        ->where([
-          ['type','like', '%'.$type.'%'],
-          ['name','like', '%'.$name.'%'],
-          ['gender','like', '%'.$gender.'%']
-        ])
-        ->skip($offset)
-        ->take($limit)
-        ->get();
+  public function getAll($offset, $limit, $type, $name, $course, $batch, $gender, $promote){
+    if ($promote) {
+      return $this->user::with('course','batch')->orderBy('created_at', 'desc')
+          ->where([
+            ['type','like', '%'.$type.'%'],
+            ['name','like', '%'.$name.'%']
+          ])
+          ->skip($offset)
+          ->take($limit)
+          ->get();
+    }else{
+      return $this->user::with('course','batch')->orderBy('created_at', 'desc')
+          ->whereHas('course', function($query) use ($course) {
+            $query->where('name', 'like', '%'.$course.'%');
+            })
+          ->whereHas('batch', function($query) use ($batch) {
+            $query->where('name', 'like', '%'.$batch.'%');
+            })
+          ->where([
+            ['type','like', '%'.$type.'%'],
+            ['name','like', '%'.$name.'%'],
+            ['gender','like', '%'.$gender.'%']
+          ])
+          ->skip($offset)
+          ->take($limit)
+          ->get();
+    }
   }
+
 
   public function giveResults($offset, $limit, $course_id, $batch_id){
     return $this->user::with('assignments')->orderBy('created_at', 'desc')

@@ -2,7 +2,7 @@
 namespace App\Repositories\User;
 
 interface UserRepositoryInterface{
-  public function getAll($offset, $limit, $type, $name, $course, $batch, $gender);
+  public function getAll($offset, $limit, $type, $name, $course, $batch, $gender, $promote);
   public function giveResults($offset, $limit, $course_id, $batch_id);
   public function find($id);
   public function findByUid($uid);
