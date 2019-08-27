@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Repositories\User\UserRepositoryInterface as UserInterface;
 
@@ -32,15 +33,15 @@ class UserRepository implements UserInterface
         ->get();
   }
 
-  public function giveResults($offset, $limit, $course_id, $batch_id){
-    return $this->user::with('assignments')->orderBy('created_at', 'desc')
-        ->where([
-          ['course_id', '=', $course_id],
-          ['batch_id', '=', $batch_id]
-        ])
-        ->skip($offset)
-        ->take($limit)
-        ->get();
+  public function giveResults($offset, $limit,$assignment_id){
+    return  DB::table('user')
+            ->join('student_assignment', 'user.id', '=', 'student_assignment.student_id')
+            ->join('assignment', 'student_assignment.assignment_id', '=', 'assignment.id')
+            ->select('user.*','student_assignment.marks')
+	          ->where('assignment.id','=',$assignment_id)
+            ->skip($offset)
+            ->take($limit)
+            ->get();
   }
 
   public function find($id)

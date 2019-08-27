@@ -5,33 +5,46 @@
           :items="lists"
 
     >
+
+
       <template v-slot:top>
+        <v-toolbar dark>
+          <!-- <v-text>Choose a assignment..</v-text> -->
+          <v-spacer></v-spacer>
+          <v-autocomplete
+              v-model="selectedAssignment"
+              :items="items"
+              clearable
+              hide-details
+              hide-selected
+              item-text="name"
+              item-value="id"
+              label="Search for a assignment..."
+              solo
+              @change='getall'
+
+            >
+          </v-autocomplete>
+        </v-toolbar>
            <v-dialog v-model="dialog" max-width="500px" dark>
              <v-card class="pa-3" >
-                  <v-card-text>
-                     <v-select
-                        :items="assignments"
-                        menu-props="auto, overflowY"
-                        v-model='selectedAssignment'
-                        item-text='name'
-                        item-value='id'
-                        label="Name">
-                     </v-select>
-
-                      <v-text-field
-                       v-model="editedItem.marks"
-                       label="Mark">
-                       </v-text-field>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
+               <v-col cols="12" sm="12" md="12">
+                  <v-text-field
+                    outlined
+                    hide-details
+                    v-model='editedItem.marks'
+                    label="Enter Mark"
+                  ></v-text-field>
+              </v-col>
+               <v-card-actions>
+                 <v-spacer></v-spacer>
                      <v-btn
                      @click="save"
                      text
                     color="accent">
                     Confirm
-                  </v-btn>
-                  </v-card-actions>
+                    </v-btn>
+               </v-card-actions>
               </v-card>
              </v-dialog>
        </template>
@@ -55,7 +68,7 @@
   export default {
     data () {
      return {
-
+        selectedAssignment:'',
         headers: [
           { text: 'Profile',align: 'left',sortable: false,value: 'image'},
           { text: 'Name', value: 'name' },
@@ -83,14 +96,21 @@
     },
     methods: {
      getall(){
-       this.$http.get(this.$root.api + '/users?batch=' + this.User.batch.name + '&course=' + this.User.course.name ).then(response=>{
+
+
+       this.$http.get(this.$root.api + '/users/giveresults?assignment_id=' + this.selectedAssignment,{
+         headers: {
+           Authorization: 'Bearer '+ this.User.token
+         }
+       } ).then(response=>{
          this.lists=response.body.data;
+         console.log('list');
+         console.log(this.$root.api + '/users/giveresults?assignment_id=' + this.selectedAssignment);
        },response=>{
        });
      },
       editItem (item) {
-
-
+        
        this.editedIndex = this.lists.indexOf(item)
        this.editedItem = Object.assign({}, item)
        console.log(this.editedItem);
@@ -108,29 +128,18 @@
         this.close()
       },
 
-     getAssignment(){
-       var results=[];
-        this.$http.get(this.$root.api + '/assignments').then(response =>{
-          results = response.body.data;
-          var i;
-          for (i = 0;i < results.length; i++) {
-            this.assignments.push(
-              {name:results[i].name, id: results[i].id});
-          }
-          this.selectedAssignment = this.assignments[0].id;
-          console.log(this.assignments)
-        },response => {
 
-        });
-
-      },
       getChosen(){
         console.log(this.choose);
       },
 
-      getAssignment1(){
+      getAssignment(){
         var results=[];
-         this.$http.get(this.$root.api + '/assignments').then(response =>{
+         this.$http.get(this.$root.api + '/assignments?teacher_id=' + this.User.id,{
+           headers: {
+             Authorization: 'Bearer '+ this.User.token
+             }
+           }).then(response =>{
            results = response.body.data;
            var i;
            for (i = 0;i < results.length; i++) {
@@ -156,8 +165,8 @@
 },
 
      created(){
-       this.getall();
-       this.getAssignment1();
+        this.getall();
+       this.getAssignment();
      },
   }
 </script>

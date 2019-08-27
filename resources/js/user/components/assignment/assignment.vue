@@ -1,15 +1,25 @@
 <template>
-  <v-container>
-    <v-data-table
-      :headers="headers"
-      :items="assignments"
-      class="elevation-2"
-    >
+  <v-layout row class="pt-3">
+    <v-flex xs0 sm1 md3 lg3 xl3>
+    </v-flex>
 
-    <template v-slot:top>
+  <v-flex xs12 sm10 md6 lg6 xl6>
+  <v-data-table
+    :headers="headers"
+    :items="assignments"
+    class="elevation-2"
+  >
+
+      <template v-slot:top>
+        <v-toolbar flat color="#FF8883">
+
         <v-dialog v-model="dialog" max-width="500px" dark>
           <template v-slot:activator="{ on }">
-            <v-btn color="accent" fixed bottom right dark fab class="mb-2 elevation-2" v-on="on"><v-icon>mdi-plus</v-icon></v-btn>
+            <v-card-actions>
+            <!-- <v-text>List Of Assignments</v-text> -->
+            <v-spacer></v-spacer>
+           <v-btn color=" drak gradient" dark class="mb-2" v-on="on" ><v-icon align="right">add</v-icon></v-btn>
+         </v-card-actions>
           </template>
           <v-card>
             <v-col cols="12" sm="12" md="12">
@@ -28,18 +38,21 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-    </template>
+      </v-toolbar>
+  </template>
 
-      <template v-slot:item.action="{item}">
-        <v-icon
-          small
-          @click="deleteItem(item)"
-        >
-          delete
-        </v-icon>
-      </template>
-    </v-data-table>
-  </v-container>
+    <template v-slot:item.action="{item}">
+      <v-icon
+        small
+        @click="deleteItem(item)"
+      >
+        delete
+      </v-icon>
+    </template>
+  </v-data-table>
+ </v-flex>
+ <v-flex xs0 sm1 md3 lg3 xl3>
+ </v-flex>
 </v-layout>
 </template>
 
@@ -50,31 +63,41 @@
       dialog: false,
       headers :[
         {text: 'Assignment', align: 'left',sortable: false,value: 'name',},
-        { text: 'Actions', value: 'action', sortable: false,align: 'right', },
+        { text: 'Actions', value: 'action', sortable: false,align: 'center', },
       ],
       assignment_name:'',
       assignments:[],
 
     }),
 
+    computed:{
+      User(){
+        return this.$store.getters.getUser;
+      }
+    },
+
 
     methods: {
      getall(){
-       this.$http.get(this.$root.api + "/api/v1/assignments").then(response=>{
+       this.$http.get(this.$root.api + '/assignments?teacher_id=' + this.User.id).then(response=>{
          this.assignments=response.body.data;
        },response=>{
        });
      },
       deleteItem (assignment) {
         const index = this.assignments.indexOf(assignment)
-        confirm('Are you sure you want to delete this item?' + assignment) && this.assignments.splice(index, 1)
+        this.$http.delete(this.$root.api + '/assignments/'+assignment.id).then((response) =>{
+          console.log(response);
+          const index = this.assignments.indexOf(assignment)
+          this.assignments.splice(index, 1)
+        })
       },
       save(){
         this.$http.post(this.$root.api + '/assignments', {
           "name":this.assignment_name,
-          "teacher_id": 1,
+          "teacher_id":this.User.id,
         }).then((response) =>{
-          this.assignments.unshift({"name":this.assignment_name, "teacher_id": 1});
+          this.assignments.unshift({"name":this.assignment_name, "teacher_id":this.User.id});
           this.dialog = false;
         })
         .then((error) =>{
