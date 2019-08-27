@@ -11,7 +11,7 @@
               <template  v-for="comment in comments">
                 <v-list-item
                   :key="comment.id"
-                  @click="getcomment">
+                 >
                    <v-list-item-avatar>
                     <v-img :src="comment.user.image"></v-img>
                    </v-list-item-avatar>
@@ -41,7 +41,7 @@
               </v-text-field>
 
                <v-card-actions>
-                   <v-btn  color="accent" text @click="save(1)">Post</v-btn>
+                   <v-btn  color="accent" text @click="save()">Post</v-btn>
               </v-card-actions>
             </v-list>
            </v-card>
@@ -110,7 +110,7 @@
         </v-pagination>
       <v-card  width="100%;" dark
         row
-        v-for="activity in activities"
+        v-for="(activity, index) in activities"
         :key="activity.id"
         class="ma-3">
       <v-img
@@ -134,9 +134,16 @@
               <v-flex xs7 sm7 md7 lg7 xl7>
 
               </v-flex>
+              
+               
               <v-flex xs3 sm3 md3 lg3 xl class="text-right">
-                {{activity.likes}}Likes
-              </v-flex>
+                {{activity.likes}}Likes 
+
+             
+               
+                   
+                    </v-flex>
+          
               <v-flex xs3 sm3 md3 lg3 xl3 class="">
                 {{activity.comments}}Comments
               </v-flex>
@@ -148,12 +155,12 @@
       <v-card-actions>
         <v-layout>
           <v-flex class="text-center">
-            <v-btn icon>
+            <v-btn icon   @click="total_like(activity.id, index)">
               <v-icon>favorite</v-icon>
             </v-btn>
           </v-flex>
          <v-flex class="text-center">
-           <v-btn icon @click="getcomment(activity.id);">
+           <v-btn icon @click="getcomment(activity,index);">
               <v-icon>insert_comment</v-icon>
            </v-btn>
          </v-flex>
@@ -203,9 +210,9 @@ export default {
       selected:'',
       page:1,
       total_pages:0,
-      likecount:{},
-      commentcount:{},
       comment_description:[],
+      selectedindex:0,
+  
      }
   },
   watch:{
@@ -229,16 +236,18 @@ export default {
     }
   },
   methods:{
-    getcomment($activity_id){
+    getcomment(activity,index){
 
-      this.$http.get(this.$root.api + '/comments?activity_id=' + $activity_id, {
+      this.$http.get(this.$root.api + '/comments?activity_id=' + activity.id, {
         headers: {
             Authorization: 'Bearer '+ this.User.token
         }
       }).then(response => {
         console.log(response);
-         this.commentDialog = true;
-      this.comments = response.body.data;
+        this.selectedActivity = activity;
+        this.commentDialog = true;
+        this.comments = response.body.data;
+        this.selectedindex= index;
 
       }, response =>{
 
@@ -262,30 +271,50 @@ export default {
       });
     },
 
-   getlikecount(activity){
-       this.likecount=activity;
-    },
-
-   getcommentcount(activity){
-       this.commentcount=activity;
-    },
-   
-   save(activity_id){
+   save(){
         this.$http.post(this.$root.api+'/comments', {
           "descriptions":this.comment_description,
-          "activity_id": activity_id,
-          "user_id"     : 1
+          "activity_id": this.selectedActivity.id,
+          "user_id"     : this.User.id
       
         }).then((response) =>{
-              this.assignments.unshift({"descriptions":this.comment_description, "activity_id": 1});
+              this.comments.unshift({
+                "descriptions":this.comment_description, 
+                "activity_id": this.selectedActivity.id,
+                "user" :{
+                    "id" : this.User.id,
+                    "name" : this.User.name,
+                    "image" : this.User.image
+                }
+                });
+          this.activities[this.selectedindex].comments +=1;
           this.dialog = false;
+          
         })
         .then((error) =>{
 
         })
+        },
 
-   }
- },
+  total_like(activity_id,index) {
+      this.$http.post(this.$root.api+'/likes', {
+         
+          "activity_id": activity_id,
+          "user_id"     : this.User.id
+      
+        
+        }).then((response) =>{
+             
+              
+          this.activities[index].likes +=1;
+          this.dialog = false;
+          
+        })
+        .then((error) =>{
+
+        })
+           }
+  },
 created(){
     this.getall();
   }

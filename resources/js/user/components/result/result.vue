@@ -1,5 +1,5 @@
 <template>
-  <!-- <v-layout row>
+  <v-layout row>
     <v-flex xs0 sm0 md1 lg2 xl2>
     </v-flex>
     <v-flex xs12 sm12 md10 lg8 xl8>
@@ -15,26 +15,19 @@
             >
             <v-flex xs12 sm12 md12 lg12 xl12 >
               <v-layout>
-            <v-flex xs8 sm8 md8 lg8 xl8 class="pl-10 pt-5">
+            <v-flex xs10 sm10 md10 lg10 xl10 class="pl-10 pt-5">
               Total Result
-                 <div class=" pl-5  headline text-left">
-              {{total}}
-            </div>
             </v-flex>
-            <v-flex xs8 sm8 md4 lg2 xl2 class="ml-10  headline right pt-5">
-              Overall Grade <br> <br>
+            <v-flex xs2 sm2 md2 lg2 xl2 class="ml-10  headline">
+              Overall Grade
             {{grade}}
             </v-flex>
-
-      
-
-
-
-
         </v-layout>
+            <div class=" pl-12  headline text-left">
+              {{total}}
+            </div>
             
-            
-            <div class=" pl-10 my-2 text-left">
+            <div class=" pl-10 my-5 text-left">
               Average
             </div>
             
@@ -47,12 +40,14 @@
          </v-card>
          <v-card>
 <v-list two-line >
- 
+  <span class="grey">
             <div class=" pl-5 headline">
               Results
             </div>
+  </span>
            <template v-for="result in results">
-              <v-list-item :key="result.id" three-line>
+
+              <v-list-item :key="result.id" class="pa-3">
                  <v-list-item-content  >
                   <v-card> 
                   <v-item-group>
@@ -64,9 +59,10 @@
                          {{result.assignment.name}}
                         </div>
                      </v-list-item-title>
-                  <v-list-item-subtitle>
-                    {{result.comments}}
-                  </v-list-item-subtitle>
+                     <div class="my-4"></div>
+                  <!-- <v-list-item-subtitle> -->
+                    <!-- {{item.subtitle}}      -->
+                  <!-- </v-list-item-subtitle>  -->
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-progress-circular
@@ -85,11 +81,11 @@
           </v-list>
         </v-card>
       </v-container>
-    <!-- </v-flex>
+    </v-flex>
 
     <v-flex  xs0 sm0 md1 lg2 xl2>
     </v-flex>
-  </v-layout> -->
+  </v-layout>
 </template>
 <script>
   export default {
@@ -140,9 +136,10 @@
              return "#8BC34A";
          }
       },
+     
 
     getall(){
-      this.$http.get('http://localhost:9000/api/v1/results?student_id=' + this.User.id).then(response => 
+      this.$http.get('http://localhost:9000/api/v1/results?student_id=' + this.User.id).then(response => {
         console.log(response.body);
           this.results = response.body.data;
           console.log(response.body.data);
@@ -156,4 +153,14 @@
     this.getall();
   }
 }
+
+
+
+
+
+
+
+
+
+
 </script>
