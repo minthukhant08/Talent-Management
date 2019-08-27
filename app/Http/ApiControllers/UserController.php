@@ -75,12 +75,12 @@ class UserController extends BaseController
 
     public function giveResults(Request $request)
     {
-        $this->offset = isset($request->offset)? $request->offset : 0;
-        $this->limit  = isset($request->limit)? $request->limit : 30;
-        $course_id       = isset($request->course_id)? $request->course_id : '%';
-        $batch_id        = isset($request->batch_id)? $request->batch_id : '%';
+        $this->offset  = isset($request->offset)? $request->offset : 0;
+        $this->limit   = isset($request->limit)? $request->limit : 30;
+        $assignment_id = isset($request->assignment_id)? $request->assignment_id : '%';
 
-        $users = $this->userInterface->giveResults($this->offset, $this->limit, $course_id, $batch_id);
+
+        $users = $this->userInterface->giveResults($this->offset, $this->limit, $assignment_id);
         $total = $this->userInterface->total();
         $this->data($users);
         $this->total($total);
@@ -155,7 +155,7 @@ class UserController extends BaseController
                 return $this->response('500');
              }
          }else{
-             $token = JWTAuth::fromUser($existing_user);
+             // $token = JWTAuth::fromUser($existing_user);
              $existing_user = new UserResource($existing_user);
              $this->data(array('user' => $existing_user, 'auth_token' => $existing_user->auth_token));
              return $this->response('201');
