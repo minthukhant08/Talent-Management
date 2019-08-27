@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Confirmation extends Model
+class Confirm extends Model
 {
     protected $table = 'confirm';
 }

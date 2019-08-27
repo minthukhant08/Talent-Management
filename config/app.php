@@ -185,10 +185,12 @@ return [
         App\Repositories\Topic\TopicRepoServiceProvider::class,
         App\Repositories\TopicDetail\TopicDetailRepoServiceProvider::class,
         App\Repositories\Notification\NotificationRepoServiceProvider::class,
+        App\Repositories\NotificationToken\NotificationTokenRepoServiceProvider::class,
         App\Repositories\Assignment\AssignmentRepoServiceProvider::class,
         App\Repositories\Result\ResultRepoServiceProvider::class,
         App\Repositories\Intake\IntakeRepoServiceProvider::class,
         App\Repositories\Log\LogRepoServiceProvider::class,
+        App\Repositories\Confirm\ConfirmRepoServiceProvider::class,
     ],
 
     /*

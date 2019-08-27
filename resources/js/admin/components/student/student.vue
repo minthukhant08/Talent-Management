@@ -1,63 +1,76 @@
 <template>
-	<div id="app">
-  <v-app id="inspire">
-    <v-card>
+	<div>
       <v-tabs
-        background-color="#7266ba"
-        color="#F57C00"
-        centered
+        background-color="blue"
+        color="accent"
+        fixed-tabs
       >
         <v-tab >Students</v-tab>
         <v-tab >Manage</v-tab>
-            	
-        
-        
-  
         <v-tab-item>
           <v-container fluid>
-            <v-row>
-              <v-col>
-                <v-data-table 
-                :headers="headers"
-                :items="userss"
-                class="elevation-1"
+						<v-layout>
+							<v-flex>
+								<v-autocomplete
+								 v-model='stucourse'
+								 :items="tracks"
+								 item-text='name'
+								 item-value='name'
+								 label="Track"
+								 @change="getStudents"
+							 ></v-autocomplete>
+							</v-flex>
+							<v-flex>
+								<v-autocomplete
+								 v-model='stubatch'
+								 :items="batchess"
+								 item-text='name'
+								 item-value='name'
+								 label="Batch"
+								 @change="getStudents"
+							 ></v-autocomplete>
+							</v-flex>
+						</v-layout>
 
-                >
-      				    <template v-slot:item.image="{item}">
-                  <v-avatar>
-                    <img :src="item.image" alt="avatar">
-                  </v-avatar>    
-                  </template>
-  				      </v-data-table>
+            <v-data-table
+            :headers="headers"
+            :items="userss"
+            class="elevation-1"
 
+            >
+  				    <template v-slot:item.image="{item}">
+              <v-avatar>
+                <img :src="item.image" alt="avatar">
+              </v-avatar>
+              </template>
 
-              </v-col>
-            </v-row>
+							<template v-slot:item.action="{item}">
+				        <v-icon
+				          small
+				        >
+				          delete
+				        </v-icon>
+				      </template>
+
+			      </v-data-table>
           </v-container>
         </v-tab-item>
         <!-- Scanner -->
         <v-tab-item>
           <v-container>
-            <v-row>
-          <v-text-field      
-            class="mx-5 pt-5"
-            flat
-            hide-details
-            label="Search"
-            prepend-inner-icon="search"
-            solo-inverted
-            v-model='search'
-            style="width: 800px;"
-          >
-
-            
-          </v-text-field>
-          <v-btn class="mt-5 ml-3" style="height: 50px;" @click='searchScanner'>Search</v-btn>
-        </v-row>
-<!--end scanner list -->
-      
+	          <v-text-field
+	            class="mx-5 pt-1"
+	            flat
+	            hide-details
+	            label="Search"
+	            prepend-inner-icon="search"
+	            solo-inverted
+	            v-model='search'
+							v-on:keyup.enter="searchScanner"
+	          >
+	          </v-text-field>
             <v-list subheader  >
-              <v-list-item 
+              <v-list-item
                 v-for="user in searchresult"
                 :key="user.id">
                 <v-list-item-avatar >
@@ -69,7 +82,7 @@
                     max-height="300"
                   ></v-img>
                 </v-list-item-avatar>
-        
+
                 <v-list-item-content >
                   <v-list-item-title >{{user.name}}</v-list-item-title>
                 </v-list-item-content>
@@ -77,10 +90,10 @@
                  <v-list-item-content>
                   <v-list-item-title >{{user.type}}</v-list-item-title>
                 </v-list-item-content>
-        
+
                 <v-list-item-icon>
                   <!-- start dialog -->
-                  <span v-if='user.type == "student"'>
+                  <span>
                      <v-btn color="#F57C00"
                         dark
                         @click.stop="showDialog(user)"
@@ -88,37 +101,21 @@
                         rounded
                         >
                         Promote
-                      </v-btn>
-                    </span>
-                    <span v-else>
-                     <v-btn color="#F57C00"
-                        dark
-                        @click.stop="showDialog(user)"
-                        width="120"
-                        rounded>
-                        Demote
-                      </v-btn>
-                    </span>
-                  
+                    </v-btn>
+                  </span>
+
                 </v-list-item-icon>
               </v-list-item>
             </v-list>
         </v-container>
         </v-tab-item>
-
       </v-tabs>
-    </v-card>
-  </v-app>
   <v-dialog
     v-model="dialog"
     max-width="290"
   >
     <v-card>
-     
       <v-card-text >
-        
-        
-          
             <v-container fluid>
               <v-row align="center">
                 <v-col class="d-flex" cols="12" sm="12">
@@ -129,7 +126,7 @@
                     item-value='id'
                     label="Track"
                   ></v-autocomplete>
-                  
+
                 </v-col>
               </v-row>
               <v-row align="center">
@@ -144,9 +141,6 @@
                 </v-col>
               </v-row>
             </v-container>
-          
-        
-
       </v-card-text>
 
       <v-card-actions>
@@ -180,19 +174,24 @@
     return{
         search:'',
         userss:[],
+				stucourse:'',
+				stubatch:'',
         searchresult:[],
-        dialog: false, 
+        dialog: false,
         selectedUser:[],
         selectedCourse:'',
         selectedBatch:'',
         headers: [
-      
+
         { text: 'Image', value: 'image' },
         { text: 'Name', value: 'name' },
+				{ text: 'Track', value: 'course.name' },
+				{ text: 'Batch', value: 'batch.name' },
         { text: 'Email', value: 'email' },
         { text: 'Phone No', value: 'phone_no' },
-      
-      ], 
+				{ text: 'Address', value: 'address' },
+				{ text: 'Action', value: 'action' }
+      ],
       tracks:[],
       batchess:[],
 
@@ -201,9 +200,20 @@
   },
   methods:{
 
-    getall(){
-
-      	this.$http.get('http://localhost:8000/api/v1/users').then(response => {
+    getStudents(){
+			var batch, course;
+			if (this.stubatch == "All") {
+					batch = "%";
+			}else{
+					batch = this.stubatch;
+			}
+			if (this.stucourse == "All") {
+					course = "%";
+			}else{
+					course = this.stucourse;
+			}
+			console.log(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch);
+      this.$http.get(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch).then(response => {
           this.userss = response.body.data;
       }, response => {
 
@@ -211,13 +221,13 @@
     },
     getCourse(){
         var results=[];
-        this.$http.get('http://localhost:8000/api/v1/courses').then(response => {
+        this.$http.get(this.$root.api + '/courses').then(response => {
           results = response.body.data;
           var i;
-          for (i = 0; i < results.length; i++) { 
-            this.tracks.push(
-              {name:results[i].name, id: results[i].id});
+          for (i = 0; i < results.length; i++) {
+            this.tracks.push({name:results[i].name, id: results[i].id});
           }
+					this.tracks.push({name:'All', id: -1});
           this.selectedCourse = this.tracks[0].id;
           console.log(this.tracks)
       }, response => {
@@ -230,10 +240,11 @@
         this.$http.get('http://localhost:8000/api/v1/batches').then(response => {
           results = response.body.data;
           var i;
-          for (i = 0; i < results.length; i++) { 
+          for (i = 0; i < results.length; i++) {
             this.batchess.push(
               {name:results[i].name, id: results[i].id});
           }
+					this.batchess.push({name:'All', id: -1});
           this.selectedBatch = this.batchess[0].id;
           console.log(this.batchess)
       }, response => {
@@ -241,8 +252,7 @@
       });
     },
      searchScanner(){
-
-        this.$http.get('http://localhost:8000/api/v1/users?name='+this.search).then((response) => {
+        this.$http.get(this.$root.api +'/users?type=normal&name='+this.search).then((response) => {
           this.searchresult = response.body.data;
       }, response => {
 
@@ -251,9 +261,9 @@
 
     updateuser(){
       this.$http.put('http://localhost:8000/api/v1/users/'+ this.selectedUser.id,
-        { 
-          course_id: this.selectedCourse, 
-          batch_id:this.selectedBatch, 
+        {
+          course_id: this.selectedCourse,
+          batch_id:this.selectedBatch,
           type:'student'
       }).then((response) =>{
         this.dialog = false;
@@ -270,11 +280,10 @@
   },
 
   created(){
-  	
-  	this.getall();
+		// this.stucourse = 'All';
     this.getCourse();
     this.getBatch();
-   
+
   },
   computed:{
 

@@ -7,7 +7,7 @@
       >
       <template v-slot:item.image="{ item }">
         <v-avatar>
-          <img :src="item.image" alt="avatar">
+          <img :src="item.admin.image" alt="avatar">
         </v-avatar>
       </template>
     </v-data-table>
@@ -19,6 +19,9 @@ export default{
     return{
       logs:[],
       headers: [
+         { text: 'Person', value: 'image' },
+         { text: 'Name', value: 'admin.name' },
+         { text: 'Email', value: 'admin.email' },
          { text: 'Action', value: 'action' },
          { text: 'Category', value: 'category' },
          { text: 'Descriptions', value: 'descriptions' }

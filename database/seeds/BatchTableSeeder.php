@@ -13,13 +13,14 @@ class BatchTableSeeder extends Seeder
     public function run()
     {
       $faker = Faker::create();
+      $batches = ['Batch-1', 'Batch-2'];
       foreach (range(1,20) as $index) {
           DB::table('batch')->insert([
-            'name' => $faker->name,
+            'name'       => $faker->randomElement($batches),
             'start_date' => $faker->date('Y-m-d', now()),
-            'end_date' => $faker->date('Y-m-d', strtotime('+3 Months')),
-            'created_at'  =>  now(),
-            'updated_at'  =>  now()
+            'end_date'   => $faker->date('Y-m-d', strtotime('+3 Months')),
+            'created_at' =>  now(),
+            'updated_at' =>  now()
           ]);
         }
     }
