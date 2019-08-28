@@ -10,6 +10,7 @@
             <v-flex xs12 sm12 md8 lg8 xl8>
             <v-layout row ma-3>
               <v-card ma5
+              :elevation="5"
                 class="mx-auto"
                 width="100%"
                 style="border-radius:10px;"
@@ -30,7 +31,7 @@
                           >
                             Name
                           </v-flex>
-                          <v-flex xs4 sm6 md8 lg8 xl8>
+                          <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
                             filled
                             v-model="courses.name"
@@ -46,9 +47,41 @@
                           >
                           Description
                           </v-flex>
-                          <v-flex xs4 sm6 md8 lg8 xl8>
+                          <v-flex xs4 sm4 md8 lg8 xl8>
                             <v-text-field
                             v-model="courses.descriptions"
+                            filled
+                            color="black"></v-text-field>
+                          </v-flex>
+                        </v-layout>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-layout row ma3>
+                          <v-flex xs6 sm6 md3 lg3 xl3
+                          mt-7
+                          ml-4
+                          >
+                          Start Date
+                          </v-flex>
+                          <v-flex xs4 sm4 md8 lg8 xl8>
+                            <v-text-field
+                            v-model="courses.start_date"
+                            filled
+                            color="black"></v-text-field>
+                          </v-flex>
+                        </v-layout>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-layout row ma3>
+                          <v-flex xs6 sm6 md3 lg3 xl3
+                          mt-7
+                          ml-4
+                          >
+                          End Date
+                          </v-flex>
+                          <v-flex xs4 sm4 md8 lg8 xl8>
+                            <v-text-field
+                            v-model="courses.end_date"
                             filled
                             color="black"></v-text-field>
                           </v-flex>
@@ -68,6 +101,7 @@
               </v-card>
 
               <v-card ma5
+                :elevation="5"
                 class="mx-auto mt-5"
                 width="100%"
                 style="border-radius:10px;"
@@ -230,7 +264,6 @@
        this.courses.topic.splice(index, 1);
      })
      .then((error)=>{
-
      })
    },
    updatecourse(){
@@ -275,8 +308,6 @@
 
       });
     },
-
-
     getCourse(){
       this.$http.get('http://localhost:8000/api/v1/courses/'+ this.$route.params.id).then((response) =>{
           console.log(response.body.data[0]);
@@ -285,9 +316,7 @@
       .then((error)=>{
 
       })
-
     }
-
   },
   created(){
    this.getCourse();

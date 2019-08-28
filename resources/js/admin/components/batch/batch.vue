@@ -2,46 +2,116 @@
 
 <v-layout row ma-3>
 
-  <v-flex xs0 sm0 md2 lg2 xl2>
+  <v-flex xs0 sm0 md1 lg1 xl1>
 
   </v-flex>
 
-  <v-flex xs12 sm12 md8 lg8 xl8>
+  <v-flex xs12 sm12 md10 lg10 xl10>
 
-  <template>
-    <v-card class="mt-3">
+    <v-card class="mt-3" :elevation="5">
     <v-card-title>
       Batch
       <v-spacer></v-spacer>
-      <v-btn color="accent" dark v-on="on"><v-icon>add</v-icon></v-btn>
+      <v-text-field
+      v-model="search"
+      append-icon="search"
+      label="Search"
+      single-line
+      hide-details
+    ></v-text-field>
+      <v-btn color="accent" class="elevation-5" @click="dialog=true"><v-icon>add</v-icon></v-btn>
+      <v-dialog
+        v-model="dialog"
+        width="500"
+      >
+        <v-card>
+          <v-card-title
 
+            class="headline accent lighten-2"
+            primary-title
+          >
+            Add Batch
+          </v-card-title>
+
+          <v-layout row ma-3>
+            <v-flex xs12 sm12 md12 lg12 xl12>
+                  <v-row class="customActivityForm">
+                    <v-col xs12 sm12 md3 lg3 xl3>
+                      Name
+                    </v-col>
+                    <v-col xs12 sm12 md7 lg7 xl7>
+                      <v-text-field
+                        filled
+                        color="accent"
+                        v-model="batch_name"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row class="customActivityForm">
+                    <v-col xs12 sm12 md3 lg3 xl3>
+                      Start Date
+                    </v-col>
+                    <v-col xs12 sm12 md7 lg7 xl7>
+                      <v-text-field
+                        filled
+                        color="accent"
+                        v-model="batch_start_date"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row class="customActivityForm">
+                    <v-col xs12 sm12 md3 lg3 xl3>
+                      End Date
+                    </v-col>
+                    <v-col xs12 sm12 md7 lg7 xl7>
+                      <v-text-field
+                        filled
+                        color="accent"
+                        v-model="batch_end_date"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-flex>
+          </v-layout>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <div class="flex-grow-1"></div>
+            <v-btn
+              color="accent"
+              text
+              @click="detail = false"
+            >
+              POST
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-card-title>
 
-    <v-simple-table height="auto" weight="100%">
+      <v-data-table
+        :headers="headers"
+        :items="batch"
+        :items-per-page="5"
+        :search="search"
+      >
+      <template v-slot:item.action="{ item }">
+        <v-btn color="error"
+        @click="deletedItem(item)"
+          small
+        ><v-icon>delete</v-icon>
 
-      <thead>
-        <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in desserts" :key="item.name">
-          <td>{{ item.name }}</td>
-          <td>
-            <v-icon @onclick="dialog"
-            >delete
-            </v-icon>
-          </td>
-        </tr>
-      </tbody>
-    </v-simple-table>
+        </v-btn>
+      </template>
+
+    </v-data-table>
+
   </v-card>
-  </template>
 
   </v-flex>
 
-  <v-flex xs12 sm12 md2 lg2 xl2>
+  <v-flex xs12 sm12 md1 lg1 xl1>
 
   </v-flex>
 
@@ -51,18 +121,57 @@
   export default {
     data () {
       return {
-        desserts: [
+        dialog:false,
+        search:'',
+        headers: [
           {
-            name: 'Batch(1)',
-            calories: 159,
+            text: 'Batch',
+            align: 'left',
+            sortable: false,
+            value: 'name',
           },
           {
-            name: 'Batch(2)',
-            calories: 237,
+            text: 'Start Date',
+            align: 'left',
+            sortable: false,
+            value: 'start_date',
           },
-
+          {
+            text: 'End Date',
+            align: 'left',
+            sortable: false,
+            value: 'end_date',
+          },
+          {
+            text: 'Actions',
+            value: 'action',
+            align: 'right',
+            sortable: false },
         ],
+        batch:[],
       }
     },
+    computed:{
+      User(){
+        return this.$store.getters.getUser;
+      }
+    },
+    methods: {
+      getbatch(){
+        this.$http.get('http://localhost:8000/api/v1/batches',{
+          headers: {
+              Authorization: 'Bearer '+ this.User.token
+          }
+        }).then(response=>{
+          this.batch= response.body.data;
+          console.log(this.batch);
+        }, response => {
+          console.log('error');
+        })
+      },
+    },
+    created(){
+      this.getbatch()
+    }
   }
 </script>
