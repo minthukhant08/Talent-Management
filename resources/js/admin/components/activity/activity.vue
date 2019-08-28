@@ -9,22 +9,29 @@
               <v-card-title>
                 Activity
                 <v-spacer></v-spacer>
-                <v-btn color="accent" dark v-on="on"><v-icon>add</v-icon></v-btn>
+                <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+                <v-btn color="accent" dark v-on="on" :elevation="5"><v-icon>add</v-icon></v-btn>
 
               </v-card-title>
               <v-data-table
                 :headers="headers"
-                :items="desserts"
-
+                :items="activities"
+                :search="search"
               ><template v-slot:item.action="{ item }">
-                <v-action>
+
                 <v-btn color="blue"
-                @click="goRoute('/admin/activityedit')"
+                @click="goRoute('/admin/activityedit/'+item.id)"
                   small
                 >
                   <v-icon>edit</v-icon>
                 </v-btn>
-                </v-action>
+
                 <v-btn color="error"
                 @click="deletedItem(item)"
                   small
@@ -39,9 +46,9 @@
         </v-layout>
 
       </template>
-      <v-card>
+      <v-card mx-height="100">
         <v-card-title>
-          <span class="headline">User Profile</span>
+          <span class="headline">Add Activity</span>
         </v-card-title>
           <v-layout row ma-3>
             <v-flex xs12 sm12 md5 lg5 xl5>
@@ -59,60 +66,73 @@
             <v-flex xs12 sm12 md7 lg7 xl7>
                   <v-row class="customActivityForm">
                     <v-col xs12 sm12 md3 lg3 xl3>
-                      <v-text>Name</v-text>
+                      Name
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
                       <v-text-field
                         filled
                         color="accent"
+                        v-model="activities_name"
                       ></v-text-field>
                     </v-col>
                   </v-row>
                   <v-row class="customActivityForm">
                     <v-col xs12 sm12 md3 lg3 xl3>
-                      <v-text>Speaker</v-text>
+                      Speaker
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
                       <v-text-field
                         filled
                         color="accent"
+                        v-model="activities_speaker"
                       ></v-text-field>
                     </v-col>
                   </v-row>
                   <v-row class="customActivityForm">
                     <v-col xs12 sm12 md3 lg3 xl3>
-                      <v-text>Date</v-text>
+                      Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
                       <v-text-field
                         filled
                         color="accent"
+                        v-model="activities_date"
                       ></v-text-field>
                     </v-col>
                   </v-row>
                   <v-row class="customActivityForm">
                     <v-col xs12 sm12 md3 lg3 xl3>
-                      <v-text>Type</v-text>
+                      Type
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                        ></v-text-field>
+                      <v-autocomplete
+                        :items="components"
+                      ></v-autocomplete>
                     </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col xs12 sm12 md12 lg12 xl12>
+                      Description
+                      <v-textarea
+                            outlined
+                            label="Outlined textarea"
+                            v-model="activities_descriptions"
+                      ></v-textarea>
+                    </v-col>
+
                   </v-row>
                 </v-flex>
           </v-layout>
-          <v-text>Description</v-text>
-          <v-textarea
-                outlined
-                label="Outlined textarea"
-          ></v-textarea>
-          <v-card-action>
+
+          <div class="button">
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">Post</v-btn>
-          </v-card-action>
+            <v-btn color="blue darken-1" text @click="save()">Post</v-btn>
+          </div>
+
+
+
+
       </v-card>
     </v-dialog>
   </v-row>
@@ -125,7 +145,9 @@ import commonmethods from '../../mixins/commonMethods';
     data: () => ({
       dialog: false,
       dialog2: false,
-      courses:[],
+      activities:[],
+      search:'',
+      components:['post','Annoucment'],
       headers: [
         {
           text: 'Name',
@@ -142,25 +164,49 @@ import commonmethods from '../../mixins/commonMethods';
           sortable: false },
       ],
   desserts:[],
+  activities_name:'',
+  activities_speaker:'',
+  activities_date:'',
+  activities_type:'',
+  activities_descriptions:''
     }),
     methods: {
       getactivity(){
         this.$http.get('http://localhost:8000/api/v1/activities').then(response=>{
-          this.desserts= response.body.data;
+          this.activities= response.body.data;
         }, response => {
           console.log('error');
         })
       },
       putactivity(){
         this.$http.put('http://localhost:8000/api/v1/activities',{name}).then(response=>{
-          this.desserts= response.body.data;
+          this.activities= response.body.data;
         }, response => {
           console.log('error');
         })
       },
       deletedItem(activity){
-        const index = this.desserts.indexOf(activity)
-        confirm('Are you sure you want to delete this item?'+activity) && this.desserts.splice(index, 1)
+        const index = this.activities.indexOf(activity)
+        this.desserts.splice(index, 1)
+      },
+      save(){
+        this.$http.post(this.$root.api+'/activities',{
+          "name": this.activities_name,
+          "speaker_name": this.activities_speaker,
+          "date": this.activities_date,
+          "type": this.activities_type,
+          "descriptions":this.activities_descriptions
+        }).then((response)=>{
+          this.activities.unshift({"name": this.activities_name,
+          "speaker": this.activities_speaker,
+          "date": this.activities_date,
+          "type": this.activities_type,
+          "descriptions":this.activities_descriptions});
+          this.dialog = false;
+        })
+        .then((error) =>{
+
+        })
       },
       close() {
         this.dialog = false

@@ -23,7 +23,7 @@ export default[
   {path:'/admin/student', component:student},
   {path:'/admin/teacher', component:teacher},
   {path:'/admin/scanner', component:scanner},
-  {path:'/admin/topicedit', component:topicedit},
+  {path:'/admin/topicedit/:id', component:topicedit},
   {path:'/admin/activityedit/:id', component:activityedit},
   {path:'/admin/super', component:superadmin},
   {path:'/admin/logs', component:log}

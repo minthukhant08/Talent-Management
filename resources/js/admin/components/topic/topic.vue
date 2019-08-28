@@ -1,76 +1,121 @@
 <template>
-  <v-layout>
-    <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
-    <v-flex xs12 sm12 md10 lg10 xl10>
-      <v-card>
-        <v-card-title>
-          Topic
-          <v-spacer></v-spacer>
-          <v-btn color="accent"><v-icon>add </v-icon></v-btn>
-        </v-card-title>
-        <template>
-        <v-data-table
-          :headers="headers"
-          :items="desserts"
-          sort-by="calories"
-          class="elevation-1"
-        >
-          <template v-slot:top>
-              <v-dialog v-model="dialog" max-width="500px">
-                <v-card>
-                  <v-card-title>
-                    <span class="headline">Topic Detail</span>
-                  </v-card-title>
+  <v-row justify="center">
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <template v-slot:activator="{ on }">
+        <v-layout>
+          <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
+          <v-flex xs12 sm12 md10 lg10 xl10>
+            <v-card class="mt-3">
+              <v-card-title>
+                Topics
+                <v-spacer></v-spacer>
+                <v-text-field
+                v-model="search"
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+              ></v-text-field>
+                <v-btn color="accent" dark v-on="on" :elevation="5"><v-icon>add</v-icon></v-btn>
 
-                  <v-card-text>
-                    <v-container>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text>TimeTable</v-text>
-                        </v-col>
-                      </v-row>
-                      <v-row>
-                        <v-col cols="12" sm="6" md="4">
-                          <v-text>Description</v-text>
-                        </v-col>
-                      </v-row>
-                    </v-container>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
+              </v-card-title>
+              <v-data-table
+                :headers="headers"
+                :items="topics"
+                :search="search"
+              ><template v-slot:item.action="{ item }">
 
-                    <v-btn color="blue darken-1" @click="close()">Exit</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-dialog>
+                <v-btn color="blue"
+                @click="goRoute('/admin/topicedit/'+item.id)"
+                  small
+                >
+                  <v-icon>edit</v-icon>
+                </v-btn>
 
-          </template>
-          <template v-slot:item.action="{ item }">
+                <v-btn color="error"
+                @click="deletedItem(item)"
+                  small
+                ><v-icon>delete</v-icon>
 
-            <v-action >
-            <v-btn color="blue"
-            @click="goRoute('/admin/topicedit')"
-              small
-            >
-              <v-icon>edit</v-icon>
-            </v-btn>
-            </v-action>
-            <v-btn color="error"
-            @click="close()"
-              small
-            ><v-icon>delete</v-icon>
+                </v-btn>
+              </template>
+            </v-data-table>
+            </v-card>
+          </v-flex>
+          <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
+        </v-layout>
 
-            </v-btn>
-          </template>
-
-        </v-data-table>
       </template>
+      <v-card mx-height="100">
+        <v-card-title>
+          <span class="headline">Add Topic</span>
+        </v-card-title>
+          <v-layout row ma-3>
+
+            <v-flex>
+                  <v-row class="customActivityForm">
+                    <v-col xs12 sm12 md3 lg3 xl3>
+                      Name
+                    </v-col>
+                    <v-col xs12 sm12 md7 lg7 xl7>
+                      <v-text-field
+                        filled
+                        color="accent"
+                        v-model="topics_name"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+
+                  <v-row class="customActivityForm">
+                    <v-col xs12 sm12 md3 lg3 xl3>
+                       Start Date
+                    </v-col>
+                    <v-col xs12 sm12 md7 lg7 xl7>
+                      <v-text-field
+                        filled
+                        color="accent"
+                        v-model="topics_start_date"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row class="customActivityForm">
+                    <v-col xs12 sm12 md3 lg3 xl3>
+                      End Date
+                    </v-col>
+                    <v-col xs12 sm12 md7 lg7 xl7>
+                      <v-text-field
+                        filled
+                        color="accent"
+                        v-model="topics_end_date"
+                        ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col xs12 sm12 md12 lg12 xl12>
+                      Description
+                      <v-textarea
+                            outlined
+                            label="Outlined textarea"
+                            v-model="topics_descriptions"
+                      ></v-textarea>
+                    </v-col>
+
+                  </v-row>
+                </v-flex>
+          </v-layout>
+
+          <div class="button">
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+            <v-btn color="blue darken-1" text @click="save()">Post</v-btn>
+          </div>
+
+
+
 
       </v-card>
-    </v-flex>
-    <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
-  </v-layout>
-
+    </v-dialog>
+  </v-row>
 </template>
 
 <script>
@@ -80,7 +125,12 @@ import commonmethods from '../../mixins/commonMethods';
     data: () => ({
       dialog: false,
       dialog2: false,
-      courses:[],
+      topics:[],
+      search:'',
+      topics_name:'',
+      topics_start_date:'',
+      topics_end_date:'',
+      topics_descriptions:'',
       headers: [
         {
           text: 'Name',
@@ -99,23 +149,34 @@ import commonmethods from '../../mixins/commonMethods';
   desserts:[],
     }),
     methods: {
-      getCourses(){
-        this.$http.get('http://localhost:8000/api/v1/topics/1').then(response=>{
-          this.desserts= response.body.data;
+      gettopic(){
+        this.$http.get('http://localhost:8000/api/v1/topics').then(response=>{
+          this.topics= response.body.data;
         }, response => {
           console.log('error');
         })
       },
-      putCourses(){
-        this.$http.put('http://localhost:8000/api/v1/courses',{name}).then(response=>{
-          this.desserts= response.body.data;
-        }, response => {
-          console.log('error');
-        })
+      deletedItem(topics){
+        const index = this.topics.indexOf(topics)
+        this.desserts.splice(index, 1)
       },
-      deletedItem(courses){
-        const index = this.desserts.indexOf(courses)
-        confirm('Are you sure you want to delete this item?'+courses) && this.desserts.splice(index, 1)
+      save(){
+        this.$http.post(this.$root.api+'/activities',{
+          "topic": this.topics_name,
+          "start_date": this.topics_start_date,
+          "end_date": this.topics_end_date,
+          "descriptions":this.topics_descriptions
+        }).then((response)=>{
+          this.activities.unshift({
+            "topic": this.topics_name,
+            "start_date": this.topics_start_date,
+            "end_date": this.topics_end_date,
+            "descriptions":this.topics_descriptions});
+          this.dialog = false;
+        })
+        .then((error) =>{
+
+        })
       },
       close() {
         this.dialog = false
@@ -127,7 +188,7 @@ import commonmethods from '../../mixins/commonMethods';
     },
 
     created(){
-      this.getCourses()
+      this.gettopic()
     }
   }
 </script>

@@ -1,16 +1,6 @@
 <template>
   <v-row>
 
-      <v-menu
-        v-model="menu2"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on }">
           <v-layout row ma-3>
 
             <v-flex xs0 sm0 md2 lg2 xl2>
@@ -38,12 +28,12 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Name</v-list-item-text>
+                            Name
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
+                            filled
                             v-model="activities.name"
-                            filled
                             color="accent"></v-text-field>
                           </v-flex>
                         </v-layout>
@@ -54,15 +44,13 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Date</v-list-item-text>
+                          Speaker Name
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
-                              v-model="date"
-                              prepend-icon="event"
-                              readonly
-                              v-on="on"
-                            ></v-text-field>
+                            v-model="activities.speaker"
+                            filled
+                            color="black"></v-text-field>
                           </v-flex>
                         </v-layout>
                       </v-list-item>
@@ -72,12 +60,63 @@
                           mt-7
                           ml-4
                           >
-                            <v-list-item-text>Speaker Name</v-list-item-text>
+                          Description
                           </v-flex>
                           <v-flex xs4 sm6 md8 lg8 xl8>
                             <v-text-field
+                            v-model="activities.descriptions"
                             filled
-                            color="accent"></v-text-field>
+                            color="black"></v-text-field>
+                          </v-flex>
+                        </v-layout>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-layout row ma3>
+                          <v-flex xs6 sm6 md3 lg3 xl3
+                          mt-7
+                          ml-4
+                          >
+                          Date
+                          </v-flex>
+                          <v-flex xs4 sm6 md8 lg8 xl8>
+                            <v-text-field
+                            v-model="activities.date"
+                            filled
+                            color="black"@click= "showDatePicker(index,activities.date, 'end')"></v-text-field>
+                          </v-flex>
+                        </v-layout>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-layout row ma3>
+                          <v-flex xs6 sm6 md3 lg3 xl3
+                          mt-7
+                          ml-4
+                          >
+                          Type
+                          </v-flex>
+                          <v-flex xs4 sm6 md8 lg8 xl8>
+                            <v-autocomplete
+                              :items="components"
+                              v-model="activities.type"
+                            ></v-autocomplete>
+                          </v-flex>
+                        </v-layout>
+                      </v-list-item>
+                      <v-list-item>
+                        <v-layout row ma3>
+                          <v-flex xs6 sm6 md3 lg3 xl3
+                          mt-7
+                          ml-4
+                          >
+                          Image
+                          </v-flex>
+                          <v-flex xs4 sm6 md8 lg8 xl8>
+                            <v-img
+                            :src="activities.image"
+                            aspect-ratio="1"
+                            class="grey lighten-2"
+                            max-width="200"
+                            max-height="200"></v-img>
                           </v-flex>
                         </v-layout>
                       </v-list-item>
@@ -85,19 +124,19 @@
 
                   </v-list-item>
                 </v-list>
-                <v-card-actions>
+
                   <v-spacer></v-spacer>
                   <v-btn text>Remove</v-btn>
-                  <v-btn text>Update</v-btn>
-                </v-card-actions>
+                  <v-btn
+                   @click="updateactivity" text>Update</v-btn>
+
+
               </v-card>
-              <v-action>
                     <v-btn
                     class="ma-2"
                     outlined
                     color="accent"
                     >ADD<v-icon>add</v-icon></v-btn>
-              </v-action>
             </v-layout>
             </v-flex>
 
@@ -106,12 +145,15 @@
             </v-flex>
 
           </v-layout>
+          <v-dialog v-model="datepicker" max-width="300">
+            <v-date-picker v-model="picker" @change="changeDate()"></v-date-picker>
+          </v-dialog>
 
-        </template>
-        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
-      </v-menu>
 
   </v-row>
+
+
+
 </template>
 <script>
   import commonmethods from '../../mixins/commonMethods';
@@ -120,22 +162,44 @@
   mixins:[commonmethods],
   data(){
     return{
+        components:['Post','Annoucment'],
         editedactivity:[],
         activities:[],
+        datepicker:false,
+        picker:'',
+        currenttextbox:'',
+        datetype:''
       }
   },
+  computed:{
+    User(){
+      this.$store.getters.getUser;
+    }
+  },
   methods:{
-
-
+   changeDate(){
+     if (this.datetype == "end") {
+       this.activities[this.currenttextbox].end_date = this.picker;
+     }else{
+       this.activities[this.currenttextbox].start_date = this.picker;
+     }
+   },
+   showDatePicker(index, current, type){
+      this.picker = current;
+      this.datepicker = true;
+      this.currenttextbox = index;
+      this.datetype = type;
+   },
    updateactivity(){
-      this.$http.put('http://localhost:8000/api/v1/activities/'+ this.$route.params.id, {
-
-      name: this.activities.name,
-      speaker: this.activities.speaker
-
-
+      this.$http.put(this.$root.api + '/activities/'+ this.$route.params.id, {
+        name: this.activities.name,
+        speaker: this.activities.speaker,
+        descriptions: this.activities.descriptions,
+        type: this.activities.type,
+        image: this.activities.image
       }).then((response) =>{
-        this.goRoute('/activity/' + this.$route.params.id);
+        console.log(response);
+        this.goRoute('/admin/activityedit/' + this.$route.params.id);
 
       })
       .then((error)=>{
@@ -143,18 +207,15 @@
       })
 
     },
-
-
-
     getActivity(){
       this.$http.get('http://localhost:8000/api/v1/activities/'+ this.$route.params.id).then((response) =>{
           console.log(response.body.data[0]);
           this.activities = response.body.data[0];
       })
       .then((error)=>{
+
       })
     }
-
   },
   created(){
    this.getActivity();
