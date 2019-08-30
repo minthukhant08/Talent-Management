@@ -17,13 +17,13 @@ class CommentRepository implements CommentInterface
   public function getAll($offset, $limit, $activity_id)
   {
       if (isset($activity_id)) {
-          return $this->comment::orderBy('created_at', 'desc')
+          return $this->comment::with('user')->orderBy('created_at', 'desc')
                                 ->where('activity_id', '=', $activity_id)
                                 ->skip($offset)
                                 ->take($limit)
                                 ->get();
       }else {
-          return $this->comment::orderBy('created_at', 'desc')
+          return $this->comment::with('user')->orderBy('created_at', 'desc')
                                 ->skip($offset)
                                 ->take($limit)
                                 ->get();

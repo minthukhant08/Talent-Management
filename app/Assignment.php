@@ -9,10 +9,10 @@ class Assignment extends Model
 {
     protected $table = 'assignment';
     protected $fillable = [
-        'name', 'teacher_id'
+        'name', 'teacher_id','created_at',
     ];
     protected $hidden = [
-        'created_at', 'updated_at'
+       'updated_at'
     ];
 
     public function studentAssignments()

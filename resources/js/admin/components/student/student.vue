@@ -1,152 +1,150 @@
 <template>
-	<div id="app">
-  <v-app id="inspire">
-    <v-card>
+	<div>
+		<v-btn fab fixed left bottom color="accent" @click='getStudents'><v-icon>mdi-database-refresh</v-icon></v-btn>
       <v-tabs
-        background-color="#7266ba"
-        color="#F57C00"
-        centered
+        color="deep-purple accent-4"
+        fixed-tabs
       >
         <v-tab >Students</v-tab>
         <v-tab >Manage</v-tab>
-            	
-        
-        
-  
         <v-tab-item>
           <v-container fluid>
-            <v-row>
-              <v-col>
-                <v-data-table 
-                :headers="headers"
-                :items="userss"
-                class="elevation-1"
+						<v-layout>
+							<v-flex>
+								<v-autocomplete
+								 v-model='search_selected_course'
+								 :items="search_courses"
+								 item-text='name'
+								 item-value='name'
+								 label="Track"
+								 @change="getStudents"
+							 ></v-autocomplete>
+							</v-flex>
+							<v-flex>
+								<v-autocomplete
+								 v-model='search_selected_batch'
+								 :items="search_batches"
+								 item-text='name'
+								 item-value='name'
+								 label="Batch"
+								 @change="getStudents"
+							 ></v-autocomplete>
+							</v-flex>
+						</v-layout>
 
-                >
-      				    <template v-slot:item.image="{item}">
-                  <v-avatar>
-                    <img :src="item.image" alt="avatar">
-                  </v-avatar>    
-                  </template>
-  				      </v-data-table>
+            <v-data-table
+            :headers="headers"
+            :items="users"
+            class="elevation-1"
 
+            >
+  				    <template v-slot:item.image="{item}">
+              <v-avatar>
+                <img :src="item.image" alt="avatar">
+              </v-avatar>
+              </template>
 
-              </v-col>
-            </v-row>
+							<template v-slot:item.action="{item}">
+				        <v-icon
+				          small
+									@click="demoteuser(item)"
+				        >
+				          delete
+				        </v-icon>
+				      </template>
+
+			      </v-data-table>
           </v-container>
         </v-tab-item>
         <!-- Scanner -->
         <v-tab-item>
           <v-container>
-            <v-row>
-          <v-text-field      
-            class="mx-5 pt-5"
-            flat
-            hide-details
-            label="Search"
-            prepend-inner-icon="search"
-            solo-inverted
-            v-model='search'
-            style="width: 800px;"
-          >
-
-            
-          </v-text-field>
-          <v-btn class="mt-5 ml-3" style="height: 50px;" @click='searchScanner'>Search</v-btn>
-        </v-row>
-<!--end scanner list -->
-      
+	          <v-text-field
+	            class="mx-5 pt-1"
+	            flat
+	            hide-details
+	            label="Search"
+	            prepend-inner-icon="search"
+	            solo-inverted
+	            v-model='search'
+							v-on:keyup.enter="searchUser"
+	          >
+	          </v-text-field>
             <v-list subheader  >
-              <v-list-item 
-                v-for="user in searchresult"
-                :key="user.id">
-                <v-list-item-avatar >
-                  <v-img
-                    :src='user.image'
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                    max-width="500"
-                    max-height="300"
-                  ></v-img>
-                </v-list-item-avatar>
-        
-                <v-list-item-content >
-                  <v-list-item-title >{{user.name}}</v-list-item-title>
-                </v-list-item-content>
+              <div
+								v-for="user in searchresult"
+								:key="user.id">
+								<v-list-item>
+	                <v-list-item-avatar >
+	                  <v-img
+	                    :src='user.image'
+	                    aspect-ratio="1"
+	                    class="grey lighten-2"
+	                    max-width="500"
+	                    max-height="300"
+	                  ></v-img>
+	                </v-list-item-avatar>
 
-                 <v-list-item-content>
-                  <v-list-item-title >{{user.type}}</v-list-item-title>
-                </v-list-item-content>
-        
-                <v-list-item-icon>
-                  <!-- start dialog -->
-                  <span v-if='user.type == "student"'>
-                     <v-btn color="#F57C00"
-                        dark
-                        @click.stop="showDialog(user)"
-                        width="120"
-                        rounded
-                        >
-                        Promote
-                      </v-btn>
-                    </span>
-                    <span v-else>
-                     <v-btn color="#F57C00"
-                        dark
-                        @click.stop="showDialog(user)"
-                        width="120"
-                        rounded>
-                        Demote
-                      </v-btn>
-                    </span>
-                  
-                </v-list-item-icon>
-              </v-list-item>
+	                <v-list-item-content >
+	                  <v-list-item-title >{{user.name}}</v-list-item-title>
+	                </v-list-item-content>
+
+	                 <v-list-item-content>
+	                  <v-list-item-title >{{user.type}}</v-list-item-title>
+	                </v-list-item-content>
+
+	                <v-list-item-icon>
+	                  <!-- start dialog -->
+	                  <span>
+	                     <v-btn color="#F57C00"
+	                        dark
+	                        @click.stop="showDialog(user)"
+	                        width="120"
+	                        rounded
+	                        >
+	                        Promote
+	                    </v-btn>
+	                  </span>
+
+	                </v-list-item-icon>
+	              </v-list-item>
+								<v-divider></v-divider>
+              </div>
             </v-list>
         </v-container>
         </v-tab-item>
-
       </v-tabs>
-    </v-card>
-  </v-app>
   <v-dialog
     v-model="dialog"
     max-width="290"
   >
     <v-card>
-     
       <v-card-text >
-        
-        
-          
             <v-container fluid>
               <v-row align="center">
                 <v-col class="d-flex" cols="12" sm="12">
                    <v-autocomplete
-                    v-model='selectedCourse'
-                    :items="tracks"
+                    v-model='promote_selected_course'
+                    :items="promote_courses"
                     item-text='name'
                     item-value='id'
                     label="Track"
                   ></v-autocomplete>
-                  
+
                 </v-col>
               </v-row>
               <v-row align="center">
                 <v-col class="d-flex" cols="12" sm="12">
                    <v-autocomplete
-                    v-model='selectedBatch'
-                    :items="batchess"
+                    v-model='promote_selected_batch'
+                    :items="promote_batches"
                     item-text='name'
                     item-value='id'
-                     label="Batch"
+                    label="Batch"
                   ></v-autocomplete>
                 </v-col>
               </v-row>
             </v-container>
-          
-        
-
       </v-card-text>
 
       <v-card-actions>
@@ -163,7 +161,7 @@
         <v-btn
           color="accent"
           text
-          @click="updateuser"
+          @click="promoteuser"
         >
           Save
         </v-btn>
@@ -179,47 +177,69 @@
   data(){
     return{
         search:'',
-        userss:[],
-        searchresult:[],
-        dialog: false, 
+        users:[],
+				searchresult:[],
+				search_courses:[],
+				search_batches:[],
+				search_selected_course:'',
+				search_selected_batch:'',
+				promote_courses:[],
+				promote_batches:[],
+      	promote_selected_course:'',
+				promote_selected_batch:'',
+        dialog: false,
         selectedUser:[],
-        selectedCourse:'',
-        selectedBatch:'',
         headers: [
-      
         { text: 'Image', value: 'image' },
         { text: 'Name', value: 'name' },
+				{ text: 'Type', value: 'type' },
+				{ text: 'Track', value: 'course.name' },
+				{ text: 'Batch', value: 'batch.name' },
         { text: 'Email', value: 'email' },
         { text: 'Phone No', value: 'phone_no' },
-      
-      ], 
-      tracks:[],
-      batchess:[],
-
-
-        }
+				{ text: 'Address', value: 'address' },
+				{ text: 'Action', value: 'action' }
+      ],
+    }
   },
+	computed:{
+		User(){
+			return this.$store.getters.getUser;
+		}
+	},
   methods:{
-
-    getall(){
-
-      	this.$http.get('http://localhost:8000/api/v1/users').then(response => {
-          this.userss = response.body.data;
+    getStudents(){
+			var batch, course;
+			if (this.search_selected_batch == "All") {
+					batch = "%";
+			}else{
+					batch = this.search_selected_batch;
+			}
+			if (this.search_selected_course == "All") {
+					course = "%";
+			}else{
+					course = this.search_selected_course;
+			}
+			console.log(this.$root.api + '/users?admin=1&type=student&course=' + course + '&batch=' + batch);
+      this.$http.get(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch).then(response => {
+          this.users = response.body.data;
+					console.log(response.body.data);
       }, response => {
 
       });
     },
     getCourse(){
         var results=[];
-        this.$http.get('http://localhost:8000/api/v1/courses').then(response => {
+        this.$http.get(this.$root.api + '/courses/list').then(response => {
           results = response.body.data;
           var i;
-          for (i = 0; i < results.length; i++) { 
-            this.tracks.push(
-              {name:results[i].name, id: results[i].id});
+          for (i = 0; i < results.length; i++) {
+            this.promote_courses.push({name:results[i].name, id: results[i].id});
           }
-          this.selectedCourse = this.tracks[0].id;
-          console.log(this.tracks)
+					this.search_courses = Array.from(this.promote_courses);
+					this.search_courses.push({name:'All', id: -1});
+          this.promote_selected_course = this.promote_courses[0].id;
+					this.search_selected_course = 'All';
       }, response => {
 
       });
@@ -227,42 +247,63 @@
 
     getBatch(){
         var results=[];
-        this.$http.get('http://localhost:8000/api/v1/batches').then(response => {
-          results = response.body.data;
-          var i;
-          for (i = 0; i < results.length; i++) { 
-            this.batchess.push(
-              {name:results[i].name, id: results[i].id});
-          }
-          this.selectedBatch = this.batchess[0].id;
-          console.log(this.batchess)
+      this.$http.get(this.$root.api + '/batches/list').then(response => {
+				results = response.body.data;
+				var i;
+				for (i = 0; i < results.length; i++) {
+					this.promote_batches.push({name:results[i].name, id: results[i].id});
+				}
+				this.search_batches = Array.from(this.promote_batches);
+				this.search_batches.push({name:'All', id: -1});
+				this.promote_selected_batch = this.promote_batches[0].id;
+				this.search_selected_batch = 'All';
       }, response => {
 
       });
     },
-     searchScanner(){
+     searchUser(){
 
-        this.$http.get('http://localhost:8000/api/v1/users?name='+this.search).then((response) => {
+        this.$http.get(this.$root.api +'/users?type=normal&admin=1&name='+this.search).then((response) => {
           this.searchresult = response.body.data;
       }, response => {
 
       });
     },
 
-    updateuser(){
-      this.$http.put('http://localhost:8000/api/v1/users/'+ this.selectedUser.id,
-        { 
-          course_id: this.selectedCourse, 
-          batch_id:this.selectedBatch, 
+    promoteuser(){
+      this.$http.put(this.$root.api +'/users/'+ this.selectedUser.id + '?editedby=1',
+      {
+          course_id: this.promote_selected_course,
+          batch_id : this.promote_selected_batch,
           type:'student'
       }).then((response) =>{
         this.dialog = false;
+				var index = this.searchresult.indexOf(this.selectedUser)
+        this.searchresult.splice(index, 1)
       })
       .then((error)=>{
 
       })
 
     },
+
+		demoteuser(user){
+      this.$http.put(this.$root.api +'/users/'+ user.id + '?editedby=1',
+      {
+          course_id: null,
+          batch_id : null,
+          type:'normal'
+      }).then((response) =>{
+        this.dialog = false;
+				var index = this.users.indexOf(user)
+        this.users.splice(index, 1)
+      })
+      .then((error)=>{
+
+      })
+
+    },
+
     showDialog(user){
       this.dialog =true;
       this.selectedUser = user;
@@ -270,13 +311,10 @@
   },
 
   created(){
-  	
-  	this.getall();
-    this.getCourse();
+		this.getCourse();
     this.getBatch();
-   
-  },
-  computed:{
+		this.getStudents();
+
 
   }
 }

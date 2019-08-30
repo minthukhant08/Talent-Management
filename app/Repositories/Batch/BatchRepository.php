@@ -21,6 +21,10 @@ class BatchRepository implements BatchInterface
         ->get();
   }
 
+  public function getList(){
+    return $this->batch::distinct()->get(['name','id']);
+  }
+
   public function find($id)
   {
     return $this->batch::with('users')->where('id', '=', $id)->first();

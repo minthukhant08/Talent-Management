@@ -30,6 +30,9 @@ Route::group(['prefix' => 'v1/users'], function()
 {
       Route::get('/', 'UserController@index');
       Route::get('/giveresults', 'UserController@giveresults');
+      Route::get('/timetable/{id}', 'UserController@getTimeTable');
+      Route::post('/scan', 'ConfirmController@scan');
+      Route::get('/confirm', 'ConfirmController@index');
       Route::get('/{id}', 'UserController@show');
       Route::put('/{id}', 'UserController@update');
       Route::delete('/{id}', 'UserController@destroy');
@@ -39,6 +42,7 @@ Route::group(['prefix' => 'v1/users'], function()
 Route::group(['prefix' => 'v1/courses'], function()
 {
       Route::get('/', 'CourseController@index');
+      Route::get('/list', 'CourseController@list');
       Route::get('/{id}', 'CourseController@show');
       Route::post('/', 'CourseController@store');
       Route::put('/{id}', 'CourseController@update');
@@ -48,8 +52,17 @@ Route::group(['prefix' => 'v1/courses'], function()
 Route::group(['prefix' => 'v1/notifications'], function()
 {
       Route::get('/{id}', 'NotificationController@show');
+      Route::get('/seen/{id}', 'NotificationController@seen');
       Route::post('/', 'NotificationController@store');
-      Route::delete('/{id}', 'CourseController@destroy');
+      Route::delete('/{id}', 'NotificationController@destroy');
+});
+
+Route::group(['prefix' => 'v1/notificationtokens'], function()
+{
+      Route::get('/{id}', 'NotificationTokenController@show');
+      Route::post('/', 'NotificationTokenController@store');
+      Route::put('/{id}', 'NotificationTokenController@update');
+      Route::delete('/{id}', 'NotificationTokenController@destroy');
 });
 
 Route::group(['prefix' => 'v1/topics'], function()
@@ -90,6 +103,7 @@ Route::group(['prefix' => 'v1/comments'], function()
 Route::group(['prefix' => 'v1/batches'], function()
 {
       Route::get('/', 'BatchController@index');
+      Route::get('/list', 'BatchController@list');
       Route::get('/{id}', 'BatchController@show');
       Route::post('/', 'BatchController@store');
       Route::put('/{id}', 'BatchController@update');
@@ -121,16 +135,19 @@ Route::group(['prefix' => 'v1/assignments'], function()
       Route::delete('/{id}', 'AssignmentController@destroy');
 });
 
+
 Route::group(['prefix' => 'v1/intake'], function()
 {
       Route::get('/', 'IntakeController@get');
       Route::post('/', 'IntakeController@update');
 });
 
+
 Route::post('/v1/admin/login', 'AdminController@login');
 Route::post('/v1/admin', 'AdminController@index');
-Route::post('/v1/admin/promote', 'AdminController@store')->middleware('superadmin');
-Route::post('/v1/admin/demote', 'AdminController@destroy')->middleware('superadmin');
+Route::post('/v1/admin/promote', 'AdminController@store');
+Route::post('/v1/admin/demote/{id}', 'AdminController@destroy');
+
 
 Route::group(['prefix' => 'v1/admin/logs'], function()
 {

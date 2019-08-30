@@ -21,6 +21,10 @@ class CourseRepository implements CourseInterface
         ->get();
   }
 
+  public function getList(){
+    return $this->course::distinct()->get(['name','id']);
+  }
+
   public function find($id)
   {
     return $this->course::with('details')->where('id', '=', $id)->first();

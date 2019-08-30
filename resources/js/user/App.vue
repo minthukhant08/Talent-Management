@@ -239,8 +239,10 @@ export default {
       },
       noti(value){
         if (value) {
-          this.getNotiToken();
+          this.getNotiToken(1);
           this.$store.dispatch('setNotiSubscribe',value);
+        }else{
+          this.getNotiToken(0);
         }
       }
     },

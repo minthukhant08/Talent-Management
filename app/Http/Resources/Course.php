@@ -22,7 +22,7 @@ class Course extends JsonResource
           'start_date'      => $this->start_date,
           'end_date'        => $this->end_date,
           'image'           => url('/api/v1/courses/image').'/'.$this->id,
-          'topic'         => CourseTopicResource::collection($this->details)
+          'topic'           => CourseTopicResource::collection($this->details)
         ];
     }
 }

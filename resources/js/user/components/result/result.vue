@@ -1,99 +1,218 @@
 <template>
-  <v-layout row>
-    <v-flex xs0 sm0 md1 lg2 xl2>
-    </v-flex>
-    <v-flex xs12 sm12 md10 lg8 xl8>
-      <v-container style="height: calc(100% - 50px);">
-        <v-card style="border:1px solid red;">
-          <v-item v-slot:default="{ active, toggle }">
-            <v-card
-              :color="active ? 'primary' : ''"
-              dark
-              height="200"
-              @click="toggle"
-              style="border:1px solid blue;"
-            >
-            <v-flex xs12 sm12 md12 lg12 xl12 >
-              <v-layout>
-            <v-flex xs10 sm10 md10 lg10 xl10 class="pl-10 pt-5">
-              Total Result
-            </v-flex>
-            <v-flex xs2 sm2 md2 lg2 xl2 class="ml-10  headline">
-              Overall Grade
-            {{grade}}
-            </v-flex>
-        </v-layout>
-            <div class=" pl-12  headline text-left">
-              {{total}}
-            </div>
-            
-            <div class=" pl-10 my-5 text-left">
-              Average
-            </div>
-            
-             <div class=" pl-12 my-1 headline text-left">
-              {{average}}
-            </div>
-            </v-flex>
-            </v-card>
-          </v-item>
-         </v-card>
-         <v-card>
-<v-list two-line >
-  <span class="grey">
-            <div class=" pl-5 headline">
-              Results
-            </div>
-  </span>
-           <template v-for="result in results">
+  <v-container class="grey lighten-5">
+    <v-row>
 
-              <v-list-item :key="result.id" class="pa-3">
-                 <v-list-item-content  >
-                  <v-card> 
-                  <v-item-group>
-    
-              </v-item-group>
-                  </v-card>  
-                     <v-list-item-title class="blue--text">
+      <v-col
+        md="3"
+      >
+          <v-card
+            tile
+            max-width="480"
+            class="pa-2 mx-auto mt-10 mb-10"
+          >
+    <v-img
+      :src="User.image"
+      width="200px"
+      height="200px"
+      dark
+    >
+      <v-row class="fill-height">
+        <v-card-title>
+          <v-spacer></v-spacer>
+
+        </v-card-title>
+
+        <v-spacer></v-spacer>
+
+        <v-card-title class="white--text pl-12 pt-12">
+          <div class="display-1 pl-12 pt-12"></div>
+        </v-card-title>
+      </v-row>
+    </v-img>
+
+    <v-list>
+      <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="accent">person</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>{{User.name}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+      <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="accent">email</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title >{{User.email}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+      <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="accent">phone</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content >
+          <v-list-item-title>{{User.phone_no}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="accent">public</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content >
+          <v-list-item-title>{{User.nrc_no}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="accent">cake</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content >
+          <v-list-item-title>{{User.date_of_birth}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="accent">class</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content >
+          <v-list-item-title>{{User.course.name}}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+            <v-icon color="accent">group</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content >
+            <v-list-item-title>{{User.batch.name}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+      <v-divider inset></v-divider>
+
+       <v-list-item >
+        <v-list-item-icon>
+          <v-icon color="accent" >home</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content >
+          <v-list-item-title>{{User.address}}</v-list-item-title>
+        </v-list-item-content>
+
+      </v-list-item>
+    </v-list>
+  </v-card>
+      </v-col>
+      <v-col
+        md="9"
+      >
+        <v-card
+          class="pa-2"
+          tile
+        >
+            <v-container style="height: calc(100% - 50px);width:100%;">
+
+          <v-card>
+            <v-item v-slot:default="{ active, toggle }">
+              <v-card
+                :color="active ? 'primary' : ''"
+                dark
+                height="200"
+                @click="toggle"
+              >
+              <v-flex xs12 sm12 md12 lg12 xl12 >
+                <v-layout>
+                  <v-flex xs10 sm10 md9 lg9 xl9 class="ml-3 mt-3 headline">
+                    Total Result
+                    <div class="display-1 text-left ml-3">
+                      {{total}}
+                    </div>
+                    
+                    <div class="text-left ml-3 headline">
+                      Average
+                    </div>
+                    
+                     <div class="display-1 text-left ml-3">
+                      {{average}}
+                    </div>
+                  </v-flex>
+                  <v-flex xs2 sm2 md3 lg3 xl3 class="headline mr-3 mt-3">
+                    Overall Grade
+                  <p class="display-4 ml-3">{{grade}}</p>
+                  </v-flex>
+                </v-layout>
+                
+              </v-flex>
+              </v-card>
+            </v-item>
+           </v-card>
+          <v-card>
+            <v-list two-line >
+              <span class="grey">
+                <div class=" pl-5 headline">
+                  Results
+                </div>
+              </span>
+              <template v-for="result in results">
+
+                <v-list-item :key="result.id" class="pa-3">
+                    <v-list-item-content  >
+                      <v-card> 
+                        <v-item-group>
+        
+                        </v-item-group>
+                      </v-card>  
+                      <v-list-item-title class="blue--text">
                         <div class="pl-0 title" >
-                         {{result.assignment.name}}
+                          {{result.assignment.name}}
                         </div>
-                     </v-list-item-title>
-                     <div class="my-4"></div>
-                  <!-- <v-list-item-subtitle> -->
-                    <!-- {{item.subtitle}}      -->
-                  <!-- </v-list-item-subtitle>  -->
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-progress-circular
-                        :rotate="90"
-                        :size="100"
-                        :width="11"
-                        :value="result.marks"
-                        :color='progresscolor(result.marks)'
-                      >
-                        {{ result.marks }}
-                    </v-progress-circular>
-                  </v-list-item-action>
-              </v-list-item>
-              <v-divider class="green"></v-divider>
-            </template>
-          </v-list>
-        </v-card>
+                      </v-list-item-title>
+                      <div class="my-4"></div>
+                      <!-- <v-list-item-subtitle> -->
+                        <!-- {{item.subtitle}}      -->
+                      <!-- </v-list-item-subtitle>  -->
+                    </v-list-item-content>
+                      <v-list-item-action>
+                        <v-progress-circular
+                            :rotate="90"
+                            :size="100"
+                            :width="11"
+                            :value="result.marks"
+                            :color='progresscolor(result.marks)'
+                          >
+                            {{ result.marks }}
+                        </v-progress-circular>
+                      </v-list-item-action>
+                  </v-list-item>
+                  <v-divider class="green"></v-divider>
+                </template>
+              </v-list>
+          </v-card>
       </v-container>
-    </v-flex>
-
-    <v-flex  xs0 sm0 md1 lg2 xl2>
-    </v-flex>
-  </v-layout>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
+  import commonmethods from '../../mixins/commonMethods';
   export default {
+    mixins:[commonmethods],
     data(){
       return{
         results:[],
-        avg:0,
-      }
+        avg:0,      }
     },
     computed:{
       User(){
@@ -101,11 +220,11 @@
       },
       grade(){
           if(this.average <= 40) {
-            return "Grade C";
+            return "C";
           }else if (this.average <= 70){
-              return "Grade B";
+              return "B";
             }else{
-              return "Grade A";
+              return "A";
           }
       },
       total(){
@@ -139,7 +258,7 @@
      
 
     getall(){
-      this.$http.get('http://localhost:9000/api/v1/results?student_id=' + this.User.id).then(response => {
+      this.$http.get(this.$root.api + '/results?student_id=' + this.User.id).then(response => {
         console.log(response.body);
           this.results = response.body.data;
           console.log(response.body.data);
@@ -150,6 +269,7 @@
     },
 
   created(){
+    // this.getuser();
     this.getall();
   }
 }

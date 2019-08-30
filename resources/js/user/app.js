@@ -4,7 +4,8 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-import '@mdi/font/css/materialdesignicons.css'
+import '@mdi/font/css/materialdesignicons.css';
+import SocialSharing  from 'vue-social-sharing';
 import Routes from './routes';
 import {store} from './store/store';
 import firebaseConfig from './config/firebaseconfig.js';
@@ -12,9 +13,11 @@ import theme from './config/theme.js';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/messaging';
+import SocialSharing from 'vue-social-sharing';
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(VueResource);
+Vue.use(SocialSharing);
 Vue.component('app-view', require('./App.vue').default);
 export const bus = new Vue();
 

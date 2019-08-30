@@ -48,12 +48,13 @@
         </v-dialog>
         <v-dialog
           v-model="seemoreDialog"
-          width="300"
-          height="500"
+          width="450"
+          height="100%"
         >
          <v-card
          class="mx-auto my-12"
-         max-width="374"
+         max-width="400"
+          height="100%"
         >
           <v-img
           height="250"
@@ -64,16 +65,8 @@
           <v-card-title>{{selectedActivity.name}}</v-card-title>
             <v-card-text>
               <v-row align="center">
-                <v-rating
-                  :value="4.5"
-                  color="amber"
-                  half-increments
-                  dense
-                  size="14"
-                  readonly
-                >
-                </v-rating>
-               <div class="grey--text ml-4">{{selectedActivity.speaker}}</div>
+               
+               <div class="subtitle-1">By {{selectedActivity.speaker}}</div>
               </v-row>
                <div>{{selectedActivity.descriptions}}</div>
             </v-card-text>
@@ -92,10 +85,7 @@
              </v-chip-group>
             </v-card-text>
              <v-card-actions>
-                <v-btn
-                color="deep-purple accent-4"
-                >Reserve
-                </v-btn>
+              
              </v-card-actions>
           </v-card>
         </v-dialog>
@@ -103,6 +93,13 @@
   <v-flex lg3 > </v-flex>
     <v-flex lg6>
       <v-card>
+      <v-card-title> 
+        <div classs="display-3" >
+       Talent's Activity 
+        </div>
+
+      </v-card-title>
+
         <v-pagination
           v-model="page"
           :length="total_pages"
@@ -135,14 +132,9 @@
 
               </v-flex>
               
-               
-              <v-flex xs3 sm3 md3 lg3 xl class="text-right">
+               <v-flex xs3 sm3 md3 lg3 xl class="text-right">
                 {{activity.likes}}Likes 
-
-             
-               
-                   
-                    </v-flex>
+               </v-flex>
           
               <v-flex xs3 sm3 md3 lg3 xl3 class="">
                 {{activity.comments}}Comments
@@ -165,9 +157,54 @@
            </v-btn>
          </v-flex>
          <v-flex class="text-center">
-           <v-btn icon>
-              <v-icon>share</v-icon>
-           </v-btn>
+          <social-sharing url="http://demo.vue-chartjs.org/" inline-template>
+           <v-speed-dial
+             v-model="fab"
+             direction="top"
+           >
+             <template v-slot:activator>
+               <v-btn
+                 v-model="fab"
+                 text
+                 fab
+                 dark
+               >
+                 <v-icon v-if="fab">mdi-close</v-icon>
+                 <v-icon v-else>share</v-icon>
+               </v-btn>
+             </template>
+             <v-btn
+               fab
+               dark
+               small
+               color="info"
+             >
+              <network network="twitter">
+                <v-icon class="fa fa-fw fa-twitter"></v-icon>
+              </network>
+             </v-btn>
+             <v-btn
+               fab
+               dark
+               small
+               color="indigo"
+             >
+              <network network="facebook">
+                <v-icon class="fa fa-fw fa-facebook"></v-icon>
+              </network>
+             </v-btn>
+             <v-btn
+               fab
+               dark
+               small
+               color="red"
+             >
+             <network network="reddit">
+               <v-icon class="fa fa-fw fa-reddit"></v-icon>
+             </network>
+             </v-btn>
+           </v-speed-dial>
+         </social-sharing>
          </v-flex>
         </v-layout>
       </v-card-actions>
@@ -196,6 +233,7 @@ export default {
       comments:[],
       commentDialog:false,
       selectedActivity:{},
+      fab:false,
        select: [
           { text: 'State 1' },
           { text: 'State 2' },
@@ -281,14 +319,17 @@ export default {
               this.comments.unshift({
                 "descriptions":this.comment_description, 
                 "activity_id": this.selectedActivity.id,
+               
                 "user" :{
                     "id" : this.User.id,
                     "name" : this.User.name,
                     "image" : this.User.image
                 }
+                
                 });
           this.activities[this.selectedindex].comments +=1;
           this.dialog = false;
+           console.log("activity_id");
           
         })
         .then((error) =>{
@@ -319,7 +360,4 @@ created(){
     this.getall();
   }
 }
-
-
-
 </script>

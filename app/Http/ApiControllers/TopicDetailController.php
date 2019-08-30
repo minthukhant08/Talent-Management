@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\TopicDetail\TopicDetailRepositoryInterface as TopicDetailInterface;
 use App\Http\Resources\TopicDetail as TopicDetailResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 
 class TopicDetailController extends BaseController
@@ -50,6 +51,7 @@ class TopicDetailController extends BaseController
                         'descriptions' =>  'required',
                         'date'         =>  'required|date',
                         'teacher_id'   =>  'required|exists:user,id'
+                        'admin_id'     =>  'required'
                     ]);
 
         if ($validator->fails()) {
@@ -69,6 +71,7 @@ class TopicDetailController extends BaseController
 
          if (isset($result)) {
            $this->data(array('id' =>  $result));
+           event(new ContentCRUDEvent('Create Topic Detail', $request->admin_id, 'Create', 'Created '. $result->name. ' Topic Detail.'));
          }
 
          return $this->response('201');
@@ -105,7 +108,8 @@ class TopicDetailController extends BaseController
         $validator = Validator::make($request->all(), [
                         'date'         =>  'date',
                         'teacher_id'   =>  'exists:user,id',
-                        'topic_id'     =>  'exists:topic,id'
+                        'topic_id'     =>  'exists:topic,id',
+                        'admin_id'     =>  'required'
                       ]);
 
         if ($validator->fails()) {
@@ -126,6 +130,7 @@ class TopicDetailController extends BaseController
         }else{
             if ($this->topicdetailInterface->update($request->all(),$id)) {
                 $this->data(array('updated' =>  1));
+                event(new ContentCRUDEvent('Update Topic Detail', $request->admin_id, 'Update', 'Updated '. $result->name. ' Topic Detail.'));
                 return $this->response('200');
             }else {
                 return $this->response('500');
