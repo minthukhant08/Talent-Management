@@ -75,6 +75,7 @@ class ResultController extends BaseController
                 'student_id' => 'required|exists:user,id',
                 'assignment_id'=>'required|exists:assignment,id',
                 'marks'      =>  'required',
+                'comments'  => 'required    '
 
             ]);
 
