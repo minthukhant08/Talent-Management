@@ -148,12 +148,7 @@
           <v-dialog v-model="datepicker" max-width="300">
             <v-date-picker v-model="picker" @change="changeDate()"></v-date-picker>
           </v-dialog>
-
-
   </v-row>
-
-
-
 </template>
 <script>
   import commonmethods from '../../mixins/commonMethods';

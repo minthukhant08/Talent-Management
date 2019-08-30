@@ -1,7 +1,7 @@
 import home from './components/home/home.vue';
 
 import course from './components/course/course.vue';
-import courseedit from './components/course/course-edit.vue';
+import courseedit from './components/course1/course-edit.vue';
 import batch from './components/batch/batch.vue';
 import activity from './components/activity/activity.vue';
 import topic from './components/topic/topic.vue';
@@ -12,7 +12,7 @@ import topicedit from './components/topic/topicedit.vue';
 import superadmin from './components/super/super.vue';
 import log from './components/logs/log.vue';
 import activityedit from './components/activity/activity-edit.vue';
-
+import topicdetail from './components/topicdetail/topicdetail.vue';
 export default[
   {path:'/admin/home', component:home},
   {path:'/admin/course', component:course},
@@ -26,5 +26,6 @@ export default[
   {path:'/admin/topicedit/:id', component:topicedit},
   {path:'/admin/activityedit/:id', component:activityedit},
   {path:'/admin/super', component:superadmin},
-  {path:'/admin/logs', component:log}
+  {path:'/admin/logs', component:log},
+  {path:'/admin/topicdetail', component:topicdetail}
 ]

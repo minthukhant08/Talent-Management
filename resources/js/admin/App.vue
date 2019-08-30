@@ -8,15 +8,6 @@
     >
 
       <v-list >
-        <!-- <v-list-item @click="goRoute('/profile/1')">
-          <v-list-item-action class="mr-3">
-            <v-avatar><img :src='User.image' alt="avatar"></v-avatar>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="User.name"></v-list-item-title>
-            <v-list-item-subtitle v-text="User.email"></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item> -->
 
 
         <v-list-group prepend-icon="person" >
@@ -67,14 +58,7 @@
             <v-list-item-title>Course</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <!-- <v-list-item @click="goRoute('/admin/courseedit')">
-          <v-list-item-action>
-            <v-icon>person</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Course Edit</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item> -->
+
         <v-list-item @click="goRoute('/admin/batch')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
@@ -99,14 +83,14 @@
             <v-list-item-title>Topic</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <!-- <v-list-item @click="goRoute('/admin/topicedit')">
+        <v-list-item @click="goRoute('/admin/topicdetail')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Topic Edit</v-list-item-title>
+            <v-list-item-title>Topic Detail</v-list-item-title>
           </v-list-item-content>
-        </v-list-item> -->
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
