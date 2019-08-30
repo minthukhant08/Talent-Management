@@ -29,5 +29,5 @@ export default[
   {path:'/timetable', component:timetable},
   {path:'/intake', component:intake},
   {path:'/activitydetail/:id', component:activitydetail},
-  
+
 ]

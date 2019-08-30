@@ -8,26 +8,12 @@
     >
 
       <v-list >
-        <!-- <v-list-item @click="goRoute('/profile/1')">
-          <v-list-item-action class="mr-3">
-            <v-avatar><img :src='User.image' alt="avatar"></v-avatar>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="User.name"></v-list-item-title>
-            <v-list-item-subtitle v-text="User.email"></v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item> -->
-
-
         <v-list-group prepend-icon="person" >
-
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title>User</v-list-item-title>
             </v-list-item-content>
           </template>
-
-
           <v-list-item class="pl-9" @click="goRoute('/admin/student')">
             <v-list-item-action>
               <v-icon>person</v-icon>
@@ -67,14 +53,7 @@
             <v-list-item-title>Course</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <!-- <v-list-item @click="goRoute('/admin/courseedit')">
-          <v-list-item-action>
-            <v-icon>person</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Course Edit</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item> -->
+
         <v-list-item @click="goRoute('/admin/batch')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
@@ -99,12 +78,28 @@
             <v-list-item-title>Topic</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <!-- <v-list-item @click="goRoute('/admin/topicedit')">
+        <v-list-item v-if="Admin.role == 'Super Admin'" @click="goRoute('/admin/super')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Topic Edit</v-list-item-title>
+            <v-list-item-title>Admins</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="Admin.role == 'Super Admin'" @click="goRoute('/admin/logs')">
+          <v-list-item-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Logs</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item @click="logout">
+          <v-list-item-action>
+            <v-icon>dashboard</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
           </v-list-item-content>
         </v-list-item> -->
       </v-list>
@@ -121,26 +116,13 @@
           <img src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB" alt="avatar">
         </v-avatar>
       </div>
-      <v-toolbar-title class="pink--text" style="padding-top:25px;">Talent Program</v-toolbar-title>
+      <!-- <v-toolbar-title class="pink--text" style="padding-top:25px;">Talent Program</v-toolbar-title> -->
       <v-spacer></v-spacer>
-
-      <v-menu
-        :close-on-content-click="false"
-        :nudge-width="200"
-        offset-x
-      >
-        <template icon v-slot:activator="{ on }" v-show="">
-          <v-btn class="mr-3" v-on="on" text>
-            <v-badge>
-              <span slot="badge" class="red--text" v-if='showBadge!=0'>{{showBadge}}</span>
-              <v-icon color='white'>
-                notifications
-              </v-icon>
-            </v-badge>
-          </v-btn>
-        </template>
-        <app-noti></app-noti>
-      </v-menu>
+      <v-btn class="ml-2" text icon>
+          <v-avatar size="35">
+            <img :src="Admin.image" alt="avatar">
+          </v-avatar>
+      </v-btn>
     </v-app-bar>
 
     <v-content>
@@ -150,6 +132,7 @@
     </v-content>
 
     <v-footer dark>
+      <v-spacer></v-spacer>
       <span>&copy; 2019</span>
     </v-footer>
     <v-dialog v-model="loginDialog" max-width="400px">
@@ -192,8 +175,8 @@ export default {
       }
     },
     computed:{
-      User(){
-        return this.$store.getters.getUser;
+      Admin(){
+        return this.$store.getters.getAdmin;
       },
       showBadge(){
         var count;
@@ -214,6 +197,11 @@ export default {
       login(){
         var _this = this;
         firebase.auth().onAuthStateChanged((user)=>{
+          console.log(this.Admin.name);
+          // if (this.User.name=="") {
+          //   this.logout();
+          // }
+          console.log(user);
           if (user) {
             this.drawer = !this.drawer;
             console.log("logged");
@@ -224,7 +212,7 @@ export default {
         });
       },
       getNotification(){
-        this.$http.get('http://localhost:8000/api/v1/notifications/10').then((response)=>{
+        this.$http.get(this.$root.api + '/notifications/10').then((response)=>{
           console.log(response.body.data);
           this.$store.dispatch('setNoti',response.body.data);
         })

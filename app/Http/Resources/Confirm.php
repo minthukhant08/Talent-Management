@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Confirmation extends JsonResource
+class Confirm extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,6 +14,10 @@ class Confirmation extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+          'user_id' => $this->user->id,
+          'code'    => $this->code,
+          'image'   => $this->user->image
+        ];
     }
 }

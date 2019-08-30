@@ -14,14 +14,20 @@ class Admin extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
+        $type='Admin';
+        if ($this->role == 0) {
+           $type = "Super Admin";
+        }else{
+           $type = "Admin";
+        }
+
         return [
           'id'            =>  $this->id,
           'name'          =>  $this->name,
           'email'         =>  $this->email,
           'image'         =>  $this->image,
           'uid'           =>  $this->uid,
-          'role'          =>  $this->role
+          'role'          =>  $type
         ];
     }
 }

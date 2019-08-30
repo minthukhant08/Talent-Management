@@ -16,15 +16,18 @@ class User extends JsonResource
     {
        $course = null;
        $batch = null;
+       $type ='';
 
        if ($this->type == 0) {
-          $this->type = "normal";
+          $type = "normal";
        }elseif ($this->type == 1){
-          $this->type = "student";
+          $type = "student";
        }elseif ($this->type == 2){
-          $this->type = "teacher";
+          $type = "teacher";
        }elseif ($this->type == 3) {
-          $this->type = "scanner";
+          $type = "scanner";
+       }else if($this->type == 4){
+         $type = "admin";
        }
 
        if ($this->gender == 0) {
@@ -55,7 +58,7 @@ class User extends JsonResource
          'phone_no'      =>  $this->phone_no,
          'address'       =>  $this->address,
          'image'         =>  $this->image,
-         'type'          =>  $this->type,
+         'type'          =>  $type,
          'course'        =>  $course,
          'batch'         =>  $batch
        ];

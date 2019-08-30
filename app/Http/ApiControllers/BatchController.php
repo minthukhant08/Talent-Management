@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Batch\BatchRepositoryInterface as BatchInterface;
 use App\Http\Resources\Batch as BatchResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 
 class BatchController extends BaseController
@@ -20,6 +21,14 @@ class BatchController extends BaseController
         $this->startTime         = microtime(true);
     }
 
+    public function list()
+    {
+        $batch =$this->batchInterface->getList();
+        $total = $this->batchInterface->total();
+        $this->data($batch);
+        $this->total($total);
+        return $this->response('200');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -65,6 +74,7 @@ class BatchController extends BaseController
 
          $batch = $request->only('name', 'start_date', 'end_date');
          $result = $this->batchInterface->store($batch);
+         event(new ContentCRUDEvent('Create Batch', $request->admin_id, 'Create', 'Made '. $result->name. ' Batch.'));
          return $this->response('201');
     }
 
@@ -87,53 +97,6 @@ class BatchController extends BaseController
         }
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $validator = Validator::make($request->all(), [
-                'start_date'    =>  'date',
-                'end_date'      =>  'date',
-                'course_id'     =>  'required|exists:course,id',
-                'course_id.*'   =>  'exists:course,id'
-            ]);
-
-        if ($validator->fails()) {
-            $this->setError('400');
-            $messages=[];
-
-            foreach ($validator->messages()->toArray() as $key=>$value) {
-                  $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
-            };
-
-            $this->setValidationError(['validation' => $messages]);
-            return $this->response('400');
-        }
-
-        $batch = $this->batchInterface->find($id);
-        if (empty($batch)) {
-            $this->setError('404', $id);
-            return $this->response('404');
-        }else{
-            $result = $this->batchInterface->update($request->only('name', 'start_date', 'end_date'),$id);
-            if (isset($result)) {
-                if ($request->course_id != null) {
-                    $result->courses()->sync($request->course_id);
-                }
-                $this->data(array('updated' =>  1));
-                return $this->response('200');
-            }else{
-                return $this->response('500');
-            };
-        };
-    }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -149,6 +112,7 @@ class BatchController extends BaseController
         }else{
             $this->batchInterface->destroy($id);
             $this->data(array('deleted' =>  1));
+            event(new ContentCRUDEvent('Delete Batch', $request->admin_id, 'Delete', 'Deleted '. $result->name. ' Batch'));
             return $this->response('200');
         }
     }
