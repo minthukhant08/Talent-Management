@@ -21,6 +21,15 @@ class TopicDetailRepository implements TopicDetailInterface
         ->get();
   }
 
+  public function getTimeTable($teacher_id){
+    return $this->topicdetail::with('teacher')
+            ->whereHas('teacher', function($query) use ($teacher_id) {
+              $query->where('id', '=', $teacher_id);
+              })
+            ->orderBy('created_at', 'desc')
+            ->get();
+  }
+
   public function total()
   {
     return $this->topicdetail::count();

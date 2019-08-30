@@ -138,11 +138,11 @@
                     <div class="display-1 text-left ml-3">
                       {{total}}
                     </div>
-                    
+
                     <div class="text-left ml-3 headline">
                       Average
                     </div>
-                    
+
                      <div class="display-1 text-left ml-3">
                       {{average}}
                     </div>
@@ -152,7 +152,7 @@
                   <p class="display-4 ml-3">{{grade}}</p>
                   </v-flex>
                 </v-layout>
-                
+
               </v-flex>
               </v-card>
             </v-item>
@@ -167,27 +167,24 @@
               <template v-for="result in results">
 
                 <v-list-item :key="result.id" class="pa-3">
-                    <v-list-item-content  >
-                      <v-card> 
-                        <v-item-group>
-        
-                        </v-item-group>
-                      </v-card>  
-                      <v-list-item-title class="blue--text">
-                        <div class="pl-0 title" >
-                          {{result.assignment.name}}
+                      <v-list-item-content>
+                        <v-list-item-title class="blue--text">
+                          <div class="title" >
+                            {{result.assignment.name}}
+                          </div>
+                        </v-list-item-title>
+                        <div class="pt-8">
+
                         </div>
-                      </v-list-item-title>
-                      <div class="my-4"></div>
-                      <!-- <v-list-item-subtitle> -->
-                        <!-- {{item.subtitle}}      -->
-                      <!-- </v-list-item-subtitle>  -->
-                    </v-list-item-content>
+                        <v-list-item-subtitle>
+                          {{result.comments}}
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
                       <v-list-item-action>
                         <v-progress-circular
                             :rotate="90"
-                            :size="100"
-                            :width="11"
+                            :size="90"
+                            :width="8"
                             :value="result.marks"
                             :color='progresscolor(result.marks)'
                           >
@@ -195,7 +192,7 @@
                         </v-progress-circular>
                       </v-list-item-action>
                   </v-list-item>
-                  <v-divider class="green"></v-divider>
+                  <v-divider></v-divider>
                 </template>
               </v-list>
           </v-card>
@@ -232,7 +229,6 @@
       },
       average(){
         var total_marks=0;
-        console.log(this.results);
         for(var i=0; i <= this.results.length -1; i++){
             total_marks = this.results[i].marks + total_marks;
         }
@@ -255,11 +251,10 @@
              return "#8BC34A";
          }
       },
-     
+
 
     getall(){
       this.$http.get(this.$root.api + '/results?student_id=' + this.User.id).then(response => {
-        console.log(response.body);
           this.results = response.body.data;
           console.log(response.body.data);
         }, response =>{

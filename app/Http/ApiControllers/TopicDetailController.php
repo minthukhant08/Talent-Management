@@ -50,7 +50,7 @@ class TopicDetailController extends BaseController
                         'name'         =>  'required',
                         'descriptions' =>  'required',
                         'date'         =>  'required|date',
-                        'teacher_id'   =>  'required|exists:user,id'
+                        'teacher_id'   =>  'required|exists:user,id',
                         'admin_id'     =>  'required'
                     ]);
 
@@ -91,6 +91,25 @@ class TopicDetailController extends BaseController
             return $this->response('404');
         }else{
             $topicdetail = new TopicDetailResource($topicdetail);
+            $this->data(array($topicdetail));
+            return $this->response('201');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getTimeTable($teacher_id)
+    {
+        $topicdetail = $this->topicdetailInterface->getTimeTable($teacher_id);
+        if (empty($teacher_id)) {
+            $this->setError('404', $teacher_id);
+            return $this->response('404');
+        }else{
+            $topicdetail = TopicDetailResource::collection($topicdetail);
             $this->data(array($topicdetail));
             return $this->response('201');
         }

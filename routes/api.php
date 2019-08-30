@@ -29,7 +29,7 @@ Route::get('v1/activities/image/{id}', 'ActivityController@image');
 Route::group(['prefix' => 'v1/users'], function()
 {
       Route::get('/', 'UserController@index');
-      Route::get('/giveresults', 'UserController@giveresults');
+      Route::get('/results', 'UserController@giveresults');
       Route::get('/timetable/{id}', 'UserController@getTimeTable');
       Route::post('/scan', 'ConfirmController@scan');
       Route::get('/confirm', 'ConfirmController@index');
@@ -78,6 +78,7 @@ Route::group(['prefix' => 'v1/topicdetails'], function()
 {
       Route::get('/', 'TopicDetailController@index');
       Route::get('/{id}', 'TopicDetailController@show');
+      Route::get('/timetable/{id}', 'TopicDetailController@getTimeTable');
       Route::post('/', 'TopicDetailController@store');
       Route::put('/{id}', 'TopicDetailController@update');
       Route::delete('/{id}', 'TopicDetailController@destroy');
