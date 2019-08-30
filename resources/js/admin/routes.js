@@ -4,6 +4,7 @@ import course from './components/course/course.vue';
 import courseedit from './components/course/course-edit.vue';
 import batch from './components/batch/batch.vue';
 import activity from './components/activity/activity.vue';
+
 import topic from './components/topic/topic.vue';
 import student from './components/student/student.vue';
 import scanner from './components/scanner/scanner.vue';
