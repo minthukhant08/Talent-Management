@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state:{
-    User:{},
+    Admin:{},
     App:{
       login:false,
       noti:[],
@@ -22,8 +22,8 @@ export const store = new Vuex.Store({
     getNewNotiCount:state=>{
       return state.App.newNoti;
     },
-    getUser:state=> {
-      return state.User;
+    getAdmin:state=> {
+      return state.Admin;
     },
     loginStatus:state=>{
       return state.App.login;
@@ -43,8 +43,8 @@ export const store = new Vuex.Store({
       console.log("logged is setted to " + value);
       state.App.login=value;
     },
-    changeUser:(state,user)=>{
-      state.User = user;
+    changeAdmin:(state,admin)=>{
+      state.Admin = admin;
     },
     changeNoti:function(state,noti){
       state.App.noti=noti;
@@ -63,8 +63,8 @@ actions:{
   toggle_Login:(context,value)=>{
       context.commit('changeLogin',value);
   },
-  setUser:function(context, user){
-    context.commit('changeUser',user);
+  setAdmin:function(context, admin){
+    context.commit('changeAdmin',admin);
   },
   toggle_Loading:function(context){
     context.commit('changeLoading');

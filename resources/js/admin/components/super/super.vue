@@ -1,10 +1,6 @@
 <template>
 <v-container>
-    <v-dialog v-model="create">
-      <v-card>
-        dsf
-      </v-card>
-    </v-dialog>
+    <v-btn fab fixed left bottom color="accent" @click='refresh'><v-icon>mdi-database-refresh</v-icon></v-btn>
     <v-tabs
         background-color="white"
         color="deep-purple accent-4"
@@ -29,8 +25,7 @@
             <template v-slot:item.remove="{item}">
                 <v-icon
                   small
-
-
+                  @click="deleteAdmin(item)"
                 >
                   delete
                 </v-icon>
@@ -99,15 +94,25 @@
                 </v-list-item-content>
 
                 <v-list-item-icon>
-
-                   <v-btn color="#F57C00"
-                      dark
-                      @click.stop="showDialog(user)"
-                      width="120"
-                      rounded
-                      >
-                      Promote
-                    </v-btn>
+                    <v-btn color="#F57C00"
+                       v-if="user.type != 'admin'"
+                       dark
+                       @click.stop="showDialog(user)"
+                       width="120"
+                       rounded
+                       >
+                       Promote
+                     </v-btn>
+                     <v-btn
+  									 		v-if="user.type == 'admin'"
+                        dark
+                        width="120"
+                        text>
+ 											 <v-icon
+ 	                        color="#F57C00">
+ 	                        mdi-check-bold
+ 	                      </v-icon>
+                      </v-btn>
                 </v-list-item-icon>
               </v-list-item>
               <v-divider></v-divider>
@@ -169,28 +174,37 @@ export default{
     }
   },
   computed:{
-    User(){
-      return this.$store.getters.getUser;
+    Admin(){
+      return this.$store.getters.getAdmin;
     }
   },
   methods:{
+    refresh(){
+      this.getAdmins();
+      this.getSuperadmins();
+    },
     showDialog(user){
       this.selectedUser=user;
       this.promoteDialog = true;
     },
     deleteAdmin(item){
-      console.log(this.User.id)
+      console.log(this.Admin.id)
       var _this =this;
       this.$http.post(this.$root.api + '/admin/demote/' + item.id, {
-        admin_id:1
+        admin_id: this.Admin.id
       },
       {
         headers: {
-            Authorization: 'Bearer '+ this.User.token
+            Authorization: 'Bearer '+ this.Admin.token
         }
       }).then(response => {
-        var index = this.admin.indexOf(item)
-        this.admin.splice(index, 1)
+        if (item.role == 'Admin') {
+          var index = this.admin.indexOf(item);
+          this.admin.splice(index, 1);
+        }else{
+          var index = this.superadmin.indexOf(item);
+          this.superadmin.splice(index, 1);
+        }
       }, response =>{
 
       });
@@ -200,24 +214,28 @@ export default{
       {
           user_id: this.selectedUser.id,
           role : this.type,
-          admin_id: this.User.id
+          admin_id: this.Admin.id
       }).then((response) =>{
-        this.dialog = false;
-        var index = this.searchresult.indexOf(this.selectedUser)
-        this.searchresult.splice(index, 1)
+        this.promoteDialog = false;
+        var index = this.searchresult.indexOf(this.selectedUser);
+        this.searchresult[index] = Object.assign({}, {
+					image: this.selectedUser.image,
+					name : this.selectedUser.name,
+          type : 'admin'
+				});
       })
       .then((error)=>{
 
       })
     },
     getAdmins(){
-      console.log(this.User.token);
+      console.log(this.Admin.token);
       this.$http.post(this.$root.api + '/admin?type=admin', {
-        admin_id:this.User.id
+        admin_id:this.Admin.id
       },
       {
         headers: {
-            Authorization: 'Bearer '+ this.User.token
+            Authorization: 'Bearer '+ this.Admin.token
         }
       }).then(response => {
          this.admin = response.body.data;
@@ -228,11 +246,11 @@ export default{
     },
     getSuperadmins(){
       this.$http.post(this.$root.api + '/admin?type=superadmin', {
-        admin_id:this.User.id
+        admin_id:this.Admin.id
       },
       {
         headers: {
-            Authorization: 'Bearer '+ this.User.token
+            Authorization: 'Bearer '+ this.Admin.token
         }
       }).then(response => {
          this.superadmin = response.body.data;
@@ -242,7 +260,7 @@ export default{
       });
     },
     searchUser(){
-       this.$http.get(this.$root.api +'/users?promote=1&name='+this.search).then((response) => {
+       this.$http.get(this.$root.api +'/users?admin=1&name='+this.search).then((response) => {
          console.log(this.searchresult );
          this.searchresult = response.body.data;
      }, response => {

@@ -26,6 +26,20 @@ class ConfirmRepository implements ConfirmInterface
                  ->get();
   }
 
+  public function total()
+  {
+    return $this->confirm::count();
+  }
+
+  public function getAll($offset, $limit, $name){
+    return $this->confirm::with('user')->orderBy('created_at', 'desc')
+        ->whereHas('user', function($query) use ($name) {
+          $query->where('name', 'like', '%'.$name.'%');
+          })
+        ->skip($offset)
+        ->take($limit)
+        ->get();
+  }
 
   public function destroy($id)
   {

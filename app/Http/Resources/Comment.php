@@ -17,13 +17,13 @@ class Comment extends JsonResource
         // return parent::toArray($request);
         $type ='';
 
-        if ($this->type == 0) {
+        if ($this->user->type == 0) {
            $type = "normal";
-        }elseif ($this->type == 1){
+        }elseif ($this->user->type == 1){
            $type = "student";
-        }elseif ($this->type == 2){
+        }elseif ($this->user->type == 2){
            $type = "teacher";
-        }elseif ($this->type == 3) {
+        }elseif ($this->user->type == 3) {
            $type = "scanner";
         }
 

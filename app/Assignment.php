@@ -12,7 +12,7 @@ class Assignment extends Model
         'name', 'teacher_id'
     ];
     protected $hidden = [
-        'created_at', 'updated_at'
+        'updated_at'
     ];
 
     public function studentAssignments()

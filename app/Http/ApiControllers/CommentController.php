@@ -48,7 +48,7 @@ class CommentController extends BaseController
         $validator = Validator::make($request->all(), [
                         'descriptions'  =>  'required',
                         'user_id'       =>  'required|exists:user,id',
-                        'activity_id'   =>  'required|exists:activities,id'
+                        'activity_id'   =>  'required|exists:activity,id'
                     ]);
 
         if ($validator->fails()) {
@@ -84,7 +84,7 @@ class CommentController extends BaseController
     {
         $validator = Validator::make($request->all(), [
                         'user_id'       =>  'exists:user,id',
-                        'activity_id'   =>  'exists:activities,id'
+                        'activity_id'   =>  'exists:activity,id'
                     ]);
 
         if ($validator->fails()) {

@@ -30,7 +30,9 @@ Route::group(['prefix' => 'v1/users'], function()
 {
       Route::get('/', 'UserController@index');
       Route::get('/giveresults', 'UserController@giveresults');
+      Route::get('/timetable/{id}', 'UserController@getTimeTable');
       Route::post('/scan', 'ConfirmController@scan');
+      Route::get('/confirm', 'ConfirmController@index');
       Route::get('/{id}', 'UserController@show');
       Route::put('/{id}', 'UserController@update');
       Route::delete('/{id}', 'UserController@destroy');
@@ -50,6 +52,7 @@ Route::group(['prefix' => 'v1/courses'], function()
 Route::group(['prefix' => 'v1/notifications'], function()
 {
       Route::get('/{id}', 'NotificationController@show');
+      Route::get('/seen/{id}', 'NotificationController@seen');
       Route::post('/', 'NotificationController@store');
       Route::delete('/{id}', 'NotificationController@destroy');
 });

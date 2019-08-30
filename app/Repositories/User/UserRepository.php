@@ -14,8 +14,8 @@ class UserRepository implements UserInterface
      $this->user = $user;
   }
 
-  public function getAll($offset, $limit, $type, $name, $course, $batch, $gender, $promote){
-    if ($promote) {
+  public function getAll($offset, $limit, $type, $name, $course, $batch, $gender, $admin){
+    if ($admin) {
       return $this->user::with('course','batch')->orderBy('created_at', 'desc')
           ->where([
             ['type','like', '%'.$type.'%'],
@@ -95,5 +95,17 @@ class UserRepository implements UserInterface
     if ($this->user->save()) {
         return true;
     };
+  }
+  public function timeTable($teacher_id)
+  {
+    return DB::table('course')
+            ->join('topic', 'topic.course_id', '=', 'course.id')
+            ->join('topic_detail', 'topic.id', '=', 'topic_detail.topic_id')
+            ->join('user','user.id','=','topic_detail.teacher_id')
+            ->select('course.name AS course_name','topic.topic', 'topic.start_date',
+            'topic.end_date','topic_detail.name AS topic_detail_name',
+            'topic_detail.date','topic_detail.descriptions','user.id')
+            ->where('user.id','=', $teacher_id)
+            ->get();
   }
 }

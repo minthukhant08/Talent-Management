@@ -93,19 +93,19 @@ export default{
         this.$store.dispatch('setNotiCount',response.body.meta.total);
       })
     },
-    async getNotiToken(){
+    async getNotiToken(subscribe){
       try {
         const messaging = firebase.messaging();
         await messaging.requestPermission();
         const token = await messaging.getToken();
-        console.log('I got the token :', token);
+        // console.log('I got the token :', token);
         var _this =this;
         this.$http.post(_this.$root.api + '/notificationtokens/', {
           user_id   : _this.$store.getters.getUser.id,
           token     : token,
-          subscribe : 1
+          subscribe : subscribe
         }).then((response)=>{
-          
+
         })
         .then((error)=>{
           console.log(error);

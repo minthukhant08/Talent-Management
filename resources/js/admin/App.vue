@@ -78,7 +78,7 @@
             <v-list-item-title>Topic</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="User.role == 'Super Admin'" @click="goRoute('/admin/super')">
+        <v-list-item v-if="Admin.role == 'Super Admin'" @click="goRoute('/admin/super')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
           </v-list-item-action>
@@ -86,7 +86,7 @@
             <v-list-item-title>Admins</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="User.role == 'Super Admin'" @click="goRoute('/admin/logs')">
+        <v-list-item v-if="Admin.role == 'Super Admin'" @click="goRoute('/admin/logs')">
           <v-list-item-action>
             <v-icon>dashboard</v-icon>
           </v-list-item-action>
@@ -116,11 +116,11 @@
           <img src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB" alt="avatar">
         </v-avatar>
       </div>
-      <v-toolbar-title class="pink--text" style="padding-top:25px;">Talent Program</v-toolbar-title>
+      <!-- <v-toolbar-title class="pink--text" style="padding-top:25px;">Talent Program</v-toolbar-title> -->
       <v-spacer></v-spacer>
       <v-btn class="ml-2" text icon>
           <v-avatar size="35">
-            <img :src="User.image" alt="avatar">
+            <img :src="Admin.image" alt="avatar">
           </v-avatar>
       </v-btn>
     </v-app-bar>
@@ -132,6 +132,7 @@
     </v-content>
 
     <v-footer dark>
+      <v-spacer></v-spacer>
       <span>&copy; 2019</span>
     </v-footer>
     <v-dialog v-model="loginDialog" max-width="400px">
@@ -174,8 +175,8 @@ export default {
       }
     },
     computed:{
-      User(){
-        return this.$store.getters.getUser;
+      Admin(){
+        return this.$store.getters.getAdmin;
       },
       showBadge(){
         var count;
@@ -196,10 +197,10 @@ export default {
       login(){
         var _this = this;
         firebase.auth().onAuthStateChanged((user)=>{
-          console.log(this.User.name);
-          if (this.User.name=="") {
-            this.logout();
-          }
+          console.log(this.Admin.name);
+          // if (this.User.name=="") {
+          //   this.logout();
+          // }
           console.log(user);
           if (user) {
             this.drawer = !this.drawer;

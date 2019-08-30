@@ -57,8 +57,9 @@ class IntakeController extends BaseController
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-              'available'          =>  'required',
-              'form_link'         =>  'required'
+              'available'         =>  'required',
+              'form_link'         =>  'required',
+              'admin_id'          =>  'required'
           ]);
         if ($validator->fails()) {
             $this->setError('400');
@@ -73,12 +74,12 @@ class IntakeController extends BaseController
         }
         $intake = $this->intakeInterface->getIntake();
         $newintake = $this->intakeInterface->update($request->all());
-        Mail::to('minthu@gmail.com')->send(new Confirmation('laho'));
         if (!empty($newintake)) {
             if ($newintake->available != $intake->available ) {
                 event(new IntakeAvailableEvent($newintake));
             }
             $this->data(array('updated' =>  1));
+            event(new ContentCRUDEvent('Update Intake', $request->admin_id, 'Update', 'Updated Intake Information'));
             return $this->response('200');
         }else{
             return $this->response('200');

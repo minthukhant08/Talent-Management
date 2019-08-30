@@ -117,4 +117,10 @@ class NotificationController extends BaseController
             return $this->response('200');
         }
     }
+
+    public function seen($id)
+    {
+       $this->notificationInterface->seeAll($id);
+       return $this->response('201');
+    }
 }

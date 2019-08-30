@@ -15,4 +15,5 @@
       </div>
       <script src="{{ asset('js/user/app.js') }}"></script>
    </body>
+   <script src="/dist/vue-social-sharing.min.js"></script>
 </html>

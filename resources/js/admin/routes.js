@@ -12,6 +12,7 @@ import topicedit from './components/topic/topicedit.vue';
 import superadmin from './components/super/super.vue';
 import log from './components/logs/log.vue';
 import activityedit from './components/activity/activity-edit.vue';
+import dashboard from './components/dashboard/dashboard.vue';
 
 export default[
   {path:'/admin/home', component:home},
@@ -26,5 +27,6 @@ export default[
   {path:'/admin/topicedit', component:topicedit},
   {path:'/admin/activityedit/:id', component:activityedit},
   {path:'/admin/super', component:superadmin},
-  {path:'/admin/logs', component:log}
+  {path:'/admin/logs', component:log},
+  {path:'/admin/dashboard', component:dashboard}
 ]

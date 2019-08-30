@@ -12,9 +12,11 @@ import theme from './config/theme.js';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/messaging';
+import SocialSharing from 'vue-social-sharing';
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(VueResource);
+Vue.use(SocialSharing);
 Vue.component('app-view', require('./App.vue').default);
 export const bus = new Vue();
 

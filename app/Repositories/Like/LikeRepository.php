@@ -41,9 +41,9 @@ class LikeRepository implements LikeInterface
       $like = $this->like::where([['activity_id','=', $activity_id],['user_id','=', $user_id]])->first();
       $count = $this->like::where('activity_id', '=', $activity_id)->count();
       if (isset($like)) {
-          return array('liked'=> true, 'count' => $count);
+          return array('id'=>$like->id, 'liked'=> true, 'count' => $count);
       }else{
-          return array('liked'=> false, 'count' => $count);
+          return array('id'=> null, 'liked'=> false, 'count' => $count);
       }
   }
 

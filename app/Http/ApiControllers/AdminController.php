@@ -137,6 +137,8 @@ class AdminController extends BaseController
        ];
        $result = $this->adminInterface->store($admin);
        if (isset($result)){
+          $user = ['type'=> 4];
+          $this->userInterface->update($user, $request->user_id);
           event(new ContentCRUDEvent('Create Admin', $request->admin_id, 'Promote', 'Gave admin privileges to '. $result->name));
           $result = new AdminResource($result);
           $this->data(array($result));
@@ -195,6 +197,8 @@ class AdminController extends BaseController
             return $this->response('404');
         }else{
             $this->adminInterface->destroy($id);
+            $user = $this->userInterface->findByUid($admin->uid);
+            $this->userInterface->update(['type'=>0], $user->id);
             event(new ContentCRUDEvent('Remove Admin', $request->admin_id, 'Demote', 'Remove admin privileges from '. $admin->name));
             $this->data(array('deleted' =>  1));
             return $this->response('200');

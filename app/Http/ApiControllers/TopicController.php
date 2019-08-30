@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Topic\TopicRepositoryInterface as TopicInterface;
 use App\Http\Resources\Topic as TopicResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 
 class TopicController extends BaseController
@@ -50,7 +51,8 @@ class TopicController extends BaseController
                         'topic'       =>  'required',
                         'descriptions'=>  'required',
                         'start_date'  =>  'required|date',
-                        'end_date'    =>  'required|date'
+                        'end_date'    =>  'required|date',
+                        'admin_id'    =>  'required'
                     ]);
 
         if ($validator->fails()) {
@@ -70,6 +72,7 @@ class TopicController extends BaseController
 
          if (isset($result)) {
            $this->data(array('id' =>  $result));
+           event(new ContentCRUDEvent('Create Topic', $request->admin_id, 'Create', 'Created '. $result->name. ' Topic'));
          }
 
          return $this->response('201');
@@ -105,7 +108,8 @@ class TopicController extends BaseController
     {
         $validator = Validator::make($request->all(), [
                         'start_date'  =>  'date',
-                        'end_date'    =>  'date'
+                        'end_date'    =>  'date',
+                        'admin_id'    =>  'required'
                     ]);
         if ($validator->fails()) {
             $this->setError('400');
@@ -125,6 +129,7 @@ class TopicController extends BaseController
         }else{
             if ($this->topicInterface->update($request->all(),$id)) {
                 $this->data(array('updated' =>  1));
+                event(new ContentCRUDEvent('Update Topic', $request->admin_id, 'Update', 'Updated '. $result->name. ' Topic'));
                 return $this->response('200');
             }else {
                 return $this->response('500');
@@ -147,6 +152,7 @@ class TopicController extends BaseController
         }else{
           $this->topicInterface->destroy($id);
           $this->data(array('deleted' =>  1));
+          event(new ContentCRUDEvent('Delete Topic', $request->admin_id, 'Delete', 'Deleted '. $result->name. ' Topic'));
           return $this->response('200');
         }
     }

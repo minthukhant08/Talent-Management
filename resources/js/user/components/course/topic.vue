@@ -53,7 +53,7 @@
     </v-dialog>
 
     <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-      <v-timeline-item v-for="(card,index) in cards" :key="index"
+      <v-timeline-item v-for="(card,index) in topics" :key="index"
         color="accent"
       >
       <span slot="opposite">Tus eu perfecto</span>

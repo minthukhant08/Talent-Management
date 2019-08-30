@@ -9,6 +9,7 @@ import giveresults from './components/give_results/give_results.vue';
 import assignments from './components/assignment/assignment.vue';
 import timetable from './components/timetable/timetable.vue';
 import intake from './components/intake/intake.vue';
+import share from './components/socialshare/share.vue';
 
 export default[
   {path:'/', component:home},
@@ -22,4 +23,5 @@ export default[
   {path:'/assignment', component:assignments},
   {path:'/timetable', component:timetable},
   {path:'/intake', component:intake},
+  {path:'/share', component:share},
 ]

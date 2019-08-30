@@ -26,6 +26,8 @@ class User extends JsonResource
           $type = "teacher";
        }elseif ($this->type == 3) {
           $type = "scanner";
+       }else if($this->type == 4){
+         $type = "admin";
        }
 
        if ($this->gender == 0) {

@@ -19,7 +19,7 @@ export default{
             if(response.body.success){
               console.log(response.body.data);
               response.body.data[0].token = token;
-              _this.$store.dispatch('setUser',response.body.data[0]);
+              _this.$store.dispatch('setAdmin',response.body.data[0]);
               _this.$store.dispatch('toggle_Login',true);
               bus.$emit('close_login');
             }

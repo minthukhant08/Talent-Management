@@ -1,8 +1,8 @@
 <template>
 	<div>
+		<v-btn fab fixed left bottom color="accent" @click='getStudents'><v-icon>mdi-database-refresh</v-icon></v-btn>
       <v-tabs
-        background-color="blue"
-        color="accent"
+        color="deep-purple accent-4"
         fixed-tabs
       >
         <v-tab >Students</v-tab>
@@ -71,42 +71,45 @@
 	          >
 	          </v-text-field>
             <v-list subheader  >
-              <v-list-item
-                v-for="user in searchresult"
-                :key="user.id">
-                <v-list-item-avatar >
-                  <v-img
-                    :src='user.image'
-                    aspect-ratio="1"
-                    class="grey lighten-2"
-                    max-width="500"
-                    max-height="300"
-                  ></v-img>
-                </v-list-item-avatar>
+              <div
+								v-for="user in searchresult"
+								:key="user.id">
+								<v-list-item>
+	                <v-list-item-avatar >
+	                  <v-img
+	                    :src='user.image'
+	                    aspect-ratio="1"
+	                    class="grey lighten-2"
+	                    max-width="500"
+	                    max-height="300"
+	                  ></v-img>
+	                </v-list-item-avatar>
 
-                <v-list-item-content >
-                  <v-list-item-title >{{user.name}}</v-list-item-title>
-                </v-list-item-content>
+	                <v-list-item-content >
+	                  <v-list-item-title >{{user.name}}</v-list-item-title>
+	                </v-list-item-content>
 
-                 <v-list-item-content>
-                  <v-list-item-title >{{user.type}}</v-list-item-title>
-                </v-list-item-content>
+	                 <v-list-item-content>
+	                  <v-list-item-title >{{user.type}}</v-list-item-title>
+	                </v-list-item-content>
 
-                <v-list-item-icon>
-                  <!-- start dialog -->
-                  <span>
-                     <v-btn color="#F57C00"
-                        dark
-                        @click.stop="showDialog(user)"
-                        width="120"
-                        rounded
-                        >
-                        Promote
-                    </v-btn>
-                  </span>
+	                <v-list-item-icon>
+	                  <!-- start dialog -->
+	                  <span>
+	                     <v-btn color="#F57C00"
+	                        dark
+	                        @click.stop="showDialog(user)"
+	                        width="120"
+	                        rounded
+	                        >
+	                        Promote
+	                    </v-btn>
+	                  </span>
 
-                </v-list-item-icon>
-              </v-list-item>
+	                </v-list-item-icon>
+	              </v-list-item>
+								<v-divider></v-divider>
+              </div>
             </v-list>
         </v-container>
         </v-tab-item>
@@ -137,7 +140,7 @@
                     :items="promote_batches"
                     item-text='name'
                     item-value='id'
-                     label="Batch"
+                    label="Batch"
                   ></v-autocomplete>
                 </v-col>
               </v-row>
@@ -189,6 +192,7 @@
         headers: [
         { text: 'Image', value: 'image' },
         { text: 'Name', value: 'name' },
+				{ text: 'Type', value: 'type' },
 				{ text: 'Track', value: 'course.name' },
 				{ text: 'Batch', value: 'batch.name' },
         { text: 'Email', value: 'email' },
@@ -216,9 +220,10 @@
 			}else{
 					course = this.search_selected_course;
 			}
-			console.log(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch);
+			console.log(this.$root.api + '/users?admin=1&type=student&course=' + course + '&batch=' + batch);
       this.$http.get(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch).then(response => {
           this.users = response.body.data;
+					console.log(response.body.data);
       }, response => {
 
       });
@@ -258,7 +263,7 @@
     },
      searchUser(){
 
-        this.$http.get(this.$root.api +'/users?type=normal&promote=1&name='+this.search).then((response) => {
+        this.$http.get(this.$root.api +'/users?type=normal&admin=1&name='+this.search).then((response) => {
           this.searchresult = response.body.data;
       }, response => {
 
@@ -266,7 +271,7 @@
     },
 
     promoteuser(){
-      this.$http.put(this.$root.api +'/users/'+ this.selectedUser.id + '?promotedby=1',
+      this.$http.put(this.$root.api +'/users/'+ this.selectedUser.id + '?editedby=1',
       {
           course_id: this.promote_selected_course,
           batch_id : this.promote_selected_batch,
@@ -283,7 +288,7 @@
     },
 
 		demoteuser(user){
-      this.$http.put(this.$root.api +'/users/'+ user.id + '?promotedby=1',
+      this.$http.put(this.$root.api +'/users/'+ user.id + '?editedby=1',
       {
           course_id: null,
           batch_id : null,
