@@ -37,7 +37,7 @@ class UserRepository implements UserInterface
     return  DB::table('user')
             ->join('student_assignment', 'user.id', '=', 'student_assignment.student_id')
             ->join('assignment', 'student_assignment.assignment_id', '=', 'assignment.id')
-            ->select('user.*','student_assignment.marks')
+            ->select('user.*','student_assignment.*')
 	          ->where('assignment.id','=',$assignment_id)
             ->skip($offset)
             ->take($limit)

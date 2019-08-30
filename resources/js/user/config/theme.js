@@ -7,7 +7,7 @@ export default{
       light: {
         primary: "#28b8d7",
         secondary: "#ffffff",
-        accent: "#FFB74D",
+        accent: "#ffe345",
         error: "#DD2C00",
         warning: "#FFD600",
         info: "#01579B",
@@ -17,7 +17,7 @@ export default{
       },
       dark: {
         primary: "#28b8d7",
-        secondary: "#111111",
+        secondary: "#000000",
         accent: "#FFB74D",
         error: "#DD2C00",
         warning: "#ffeb3b",
