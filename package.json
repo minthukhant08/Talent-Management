@@ -25,6 +25,7 @@
         "vue": "^2.6.10",
         "vue-resource": "^1.5.1",
         "vue-router": "^3.1.2",
+        "vue-social-sharing": "^2.4.6",
         "vuetify": "^2.0.7",
         "vuex": "^3.1.1",
         "vuex-persistedstate": "^2.5.4"
