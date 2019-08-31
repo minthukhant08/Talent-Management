@@ -10,7 +10,7 @@
             <v-card class="mt-3" :elevation="5">
               <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>add</v-icon></v-btn>
               <v-card-title>
-                Topics
+                Topics Details
                 <v-spacer></v-spacer>
                 <v-autocomplete
                 class="ma-7"
@@ -18,9 +18,21 @@
                 clearable
                 hide-details
                 hide-selected
-                item-text="topic"
+                item-text="name"
                 item-value="id"
-                label="Search for Course's Topic"
+                label="Search for Courses"
+                v-model="search"
+                >
+                </v-autocomplete>
+                <v-autocomplete
+                class="ma-7"
+                :items="topics"
+                clearable
+                hide-details
+                hide-selected
+                item-text="name"
+                item-value="id"
+                label="Search for Topic"
                 v-model="search"
                 >
                 </v-autocomplete>
@@ -70,7 +82,7 @@
 
                   <v-row class="customActivityForm">
                     <v-col xs12 sm12 md3 lg3 xl3>
-                       Start Date
+                       Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
                       <v-text-field
@@ -78,18 +90,6 @@
                         color="accent"
                         v-model="topics_start_date"
                       ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row class="customActivityForm">
-                    <v-col xs12 sm12 md3 lg3 xl3>
-                      End Date
-                    </v-col>
-                    <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                        v-model="topics_end_date"
-                        ></v-text-field>
                     </v-col>
                   </v-row>
                   <v-row>
@@ -136,7 +136,7 @@
           <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>
                 <v-row class="customActivityForm">
                   <v-flex xs12 sm12 md3 lg3 xl3>
-                    Topic
+                    Name
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7>
                     <v-text-field
@@ -146,21 +146,10 @@
                     ></v-text-field>
                   </v-flex>
                 </v-row>
+
                 <v-row class="customActivityForm">
                   <v-flex xs12 sm12 md3 lg3 xl3>
-                     Start Date
-                  </v-flex>
-                  <v-flex xs12 sm12 md7 lg7 xl7>
-                    <v-text-field
-                      filled
-                      color="accent"
-                      v-model="activities_date"
-                    ></v-text-field>
-                  </v-flex>
-                </v-row>
-                <v-row class="customActivityForm">
-                  <v-flex xs12 sm12 md3 lg3 xl3>
-                    End Date
+                  Date
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7>
                     <v-text-field
@@ -194,7 +183,6 @@
     </v-dialog>
   </v-row>
 </template>
-
 <script>
 import commonmethods from '../../mixins/commonMethods';
   export default {
@@ -214,10 +202,10 @@ import commonmethods from '../../mixins/commonMethods';
           text: 'Name',
           align: 'left',
           sortable: false,
-          value: 'topic',
+          value: 'name',
         },
-        { text: 'Description', value: 'descriptions',width: '600px' },
-
+        { text: 'Description', value: 'descriptions'},
+        { text: 'Date', value: 'date'},
         {
           text: 'Actions',
           value: 'action',
@@ -228,7 +216,7 @@ import commonmethods from '../../mixins/commonMethods';
     }),
     methods: {
       gettopic(){
-        this.$http.get('http://localhost:8000/api/v1/topics').then(response=>{
+        this.$http.get('http://localhost:8000/api/v1/topicdetails').then(response=>{
           this.topics= response.body.data;
         }, response => {
           console.log('error');
@@ -237,24 +225,6 @@ import commonmethods from '../../mixins/commonMethods';
       deletedItem(topics){
         const index = this.topics.indexOf(topics)
         this.desserts.splice(index, 1)
-      },
-      save(){
-        this.$http.post(this.$root.api+'/activities',{
-          "topic": this.topics_name,
-          "start_date": this.topics_start_date,
-          "end_date": this.topics_end_date,
-          "descriptions":this.topics_descriptions
-        }).then((response)=>{
-          this.activities.unshift({
-            "topic": this.topics_name,
-            "start_date": this.topics_start_date,
-            "end_date": this.topics_end_date,
-            "descriptions":this.topics_descriptions});
-          this.dialog = false;
-        })
-        .then((error) =>{
-
-        })
       },
       close() {
         this.dialog = false

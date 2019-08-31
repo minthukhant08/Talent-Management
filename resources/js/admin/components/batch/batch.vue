@@ -43,7 +43,6 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="batch_name"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -55,7 +54,6 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="batch_start_date"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -67,7 +65,6 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="batch_end_date"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -98,7 +95,7 @@
       >
       <template v-slot:item.action="{ item }">
         <v-btn color="error"
-        @click="deletedItem(item)"
+        @click="deleteItem(item)"
           small
         ><v-icon>delete</v-icon>
 
@@ -157,6 +154,10 @@
       }
     },
     methods: {
+      deleteItem (item) {
+        const index = this.batch.indexOf(item)
+        confirm('Are you sure you want to delete this item?') && this.batch.splice(index, 1)
+      },
       getbatch(){
         this.$http.get('http://localhost:8000/api/v1/batches',{
           headers: {
