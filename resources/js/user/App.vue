@@ -96,7 +96,7 @@
 
       <div class="text-center pl-2 pr-2" >
         <v-avatar @click="goRoute('/')">
-          <img src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB" alt="avatar">
+          <img src="/images/logo_white.png" alt="logo">
         </v-avatar>
       </div>
 
@@ -177,7 +177,7 @@
                 class="mb-4 ma-5 mb-5 mt-5"
                 contain
                 height="150"
-                src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB"
+                src="/images/logo.png"
               ></v-img>
             <!-- </v-avatar> -->
             <h3 class="title font-weight-light">Welcome to Talent Program!</h3>

@@ -140,7 +140,7 @@ Route::group(['prefix' => 'v1/assignments'], function()
 Route::group(['prefix' => 'v1/intake'], function()
 {
       Route::get('/', 'IntakeController@get');
-      Route::post('/', 'IntakeController@update');
+      Route::put('/', 'IntakeController@update');
 });
 
 
