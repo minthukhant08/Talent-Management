@@ -8,9 +8,6 @@
       >
         <v-tab >Teachers</v-tab>
         <v-tab >Manage</v-tab>
-
-
-
         <v-tab-item>
           <v-container fluid>
             <v-row>
@@ -46,7 +43,7 @@
             solo-inverted
             v-model='search'
             style="width: 800px;"
-						v-on:keyup.enter="searchScanner"
+						v-on:keyup.enter="searchTeacher"
           >
           </v-text-field>
         </v-row>
@@ -205,7 +202,6 @@
   },
   methods:{
     getall(){
-
       	this.$http.get(this.$root.api +'/users').then(response => {
           this.users = response.body.data;
       }, response => {
@@ -244,9 +240,8 @@
 
       });
     },
-    searchScanner(){
-
-        this.$http.get(this.$root.api + '/users?admin=1&name='+this.search).then(response => {
+    searchTeacher(){
+        this.$http.get(this.$root.api + '/users?admin=1&type=normal&name='+this.search).then(response => {
           this.searchresult = response.body.data;
       }, response => {
 
@@ -279,15 +274,10 @@
       this.dialog =true;
       this.selectedUser = user;
     }
-
-
   },
 
   created(){
-
   	this.getall();
-    this.getCourse();
-    this.getBatch();
   },
   computed:{
 

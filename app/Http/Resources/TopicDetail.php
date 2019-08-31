@@ -20,7 +20,12 @@ class TopicDetail extends JsonResource
           'id'           => $this->id,
           'name'         => $this->name,
           'descriptions' => $this->descriptions,
-          'date'         => $this->date
+          'date'         => $this->date,
+          'teacher'      => [
+            'id'   => $this->teacher->id,
+            'name' => $this->teacher->name,
+            'image'=> $this->teacher->image
+          ]
         ];
     }
 }

@@ -141,7 +141,12 @@ export default {
   },
   methods:{
     getIntakeStatus(){
-      this.$http.get(this.$root.api + '/intake').then((response) =>{
+      this.$http.get(this.$root.api + '/intake?admin_id=' + this.Admin.id, {
+        headers: {
+            Authorization: 'Bearer '+ this.Admin.token
+        }
+      }).then((response) =>{
+        console.log(response);
         this.intake = response.body.data[0].available;
         this.form_link = response.body.data[0].form_link;
       })
@@ -150,7 +155,6 @@ export default {
       })
     },
     updateIntakeStatus(){
-
       var intake=0;
       if (this.intake) {
         intake = 1;
@@ -159,6 +163,11 @@ export default {
         admin_id : this.Admin.id,
         available : intake,
         form_link : this.form_link
+      },
+      {
+        headers: {
+            Authorization: 'Bearer '+ this.Admin.token
+        }
       }).then((response) =>{
         console.log(response);
       })

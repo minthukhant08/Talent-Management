@@ -24,6 +24,7 @@
             </template>
             <template v-slot:item.remove="{item}">
                 <v-icon
+                  v-show="item.id!=1"
                   small
                   @click="deleteAdmin(item)"
                 >
@@ -215,6 +216,11 @@ export default{
           user_id: this.selectedUser.id,
           role : this.type,
           admin_id: this.Admin.id
+      },
+      {
+        headers: {
+            Authorization: 'Bearer '+ this.Admin.token
+        }
       }).then((response) =>{
         this.promoteDialog = false;
         var index = this.searchresult.indexOf(this.selectedUser);

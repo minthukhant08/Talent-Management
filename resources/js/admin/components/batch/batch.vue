@@ -95,7 +95,7 @@
       >
       <template v-slot:item.action="{ item }">
         <v-btn color="error"
-        @click="deleteItem(item)"
+        @click="deleteBatch(item)"
           small
         ><v-icon>delete</v-icon>
 
@@ -149,19 +149,30 @@
       }
     },
     computed:{
-      User(){
-        return this.$store.getters.getUser;
+      Admin(){
+        return this.$store.getters.getAdmin;
       }
     },
     methods: {
-      deleteItem (item) {
-        const index = this.batch.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.batch.splice(index, 1)
+      deleteBatch (batch) {
+        const index = this.batch.indexOf(batch);
+        this.batch.splice(index, 1);
+        this.$http.put(this.$root.api + '/batches/delete/'+ batch.id,{
+          admin_id: this.Admin.id
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          console.log(response);
+          this.batch.splice(index, 1);
+        })
       },
       getbatch(){
-        this.$http.get('http://localhost:8000/api/v1/batches',{
+        this.$http.get(this.$root.api + '/batches',{
           headers: {
-              Authorization: 'Bearer '+ this.User.token
+              Authorization: 'Bearer '+ this.Admin.token
           }
         }).then(response=>{
           this.batch= response.body.data;

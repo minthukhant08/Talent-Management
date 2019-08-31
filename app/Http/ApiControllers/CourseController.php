@@ -152,8 +152,23 @@ class CourseController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $validator = Validator::make($request->all(), [
+                'admin_id'  =>  'required'
+            ]);
+
+        if ($validator->fails()) {
+            $this->setError('400');
+            $messages=[];
+
+            foreach ($validator->messages()->toArray() as $key=>$value) {
+                  $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+            }
+
+            $this->setValidationError(['validation' => $messages]);
+            return $this->response('400');
+        }
         $course = $this->courseInterface->find($id);
         if (empty($course)) {
             $this->setError('404', $id);
@@ -161,7 +176,7 @@ class CourseController extends BaseController
         }else{
           $this->courseInterface->destroy($id);
           $this->data(array('deleted' =>  1));
-          event(new ContentCRUDEvent('Delete Course', $request->admin_id, 'Delete', 'Deleted '. $result->name. ' Course'));
+          event(new ContentCRUDEvent('Delete Course', $request->admin_id, 'Delete', 'Deleted '. $course->name. ' Course'));
           return $this->response('200');
         }
     }

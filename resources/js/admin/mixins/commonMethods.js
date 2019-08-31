@@ -16,7 +16,9 @@ export default{
             image : result.user.photoURL,
             uid   : result.user.uid
           }).then((response)=>{
-            if(response.body.success){
+            console.log(response.body.success + 'this is success');
+            if(response.body.success==1){
+              console.log('i am success');
               console.log(response.body.data);
               response.body.data[0].token = token;
               _this.$store.dispatch('setAdmin',response.body.data[0]);
@@ -24,7 +26,7 @@ export default{
               bus.$emit('close_login');
             }
           })
-          .then((error)=>{
+          .catch((error)=>{
             console.log(error);
           })
         }).catch(function(error) {
@@ -78,7 +80,7 @@ export default{
     },
     logout(){
       firebase.auth().signOut().then(()=>{
-        this.$store.dispatch('setUser', {
+        this.$store.dispatch('setAdmin', {
           name  : '',
           email : '',
           image : ''

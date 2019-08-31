@@ -203,8 +203,8 @@
     }
   },
 	computed:{
-		User(){
-			return this.$store.getters.getUser;
+		Admin(){
+			return this.$store.getters.getAdmin;
 		}
 	},
   methods:{
@@ -220,8 +220,11 @@
 			}else{
 					course = this.search_selected_course;
 			}
-			console.log(this.$root.api + '/users?admin=1&type=student&course=' + course + '&batch=' + batch);
-      this.$http.get(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch).then(response => {
+      this.$http.get(this.$root.api + '/users?type=student&course=' + course + '&batch=' + batch,{
+				headers: {
+					Authorization: 'Bearer ' + this.Admin.token
+				}
+			}).then(response => {
           this.users = response.body.data;
 					console.log(response.body.data);
       }, response => {
@@ -230,7 +233,11 @@
     },
     getCourse(){
         var results=[];
-        this.$http.get(this.$root.api + '/courses/list').then(response => {
+        this.$http.get(this.$root.api + '/courses/list',{
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then(response => {
           results = response.body.data;
           var i;
           for (i = 0; i < results.length; i++) {
@@ -244,10 +251,14 @@
 
       });
     },
-
     getBatch(){
         var results=[];
-      this.$http.get(this.$root.api + '/batches/list').then(response => {
+      this.$http.get(this.$root.api + '/batches/list',
+			{
+				headers: {
+					Authorization: 'Bearer ' + this.Admin.token
+				}
+			}).then(response => {
 				results = response.body.data;
 				var i;
 				for (i = 0; i < results.length; i++) {
@@ -262,9 +273,12 @@
       });
     },
      searchUser(){
-
-        this.$http.get(this.$root.api +'/users?type=normal&admin=1&name='+this.search).then((response) => {
-          this.searchresult = response.body.data;
+      this.$http.get(this.$root.api +'/users?type=normal&admin=1&name='+this.search,{
+        headers: {
+          Authorization: 'Bearer ' + this.Admin.token
+        }
+      }).then((response) => {
+        this.searchresult = response.body.data;
       }, response => {
 
       });
@@ -276,7 +290,12 @@
           course_id: this.promote_selected_course,
           batch_id : this.promote_selected_batch,
           type:'student'
-      }).then((response) =>{
+      },
+			{
+				headers: {
+					Authorization: 'Bearer ' + this.Admin.token
+				}
+			}).then((response) =>{
         this.dialog = false;
 				var index = this.searchresult.indexOf(this.selectedUser)
         this.searchresult.splice(index, 1)
@@ -293,7 +312,12 @@
           course_id: null,
           batch_id : null,
           type:'normal'
-      }).then((response) =>{
+      },
+			{
+				headers: {
+					Authorization: 'Bearer ' + this.Admin.token
+				}
+			}).then((response) =>{
         this.dialog = false;
 				var index = this.users.indexOf(user)
         this.users.splice(index, 1)
@@ -309,13 +333,10 @@
       this.selectedUser = user;
     }
   },
-
   created(){
 		this.getCourse();
     this.getBatch();
 		this.getStudents();
-
-
   }
 }
 </script>

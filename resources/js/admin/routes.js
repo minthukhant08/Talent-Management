@@ -4,7 +4,6 @@ import course from './components/course/course.vue';
 import courseedit from './components/course1/course-edit.vue';
 import batch from './components/batch/batch.vue';
 import activity from './components/activity/activity.vue';
-
 import topic from './components/topic/topic.vue';
 import student from './components/student/student.vue';
 import scanner from './components/scanner/scanner.vue';
@@ -29,6 +28,6 @@ export default[
   {path:'/admin/activityedit/:id', component:activityedit},
   {path:'/admin/super', component:superadmin},
   {path:'/admin/logs', component:log},
-  {path:'/admin/topicdetail', component:topicdetail}
+  {path:'/admin/topicdetail', component:topicdetail},
   {path:'/admin/dashboard', component:dashboard}
 ]
