@@ -25,13 +25,13 @@
 
                       <v-list-item>
                         <v-layout row ma3>
-                          <v-flex xs6 sm6 md4 lg3 xl3
+                          <v-flex xs12 sm12 md4 lg3 xl3
                           mt-7
                           ml-4
                           >
                             Topic
                           </v-flex>
-                          <v-flex xs4 sm4 md8 lg8 xl8>
+                          <v-flex xs12 sm12 md8 lg8 xl8>
                             <v-text-field
                             filled
                             v-model="topic.topic"
@@ -41,13 +41,13 @@
                       </v-list-item>
                       <v-list-item>
                         <v-layout row ma3>
-                          <v-flex xs6 sm6 md3 lg3 xl3
+                          <v-flex xs12 sm12 md3 lg3 xl3
                           mt-7
                           ml-4
                           >
                           Description
                           </v-flex>
-                          <v-flex xs4 sm4 md8 lg8 xl8>
+                          <v-flex xs12 sm12 md8 lg8 xl8>
                             <v-text-field
                             v-model="topic.descriptions"
                             filled
@@ -57,13 +57,13 @@
                       </v-list-item>
                       <v-list-item>
                         <v-layout row ma3>
-                          <v-flex xs6 sm6 md3 lg3 xl3
+                          <v-flex xs12 sm12 md3 lg3 xl3
                           mt-7
                           ml-4
                           >
                              Start Date
                           </v-flex>
-                          <v-flex xs4 sm4 md8 lg8 xl8>
+                          <v-flex xs12 sm12 md8 lg8 xl8>
                             <v-text-field
                               v-model="topic.start_date"
                               prepend-icon="event"
@@ -75,13 +75,13 @@
                       </v-list-item>
                       <v-list-item>
                         <v-layout row ma3>
-                          <v-flex xs6 sm6 md3 lg3 xl3
+                          <v-flex xs12 sm12 md3 lg3 xl3
                           mt-7
                           ml-4
                           >
                             End Date
                           </v-flex>
-                          <v-flex xs4 sm4 md8 lg8 xl8>
+                          <v-flex xs12 sm12 md8 lg8 xl8>
                             <v-text-field
                               v-model="topic.end_date"
                               prepend-icon="event"
@@ -117,13 +117,13 @@
                     <v-list-item-title><h3>Topic Detail Edit</h3></v-list-item-title><br><br>
                     <v-list-item>
                       <v-layout row ma3>
-                        <v-flex xs6 sm6 md4 lg3 xl3
+                        <v-flex xs12 sm12 md4 lg3 xl3
                         mt-7
                         ml-4
                         >
                           Name
                         </v-flex>
-                        <v-flex xs4 sm4 md8 lg8 xl8>
+                        <v-flex xs12 sm12 md8 lg8 xl8>
                           <v-text-field
                           v-model="topic.detail[index].name"
 
@@ -135,13 +135,13 @@
                     </v-list-item>
                     <v-list-item>
                       <v-layout row ma3>
-                        <v-flex xs6 sm6 md3 lg3 xl3
+                        <v-flex xs12 sm12 md3 lg3 xl3
                         mt-7
                         ml-4
                         >
                           Descriptions
                         </v-flex>
-                        <v-flex xs4 sm4 md8 lg8 xl8>
+                        <v-flex xs12 sm12 md8 lg8 xl8>
                           <v-text-field
                           v-model="topic.detail[index].descriptions"
                           filled
@@ -152,13 +152,13 @@
                     </v-list-item>
                     <v-list-item>
                       <v-layout row ma3>
-                        <v-flex xs6 sm6 md3 lg3 xl3
+                        <v-flex xs12 sm12 md3 lg3 xl3
                         mt-7
                         ml-4
                         >
                           Date
                         </v-flex>
-                        <v-flex xs4 sm4 md8 lg8 xl8>
+                        <v-flex xs12 sm12 md8 lg8 xl8>
                           <v-text-field
                             v-model="topic.detail[index].date"
                             prepend-icon="event"
@@ -171,13 +171,13 @@
                     </v-list-item>
                     <v-list-item>
                       <v-layout row ma3>
-                        <v-flex xs6 sm6 md3 lg3 xl3
+                        <v-flex xs12 sm12 md3 lg3 xl3
                         mt-7
                         ml-4
                         >
                           Teacher
                         </v-flex>
-                        <v-flex xs4 sm4 md8 lg8 xl8>
+                        <v-flex xs12 sm12 md8 lg8 xl8>
                           <v-text-field
                           v-model="topic.detail[index].teacher.name"
                           filled
@@ -197,6 +197,8 @@
                 <v-btn @click="updatetopic(topic.id, index)" text>Update</v-btn>
               </v-card-actions>
               </v-card>
+              <v-layout>
+                <v-spacer></v-spacer>
                     <v-btn
                     v-model="detail"
                     class="ma-2"
@@ -204,6 +206,8 @@
                     color="accent"
                     @click="detail=true"
                     >ADD<v-icon>add</v-icon></v-btn>
+                  </v-layout>
+
             </v-layout>
             </v-flex>
 
@@ -218,71 +222,63 @@
           <v-dialog
             v-model="detail"
             width="500"
+            style="border-radius:10px;"
           >
             <v-card>
               <v-card-title
-
-                class="headline accent lighten-2"
+                class="headline accent"
                 primary-title
               >
                 Add Topic Detail
               </v-card-title>
 
-              <v-layout row ma-3>
-                <v-flex xs12 sm12 md12 lg12 xl12>
-                      <v-row class="customActivityForm">
-                        <v-col xs12 sm12 md3 lg3 xl3>
-                          Name
-                        </v-col>
-                        <v-col xs12 sm12 md7 lg7 xl7>
-                          <v-text-field
-                            filled
-                            color="accent"
-                            v-model="activities_name"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                      <v-row class="customActivityForm">
-                        <v-col xs12 sm12 md3 lg3 xl3>
-                          Descriptions
-                        </v-col>
-                        <v-col xs12 sm12 md7 lg7 xl7>
-                          <v-text-field
-                            filled
-                            color="accent"
-                            v-model="activities_speaker"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                      <v-row class="customActivityForm">
-                        <v-col xs12 sm12 md3 lg3 xl3>
-                          Date
-                        </v-col>
-                        <v-col xs12 sm12 md7 lg7 xl7>
-                          <v-text-field
-                            filled
-                            color="accent"
-                            v-model="activities_date"
-                          ></v-text-field>
-                        </v-col>
-                      </v-row>
-                      <v-row class="customActivityForm">
-                        <v-col xs12 sm12 md3 lg3 xl3>
-                          Teacher
-                        </v-col>
-                        <v-col xs12 sm12 md7 lg7 xl7>
-                          <v-autocomplete
-                            :items="components"
-                          ></v-autocomplete>
-                        </v-col>
-                      </v-row>
+              <!-- <v-layout row>
+                <v-flex xs12 sm12 md12 lg12 xl12 > -->
+                <v-card-content class="ma-3">
+                  <v-layout row class="ma-5">
+                    <v-flex xs12 sm12 md3 lg3 xl3 pl-1 mt-6>
+                      Name
                     </v-flex>
-              </v-layout>
+                    <v-flex xs12 sm12 md9 lg9 xl9>
+                      <v-text-field
+                        filled
+                        color="accent"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm12 md3 lg3 xl3 pl-1 mt-6>
+                      Description
+                    </v-flex>
+                    <v-flex xs12 sm12 md9 lg9 xl9>
+                      <v-text-field
+                        filled
+                        color="accent"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm12 md3 lg3 xl3 pl-1 mt-6>
+                      Date
+                    </v-flex>
+                    <v-flex xs12 sm12 md9 lg9 xl9>
+                      <v-text-field
+                        filled
+                        color="accent"
+                      ></v-text-field>
+                    </v-flex>
+                    <v-flex xs12 sm12 md3 lg3 xl3 pl-1 mt-6>
+                      Teacher
+                    </v-flex>
+                    <v-flex xs12 sm12 md9 lg9 xl9>
+                      <v-autocomplete
+                        :items="components"
+                      ></v-autocomplete>
+                    </v-flex>
+                  </v-layout>
 
-              <v-divider></v-divider>
+                </v-card-content>
 
+                    <!-- </v-flex>
+              </v-layout> -->
               <v-card-actions>
-                <div class="flex-grow-1"></div>
+                <v-spacer></v-spacer>
                 <v-btn
                   color="accent"
                   text

@@ -1,12 +1,5 @@
 <template>
-<v-layout row ma-3>
-
-  <v-flex xs0 sm0 md1 lg1 xl1>
-
-  </v-flex>
-
-  <v-flex xs12 sm12 md10 lg10 xl10>
-
+  <v-container>
     <v-card class="mt-3" :elevation="5">
       <v-card-title>
         Course
@@ -18,7 +11,7 @@
         single-line
         hide-details
       ></v-text-field>
-        <v-btn color="accent" @click="dialog2 = true" :elevation="5"><v-icon>add </v-icon></v-btn>
+        <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog2=true" :elevation="8"><v-icon>add</v-icon></v-btn>
       </v-card-title>
       <template>
       <v-data-table
@@ -63,7 +56,7 @@
                   <span class="headline">Add Course</span>
                 </v-card-title>
                   <v-layout row ma-3>
-                    <v-flex xs12 sm12 md5 lg5 xl5>
+                    <v-flex xs12 sm12 md4 lg4 xl4>
                       <v-col align="center" justify="center">
                         <v-img
                           src="https://picsum.photos/id/11/500/300"
@@ -75,67 +68,141 @@
                         ><v-icon>camera</v-icon></v-img>
                     </v-col>
                     </v-flex>
-                    <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-flex xs12 sm12 md7 lg7 xl7 ml-7>
                           <v-row class="customActivityForm">
-                            <v-col xs12 sm12 md2 lg2 xl2>
+                            <v-flex xs12 sm12 md3 lg3 xl3>
                               Name
-                            </v-col>
-                            <v-col xs12 sm12 md10 lg10 xl10>
+                            </v-flex>
+                            <v-flex xs12 sm12 md7 lg7 xl7>
                               <v-text-field
                                 filled
                                 color="accent"
-                                v-model="courses_name"
+                                v-model="activities_name"
                               ></v-text-field>
-                            </v-col>
+                            </v-flex>
                           </v-row>
-
                           <v-row class="customActivityForm">
-                            <v-col xs12 sm12 md3 lg3 xl3>
-                              Start Date
-                            </v-col>
-                            <v-col xs12 sm12 md7 lg7 xl7>
+                            <v-flex xs12 sm12 md3 lg3 xl3>
+                               Start Date
+                            </v-flex>
+                            <v-flex xs12 sm12 md7 lg7 xl7>
                               <v-text-field
                                 filled
                                 color="accent"
-                                v-model="courses_start_date"
+                                v-model="activities_date"
                               ></v-text-field>
-                            </v-col>
+                            </v-flex>
                           </v-row>
                           <v-row class="customActivityForm">
-                            <v-col xs12 sm12 md3 lg3 xl3>
+                            <v-flex xs12 sm12 md3 lg3 xl3>
                               End Date
-                            </v-col>
-                            <v-col xs12 sm12 md7 lg7 xl7>
+                            </v-flex>
+                            <v-flex xs12 sm12 md7 lg7 xl7>
                               <v-text-field
                                 filled
                                 color="accent"
-                                v-model="courses_end_date"
-                                ></v-text-field>
-                            </v-col>
-                          </v-row>
-                          <v-row>
-                            <v-col xs12 sm12 md3 lg3 xl3>
-                              Description
-                            </v-col>
-                            </v-col>
-                          </v-row>
-                          <v-row>
-                            <v-col xs12 sm12 md12 lg12 xl12>
-                              <v-textarea
-                                filled
-                                color="accent"
-                                v-model="courses_descriptions"
-                              ></v-textarea>
-                            </v-col>
+                                v-model="activities_date"
+                              ></v-text-field>
+                            </v-flex>
                           </v-row>
                         </v-flex>
+                        <v-layout row ma-3>
+                          <v-flex xs12 sm12 md12 lg12 xl12>
+                            Description
+                            <v-textarea
+                                  outlined
+                                  label="Outlined textarea"
+                                  v-model="activities_descriptions"
+                            ></v-textarea>
+                          </v-flex>
+
+                        </v-layout>
                   </v-layout>
 
-                  <div class="button">
+                  <v-layout>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                    <v-btn color="blue darken-1" text @click="dialog2 = false">Close</v-btn>
                     <v-btn color="blue darken-1" text @click="save()">Post</v-btn>
-                  </div>
+                  </v-layout>
+              </v-card>
+            </v-dialog>
+            <v-dialog v-model="edit" max-width="500px">
+              <v-card ma5
+              :elevation="5"
+                class="mx-auto"
+                width="100%"
+                style="border-radius:10px;"
+              >
+                <v-layout row ma-3>
+                  <v-flex xs12 sm12 md4 lg4 xl4>
+                    <v-col align="center" justify="center">
+                      <v-img
+                        src="https://picsum.photos/id/11/500/300"
+                        lazy-src="https://picsum.photos/id/11/10/6"
+                        aspect-ratio="1"
+                        class="grey lighten-2"
+                        max-width="200"
+                        max-height="200"
+                      ><v-icon>camera</v-icon></v-img>
+                  </v-col>
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>
+                        <v-row class="customActivityForm">
+                          <v-flex xs12 sm12 md3 lg3 xl3>
+                            Name
+                          </v-flex>
+                          <v-flex xs12 sm12 md7 lg7 xl7>
+                            <v-text-field
+                              filled
+                              color="accent"
+                              v-model="activities_name"
+                            ></v-text-field>
+                          </v-flex>
+                        </v-row>
+                        <v-row class="customActivityForm">
+                          <v-flex xs12 sm12 md3 lg3 xl3>
+                             Start Date
+                          </v-flex>
+                          <v-flex xs12 sm12 md7 lg7 xl7>
+                            <v-text-field
+                              filled
+                              color="accent"
+                              v-model="activities_date"
+                            ></v-text-field>
+                          </v-flex>
+                        </v-row>
+                        <v-row class="customActivityForm">
+                          <v-flex xs12 sm12 md3 lg3 xl3>
+                            End Date
+                          </v-flex>
+                          <v-flex xs12 sm12 md7 lg7 xl7>
+                            <v-text-field
+                              filled
+                              color="accent"
+                              v-model="activities_date"
+                            ></v-text-field>
+                          </v-flex>
+                        </v-row>
+                      </v-flex>
+                      <v-layout row ma-3>
+                        <v-flex xs12 sm12 md12 lg12 xl12>
+                          Description
+                          <v-textarea
+                                outlined
+                                label="Outlined textarea"
+                                v-model="activities_descriptions"
+                          ></v-textarea>
+                        </v-flex>
+
+                      </v-layout>
+                </v-layout>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn text @click="edit=false">close</v-btn>
+                  <v-btn
+                   @click="updatecourse" text>Update</v-btn>
+
+                </v-card-actions>
               </v-card>
             </v-dialog>
 
@@ -146,50 +213,30 @@
           </v-avatar>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-btn
-            color="green"
-            small
-            @click="dialog=true"
-          >
-            <v-icon>short_text</v-icon>
-          </v-btn>
-          <v-btn color="blue"
-                              @click="goRoute('/admin/courseedit/'+ item.id)"
-            small
-          >
-            <v-icon>edit</v-icon>
-          </v-btn>
-          <v-btn color="error"
-          @click="deletedItem(item)"
-            small
-          ><v-icon>delete</v-icon>
-
-          </v-btn>
+          <v-icon @click="dialog=true" color="green">short_text</v-icon>
+          <v-icon @click="edit=true" color="info" class="pl-2">edit</v-icon>
+          <v-icon @click="deleteItem(item)" color="error" class="pl-2">delete</v-icon>
         </template>
 
       </v-data-table>
     </template>
 
     </v-card>
-
-  </v-flex>
-
-  <v-flex xs12 sm12 md1 lg1 xl1>
-
-  </v-flex>
-
-</v-layout>
-
+</v-container>
 </template>
-
 <script>
 import commonmethods from '../../mixins/commonMethods';
   export default {
     mixins:[commonmethods],
     data: () => ({
+      datepicker:false,
+      picker:'',
+      currenttextbox:'',
+      datetype:'',
       search: '',
       dialog: false,
       dialog2: false,
+      edit: false,
       courses_name:'',
       courses_descriptions:'',
       courses_start_date:'',
@@ -204,6 +251,8 @@ import commonmethods from '../../mixins/commonMethods';
       },
 
         { text: 'Name', value: 'name' },
+        { text: ' Start Date', value: 'start_date' },
+        { text: 'End Date', value: 'end_date' },
         {
           text: 'Actions',
           value: 'action',
@@ -217,6 +266,33 @@ import commonmethods from '../../mixins/commonMethods';
       }
     },
     methods: {
+      changeDate(){
+        if (this.datetype == "end") {
+          this.courses.topic[this.currenttextbox].end_date = this.picker;
+        }else{
+          this.courses.topic[this.currenttextbox].start_date = this.picker;
+        }
+      },
+      showDatePicker(index, current, type){
+         this.picker = current;
+         this.datepicker = true;
+         this.currenttextbox = index;
+         this.datetype = type;
+      },
+      updatecourse(){
+         this.$http.put(this.$root.api + '/courses/'+ this.$route.params.id, {
+           name: this.courses.name,
+           descriptions: this.courses.descriptions
+         }).then((response) =>{
+           console.log(response);
+           this.goRoute('/admin/courseedit/' + this.$route.params.id);
+
+         })
+         .then((error)=>{
+
+         })
+
+       },
       getCourses(){
         this.$http.get('http://localhost:8000/api/v1/courses',{
           headers: {
@@ -229,13 +305,7 @@ import commonmethods from '../../mixins/commonMethods';
           console.log('error');
         })
       },
-      putCourses(){
-        this.$http.put('http://localhost:8000/api/v1/courses',{name}).then(response=>{
-          this.desserts= response.body.data;
-        }, response => {
-          console.log('error');
-        })
-      },
+
       save(){
         this.$http.post(this.$root.api+'/activities',{
           "name": this.courses_name,
@@ -255,9 +325,9 @@ import commonmethods from '../../mixins/commonMethods';
 
         })
       },
-      deletedItem(courses){
-        const index = this.desserts.indexOf(courses)
-        confirm('Are you sure you want to delete this item?'+courses) && this.desserts.splice(index, 1)
+      deleteItem (item) {
+        const index = this.courses.indexOf(item)
+        confirm('Are you sure you want to delete this item?') && this.courses.splice(index, 1)
       },
       save () {
         if (this.editedIndex > -1) {
