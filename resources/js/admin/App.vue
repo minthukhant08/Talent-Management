@@ -195,21 +195,11 @@ export default {
         this.$vuetify.theme.dark = this.dark;
       },
       login(){
-        var _this = this;
-        firebase.auth().onAuthStateChanged((user)=>{
-          console.log(this.Admin.name);
-          // if (this.User.name=="") {
-          //   this.logout();
-          // }
-          console.log(user);
-          if (user) {
-            this.drawer = !this.drawer;
-            console.log("logged");
-          } else {
-            this.loginDialog = true;
-            console.log("not logged");
-          }
-        });
+        if (this.Admin.name != null) {
+           this.drawer = !this.drawer;
+        }else{
+          this.loginDialog = true;
+        }
       },
       getNotification(){
         this.$http.get(this.$root.api + '/notifications/10').then((response)=>{

@@ -23,6 +23,34 @@ const router= new VueRouter({
   mode:'history'
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (store.state.Admin.role == null) {
+          next('/admin/login')
+      } else {
+          next()
+      }
+  } else {
+      next()
+  }
+
+  if (to.fullPath === '/admin/super') {
+    if (store.state.Admin.role != 'Super Admin') {
+      next('/admin/login');
+    }
+  }
+
+  if (to.fullPath === '/admin/logs') {
+    console.log(store.state.Admin);
+    if (store.state.Admin.role != 'Super Admin') {
+      next('/admin/login');
+    }
+  }
+
+  next();
+});
+
+
 const vuetify = new Vuetify(theme);
 
 new Vue({

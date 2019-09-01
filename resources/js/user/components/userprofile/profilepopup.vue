@@ -1,7 +1,7 @@
 <template >
   <v-card class="pa-2">
         <v-list>
-          <v-list-item>
+          <v-list-item @click="goRoute('/profile/'+ User.id)">
             <v-list-item-avatar>
               <img :src="User.image" alt="profile">
             </v-list-item-avatar>

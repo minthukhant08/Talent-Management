@@ -108,14 +108,18 @@ export default{
 
     }
   },
-
+  computed:{
+      User(){
+        return this.$store.getters.getUser;
+      }
+  },
   methods:{
-    goRoute($route){
-      this.$router.push($route).catch(err => {});
-    },
-
     gettopicdetail(){
-      this.$http.get(this.$root.api + '/topics'+this.$route.params.id).then(response=>{
+      this.$http.get(this.$root.api + '/topics'+this.$route.params.id, {
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response=>{
         console.log(response.body.data);
         this.topic= response.body.data;
       }, response => {
@@ -129,7 +133,11 @@ export default{
 
 
     getCourseDetail(){
-      this.$http.get(this.$root.api + '/courses/'+this.$route.params.id).then(response=>{
+      this.$http.get(this.$root.api + '/courses/'+this.$route.params.id,{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response=>{
         //console.log(response.body.data);
         this.topics= response.body.data[0].topic;
       }, response => {

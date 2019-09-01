@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'firebase' => \csrui\LaravelFirebaseAuth\Middleware\JWTAuth::class,
         'admin'    => \App\Http\Middleware\Admin::class,
         'superadmin'    => \App\Http\Middleware\Superadmin::class,
+        'scanner'    => \App\Http\Middleware\Superadmin::class,
         // 'user.auth'=> \App\Http\Middleware\UserAuth::class,
     ];
 

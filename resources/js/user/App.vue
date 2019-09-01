@@ -78,7 +78,7 @@
         </v-list-item>
 
         <v-divider></v-divider>
-        <v-list-item @click="logout">
+        <v-list-item @click="logout();drawer=false">
           <v-btn block  class="pt-1 accent" >Logout</v-btn>
         </v-list-item>
 
@@ -160,7 +160,7 @@
       </template>
     </v-app-bar>
 
-    <v-content class="content-background">
+    <v-content >
       <v-fade-transition mode="out-in">
             <router-view></router-view>
       </v-fade-transition>
@@ -248,16 +248,11 @@ export default {
     },
     methods:{
       login(){
-        var _this = this;
-        firebase.auth().onAuthStateChanged((user)=>{
-          if (user) {
-            this.drawer = !this.drawer;
-            console.log("logged");
-          } else {
-            this.loginDialog = true;
-            console.log("not logged");
-          }
-        });
+        if (this.User.name != null) {
+           this.drawer = !this.drawer;
+        }else{
+          this.loginDialog = true;
+        }
       },
     },
     created () {

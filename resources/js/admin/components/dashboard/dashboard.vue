@@ -39,10 +39,10 @@
           >
             <v-toolbar-title>New Users Per Month</v-toolbar-title>
           </v-toolbar>
-            <line-chart :myheight="300" :data1='this.data1' :data2='this.data2'></line-chart>
+            <line-chart :myheight="300" ></line-chart>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm12 md4 lg6 xl 6>
+      <!-- <v-flex xs12 sm12 md4 lg6 xl 6>
         <v-card class="ma-2">
           <v-toolbar
             color="primary"
@@ -53,7 +53,7 @@
           </v-toolbar>
           <line-chart :data1='this.data1' :data2='this.data2'></line-chart>
         </v-card>
-      </v-flex>
+      </v-flex> -->
       <v-flex xs12 sm12 md4 lg6 xl 6>
         <v-card class="ma-2">
           <v-toolbar
@@ -63,10 +63,10 @@
           >
             <v-toolbar-title>Number of Users in the system</v-toolbar-title>
           </v-toolbar>
-          <doughnut-chart :data1='this.data1'></doughnut-chart>
+          <doughnut-chart></doughnut-chart>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm12 md4 lg6 xl 6>
+      <!-- <v-flex xs12 sm12 md4 lg6 xl 6>
         <v-card class="ma-2">
           <v-toolbar
             color="primary"
@@ -101,14 +101,14 @@
           </v-toolbar>
           <doughnut-chart :data1='this.data1'></doughnut-chart>
         </v-card>
-      </v-flex>
+      </v-flex> -->
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import linechart from '../charts/linechart.vue'
-import doughnut from '../charts/doughnut.vue'
+import linechart from '../charts/newuserspermonth/newuserpermonth.vue'
+import doughnut from '../charts/admincount/admins.vue'
 import radarchart from '../charts/radarchart.vue'
 export default {
   components:{
@@ -121,6 +121,7 @@ export default {
       btn_intake:'update',
       intake:false,
       form_link: '',
+      adminCount:{},
       data1: ['something', 'ff', 'dfdf', 'sdfdsf'],
       data2: ['something', 'ff', 'dfdf', 'sdfdsf']
     }
@@ -169,7 +170,7 @@ export default {
             Authorization: 'Bearer '+ this.Admin.token
         }
       }).then((response) =>{
-        console.log(response);
+
       })
       .then((error)=>{
 
@@ -177,7 +178,10 @@ export default {
     }
   },
   created(){
-    this.getIntakeStatus();
+    // this.getIntakeStatus();
+  },
+  mounted(){
+
   }
 }
 </script>
