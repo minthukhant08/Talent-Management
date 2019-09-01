@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Activity\ActivityRepositoryInterface as ActivityInterface;
 use App\Http\Resources\Activity as ActivityResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 
 class ActivityController extends BaseController
@@ -43,8 +44,11 @@ class ActivityController extends BaseController
          $this->limit  = isset($request->limit)? $request->limit : 30;
          $name         = isset($request->name)? $request->name : '%';
          $speaker      = isset($request->speaker)? $request->speaker : '%';
+         $type         = isset($request->type)? $request->type : '%';
 
-         $activity = ActivityResource::collection($this->activityInterface->getAll($this->offset, $this->limit, $name, $speaker));
+         $type = $this->convertPostType($type, 0);
+
+         $activity = ActivityResource::collection($this->activityInterface->getAll($this->offset, $this->limit, $name, $speaker, $type));
          $total = $this->activityInterface->total();
          $this->data($activity);
          $this->total($total);
@@ -66,6 +70,7 @@ class ActivityController extends BaseController
               'speaker_name'  =>  'required',
               'image'         =>  'required|image',
               'type'          =>  'required',
+              'admin_id'      =>  'required|exists:admin,id'
           ]);
 
         if ($validator->fails()) {
@@ -88,6 +93,7 @@ class ActivityController extends BaseController
        $result = $this->activityInterface->store($activity);
 
        if (isset($result)) {
+          event(new ContentCRUDEvent('Create Activity', $request->admin_id, 'Create', 'Made '. $result->name. ' Activity'));
           $this->data(array('id' =>  $result));
           return $this->response('201');
        }else{
@@ -127,7 +133,8 @@ class ActivityController extends BaseController
     {
         $validator = Validator::make($request->all(), [
               'date'          =>  'date',
-              'image'         =>  'image'
+              'image'         =>  'image',
+              'admin_id'      =>  'required|exists:admin,id'
           ]);
 
         if ($validator->fails()) {
@@ -148,6 +155,7 @@ class ActivityController extends BaseController
             return $this->response('404');
         }else{
             if ($this->activityInterface->update($request->all(),$id)) {
+                event(new ContentCRUDEvent('Update Activity', $request->admin_id, 'Update', 'Updated '. $result->name. ' Activity'));
                 $this->data(array('updated' =>  1));
                 return $this->response('200');
             }else{
@@ -171,6 +179,7 @@ class ActivityController extends BaseController
             return $this->response('404');
         }else{
             $this->activityInterface->destroy($id);
+            event(new ContentCRUDEvent('Delete Activity', $request->admin_id, 'Deleted', 'Deleted '. $result->name. ' Activity'));
             $this->data(array('deleted' =>  1));
             return $this->response('200');
         }

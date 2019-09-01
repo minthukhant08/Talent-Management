@@ -19,6 +19,6 @@ class Notification extends Model
     }
     public function confirmation()
     {
-      return $this->hasOne(Confirmation::class, 'noti_id');
+      return $this->hasOne(Confirm::class, 'noti_id');
     }
 }

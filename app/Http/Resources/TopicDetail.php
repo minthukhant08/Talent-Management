@@ -16,14 +16,16 @@ class TopicDetail extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
-        $user=User::find($this->teacher_id)->select('name', 'id', 'image')->first();
         return [
           'id'           => $this->id,
           'name'         => $this->name,
           'descriptions' => $this->descriptions,
           'date'         => $this->date,
-          'teacher'      => $user
+          'teacher'      => [
+            'id'   => $this->teacher->id,
+            'name' => $this->teacher->name,
+            'image'=> $this->teacher->image
+          ]
         ];
     }
 }

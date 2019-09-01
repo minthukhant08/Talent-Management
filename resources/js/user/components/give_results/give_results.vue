@@ -3,67 +3,75 @@
     <v-data-table
           :headers="headers"
           :items="lists"
-
     >
-
-
-      <template v-slot:top>
-        <v-toolbar dark>
-          <!-- <v-text>Choose a assignment..</v-text> -->
-          <v-spacer></v-spacer>
-          <v-autocomplete
-              v-model="selectedAssignment"
-              :items="items"
-              clearable
-              hide-details
-              hide-selected
-              item-text="name"
-              item-value="id"
-              label="Search for a assignment..."
-              solo
-              @change='getall'
-
-            >
-          </v-autocomplete>
-        </v-toolbar>
-           <v-dialog v-model="dialog" max-width="500px" dark>
-             <v-card class="pa-3" >
-               <v-col cols="12" sm="12" md="12">
-                  <v-text-field
-                    outlined
+          <template v-slot:top>
+             <div>
+                <v-autocomplete
+                    dark
+                    v-model="selectedAssignment"
+                    :items="items"
+                    clearable
                     hide-details
-                    v-model='editedItem.marks'
-                    label="Enter Mark"
-                  ></v-text-field>
-              </v-col>
-               <v-card-actions>
-                 <v-spacer></v-spacer>
-                     <v-btn
-                     @click="save"
-                     text
-                    color="accent">
-                    Confirm
-                    </v-btn>
-               </v-card-actions>
-              </v-card>
-             </v-dialog>
+                    hide-selected
+                    item-text="name"
+                    item-value="id"
+                    label="Search for a assignment..."
+                    solo
+                    @change='getall'
+                  >
+                </v-autocomplete>
+          </div>
        </template>
-      <template v-slot:item.image="{ item }">
-        <v-avatar>
-          <img :src="item.image" alt="avatar">
-        </v-avatar>
+       <template v-slot:item.image="{ item }">
+          <v-avatar>
+            <img :src="item.image" alt="avatar">
+          </v-avatar>
      </template>
      <template v-slot:item.action="{item}">
-       <v-icon
-         small
-         @click="editItem(item)"
-       >
+         <v-icon
+           small
+           @click="editItem(item)"
+         >
          create
-       </v-icon>
+        </v-icon>
      </template>
    </v-data-table>
-  </v-container>
-</template>
+      <v-dialog v-model="dialog" max-width="500px" dark>
+           <v-card
+              max-width="500"
+              class="mx-auto"
+               >
+                <v-app-bar color="blue">
+                  <v-toolbar-title>Student Result</v-toolbar-title>
+                </v-app-bar>
+                <div class="pa-3">
+                      <v-text-field
+                        outlined
+                        hide-details
+                        v-model='editedItem.marks'
+                        label="Enter Marks"
+                        class="pb-5"
+                      ></v-text-field>
+                      <v-textarea
+                        v-model='editedItem.comments'
+                        outlined
+                        hide-details
+                        label="Enter Comments"
+                      ></v-textarea>
+               </div>
+                   <v-card-actions>
+                     <v-spacer></v-spacer>
+                         <v-btn
+                         @click="save"
+                          text
+                        color="accent">
+                        Confirm
+                        </v-btn>
+                 </v-card-actions>
+            </v-card>
+       </v-dialog>
+    </v-container>
+ </template>
 <script>
   export default {
     data () {
@@ -104,30 +112,30 @@
          }
        } ).then(response=>{
          this.lists=response.body.data;
-         console.log('list');
-         console.log(this.$root.api + '/users/giveresults?assignment_id=' + this.selectedAssignment);
        },response=>{
        });
      },
       editItem (item) {
-        
+
        this.editedIndex = this.lists.indexOf(item)
        this.editedItem = Object.assign({}, item)
-       console.log(this.editedItem);
        this.dialog = true
      },
+     save(){
+         console.log(this.editedItem);
+       this.$http.put(this.$root.api + '/results/'+ this.editedItem.id, {
+         "student_id":this.editedItem.student_id,
+         "assignment_id":this.editedItem.assignment_id,
+         "marks":this.editedItem.marks,
+         "comments":this.editedItem.comments,
+       }).then((response) =>{
+         Object.assign(this.lists[this.editedIndex], this.editedItem)
+         this.dialog = false;
+       })
+       .then((error) =>{
 
-     save () {
-       console.log(this.editedItem);
-        if (this.editedIndex > -1) {
-          Object.assign(this.lists[this.editedIndex], this.editedItem)
-        } else {
-          this.lists.push(this.editedItem)
-        }
-        console.log(this.lists);
-        this.close()
-      },
-
+       })
+     },
 
       getChosen(){
         console.log(this.choose);
@@ -165,7 +173,6 @@
 },
 
      created(){
-        this.getall();
        this.getAssignment();
      },
   }

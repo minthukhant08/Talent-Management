@@ -21,10 +21,11 @@ class Assignment extends JsonResource
 
         return [
           'id'            => $this->id,
-          'name'           => $this->name,
-          'teacher'           => [ 'id'    => $this->teacher->id,
-                                'name'  => $this->teacher->name,
-                                'image'  => url('/api/v1/users/image').'/'.$this->id,
+          'name'          => $this->name,
+          'date'          => $this->created_at,
+          'teacher'       => [ 'id' => $this->teacher->id,
+                            'name'  => $this->teacher->name,
+                            'image' => url('/api/v1/users/image').'/'.$this->id,
 
           ]
         ];

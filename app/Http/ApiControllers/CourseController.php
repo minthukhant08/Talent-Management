@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Course\CourseRepositoryInterface as CourseInterface;
 use App\Http\Resources\Course as CourseResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 
 
@@ -36,7 +37,14 @@ class CourseController extends BaseController
         return $this->response('200');
     }
 
-
+    public function list()
+    {
+        $course  =$this->courseInterface->getList();
+        $total = $this->courseInterface->total();
+        $this->data($course);
+        $this->total($total);
+        return $this->response('200');
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -48,7 +56,8 @@ class CourseController extends BaseController
     {
         $validator = Validator::make($request->all(), [
                 'name'      =>  'required',
-                'image'     =>  'required|image'
+                'image'     =>  'required|image',
+                'admin_id'  =>  'required'
             ]);
 
         if ($validator->fails()) {
@@ -70,6 +79,7 @@ class CourseController extends BaseController
          $result = $this->courseInterface->store($course);
 
          if (isset($result)) {
+             event(new ContentCRUDEvent('Create Course', $request->admin_id, 'Create', 'Made '. $result->name. ' Course'));
              $this->data(array('id' =>  $result));
          }
 
@@ -106,7 +116,8 @@ class CourseController extends BaseController
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-                'image'     =>  'image'
+                'image'     =>  'image',
+                'admin_id'  =>  'required'
             ]);
 
         if ($validator->fails()) {
@@ -127,6 +138,7 @@ class CourseController extends BaseController
         }else{
           if ($this->courseInterface->update($request->all(),$id)) {
               $this->data(array('updated' =>  1));
+              event(new ContentCRUDEvent('Update Course', $request->admin_id, 'Updated', 'Updated '. $result->name. ' Course'));
               return $this->response('200');
           }else{
               return $this->response('500');
@@ -140,8 +152,23 @@ class CourseController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $validator = Validator::make($request->all(), [
+                'admin_id'  =>  'required'
+            ]);
+
+        if ($validator->fails()) {
+            $this->setError('400');
+            $messages=[];
+
+            foreach ($validator->messages()->toArray() as $key=>$value) {
+                  $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+            }
+
+            $this->setValidationError(['validation' => $messages]);
+            return $this->response('400');
+        }
         $course = $this->courseInterface->find($id);
         if (empty($course)) {
             $this->setError('404', $id);
@@ -149,6 +176,7 @@ class CourseController extends BaseController
         }else{
           $this->courseInterface->destroy($id);
           $this->data(array('deleted' =>  1));
+          event(new ContentCRUDEvent('Delete Course', $request->admin_id, 'Delete', 'Deleted '. $course->name. ' Course'));
           return $this->response('200');
         }
     }

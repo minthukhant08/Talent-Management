@@ -4,7 +4,8 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
-import '@mdi/font/css/materialdesignicons.css'
+import '@mdi/font/css/materialdesignicons.css';
+import SocialSharing  from 'vue-social-sharing';
 import Routes from './routes';
 import {store} from './store/store';
 import firebaseConfig from './config/firebaseconfig.js';
@@ -15,12 +16,54 @@ import 'firebase/messaging';
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 Vue.use(VueResource);
+Vue.use(SocialSharing);
 Vue.component('app-view', require('./App.vue').default);
 export const bus = new Vue();
 
 const router= new VueRouter({
   routes:Routes,
   mode:'history'
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (store.state.User.type == null) {
+          next('/login')
+      } else {
+          next()
+      }
+  } else {
+      next()
+  }
+
+  if (to.fullPath === '/results') {
+    if (store.state.User.type != 'student') {
+      next('');
+    }
+  }
+
+  if (to.fullPath === '/giveresults') {
+    console.log(store.state.Admin);
+    if (store.state.User.type != 'teacher') {
+      next('/');
+    }
+  }
+
+  if (to.fullPath === '/assignment') {
+    console.log(store.state.Admin);
+    if (store.state.User.type != 'teacher') {
+      next('/');
+    }
+  }
+
+  if (to.fullPath === '/timetable') {
+    console.log(store.state.Admin);
+    if (store.state.User.type != 'teacher') {
+      next('/');
+    }
+  }
+
+  next();
 });
 
 const vuetify = new Vuetify(theme);

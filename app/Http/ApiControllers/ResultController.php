@@ -5,6 +5,7 @@ namespace App\Http\ApiControllers;
 use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Result\ResultRepositoryInterface as ResultInterface;
+use App\Http\Resources\Result as ResultResource;
 
 use Validator;
 
@@ -38,7 +39,7 @@ class ResultController extends BaseController
         }
         $result =$this->resultInterface->getAll($this->offset, $this->limit, $student_id);
         $total = $this->resultInterface->total();
-        $this->data($result);
+        $this->data(ResultResource::collection($result));
         $this->total($total);
         return $this->response('200');
     }
@@ -75,6 +76,7 @@ class ResultController extends BaseController
                 'student_id' => 'required|exists:user,id',
                 'assignment_id'=>'required|exists:assignment,id',
                 'marks'      =>  'required',
+                'comments'  => 'required    '
 
             ]);
 
@@ -115,7 +117,7 @@ class ResultController extends BaseController
             return $this->response('404');
         }else{
         //   $result = new CourseResource($result);
-          $this->data(array($result));
+          $this->data(array(new ResultResource($result)));
           return $this->response('201');
         }
     }

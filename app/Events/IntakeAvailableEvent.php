@@ -16,16 +16,14 @@ class IntakeAvailableEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $intake;
-    public $user;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Intake $intake, User $user)
+    public function __construct(Intake $intake)
     {
         $this->intake = $intake;
-        $this->user = $user;
     }
 
     /**

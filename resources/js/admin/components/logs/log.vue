@@ -1,5 +1,6 @@
 <template>
     <v-container>
+      <v-btn fab fixed left bottom color="accent" @click='getLogs'><v-icon>mdi-database-refresh</v-icon></v-btn>
       <v-data-table
         :headers="headers"
         :items="logs"
@@ -7,7 +8,7 @@
       >
       <template v-slot:item.image="{ item }">
         <v-avatar>
-          <img :src="item.image" alt="avatar">
+          <img :src="item.admin.image" alt="avatar">
         </v-avatar>
       </template>
     </v-data-table>
@@ -19,6 +20,9 @@ export default{
     return{
       logs:[],
       headers: [
+         { text: 'Person', value: 'image' },
+         { text: 'Name', value: 'admin.name' },
+         { text: 'Email', value: 'admin.email' },
          { text: 'Action', value: 'action' },
          { text: 'Category', value: 'category' },
          { text: 'Descriptions', value: 'descriptions' }
@@ -26,20 +30,20 @@ export default{
     }
   },
   computed:{
-    User(){
-      return this.$store.getters.getUser;
+    Admin(){
+      return this.$store.getters.getAdmin;
     }
   },
   methods:{
 
     getLogs(){
-      console.log(this.User.token);
+      console.log(this.Admin.token);
       this.$http.post(this.$root.api + '/admin/logs', {
         admin_id:1
       },
       {
         headers: {
-            Authorization: 'Bearer '+ this.User.token
+            Authorization: 'Bearer '+ this.Admin.token
         }
       }).then(response => {
          this.logs = response.body.data;

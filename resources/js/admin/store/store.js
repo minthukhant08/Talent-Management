@@ -6,57 +6,77 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state:{
-    User:{},
+    Admin:{name:null, email:null, image:null, role:null},
     App:{
       login:false,
       noti:[],
-      mode:false
+      mode:true,
+      notisubscribe:false,
+      newNoti:0
     }
  },
   getters:{
-    getmode:state=>{
+    getMode:state=>{
       return state.App.mode;
     },
-    getUser:state=> {
-      return state.User;
+    getNewNotiCount:state=>{
+      return state.App.newNoti;
+    },
+    getAdmin:state=> {
+      return state.Admin;
     },
     loginStatus:state=>{
       return state.App.login;
     },
     getNoti:state=>{
       return state.App.noti;
+    },
+    isNotiSubscribed:state=>{
+      return state.App.notisubscribe;
     }
   },
   mutations:{
-    mode:(state,mode)=>{
+    changeMode:(state,mode)=>{
       state.App.mode=mode;
     },
-    toggleLogin: (state,value)=>{
+    changeLogin: (state,value)=>{
       console.log("logged is setted to " + value);
       state.App.login=value;
     },
-    changeUser:(state,user)=>{
-      state.User = user;
+    changeAdmin:(state,admin)=>{
+      state.Admin = admin;
     },
-    updateNoti:function(state,noti){
+    changeNoti:function(state,noti){
       state.App.noti=noti;
+    },
+    changeNotiCount:function(state,count){
+      state.App.newNoti=count;
+    },
+    changeNotiSubscribe:function(state,value){
+      state.App.notisubscribe=value;
     }
   },
 actions:{
   setmode:function(context,mode){
-    context.commit('mode',mode);
+    context.commit('changeMode',mode);
   },
   toggle_Login:(context,value)=>{
-      context.commit('toggleLogin',value);
+      context.commit('changeLogin',value);
   },
-  setUser:function(context, user){
-    context.commit('changeUser',user);
+  setAdmin:function(context, admin){
+    context.commit('changeAdmin',admin);
   },
   toggle_Loading:function(context){
     context.commit('changeLoading');
   },
   setNoti:function(context,noti){
-    context.commit('updateNoti',noti);
+    context.commit('changeNoti',noti);
+  },
+  setNotiCount:function(context,count){
+    context.commit('changeNotiCount',count);
+  },
+  setNotiSubscribe:function(context,value){
+    context.commit('changeNotiSubscribe',value);
   }
 },
 plugins: [PersistedState()]

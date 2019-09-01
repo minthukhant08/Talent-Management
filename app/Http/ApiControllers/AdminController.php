@@ -95,9 +95,11 @@ class AdminController extends BaseController
           $existing_admin = $this->adminInterface->findByUid($admin['uid']);
           if (!empty($existing_admin)) {
              $existing_admin = new AdminResource($existing_admin);
-             $this->data(array('user' => $existing_admin));
+             $this->data(array($existing_admin));
              return $this->response('201');
           }else{
+              $this->setError('501');
+              $this->setValidationError(['message' => 'Access Denied']);
               return $this->response('401');
           }
 
@@ -135,9 +137,11 @@ class AdminController extends BaseController
        ];
        $result = $this->adminInterface->store($admin);
        if (isset($result)){
-          event(new ContentCRUDEvent('Create Admin', $request->admin_id, 'Promote', 'Gave admin privileges to '. $result->id));
+          $user = ['type'=> 4];
+          $this->userInterface->update($user, $request->user_id);
+          event(new ContentCRUDEvent('Create Admin', $request->admin_id, 'Promote', 'Gave admin privileges to '. $result->name));
           $result = new AdminResource($result);
-          $this->data(array('user' => $result));
+          $this->data(array($result));
           return $this->response('201');
        }else{
           return $this->response('500');
@@ -169,15 +173,33 @@ class AdminController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+      // dd($request->all());
+      $validator = Validator::make($request->all(), [
+            'admin_id'  =>  'required|exists:admin,id'
+        ]);
+
+       if ($validator->fails()) {
+           $this->setError('400');
+           $messages=[];
+
+           foreach ($validator->messages()->toArray() as $key=>$value) {
+                $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+           }
+
+           $this->setValidationError(['validation' => $messages]);
+           return $this->response('400');
+       }
         $admin = $this->adminInterface->find($id);
         if (empty($admin)) {
-           event(new ContentCRUDEvent('Remove Admin', $request->admin_id, 'Promote', 'Remove admin privileges from '. $id));
             $this->setError('404', $id);
             return $this->response('404');
         }else{
             $this->adminInterface->destroy($id);
+            $user = $this->userInterface->findByUid($admin->uid);
+            $this->userInterface->update(['type'=>0], $user->id);
+            event(new ContentCRUDEvent('Remove Admin', $request->admin_id, 'Demote', 'Remove admin privileges from '. $admin->name));
             $this->data(array('deleted' =>  1));
             return $this->response('200');
         }

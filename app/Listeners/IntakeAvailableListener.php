@@ -8,17 +8,19 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Mail\Intake;
+use App\Repositories\User\UserRepositoryInterface as UserInterface;
 
-class IntakeAvailableListener implements ShouldQueue
+class IntakeAvailableListener
 {
+    public $userInterface;
     /**
      * Create the event listener.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserInterface $userInterface)
     {
-        //
+        $this->userInterface = $userInterface;
     }
 
     /**
@@ -29,6 +31,14 @@ class IntakeAvailableListener implements ShouldQueue
      */
     public function handle(IntakeAvailableEvent $event)
     {
-        Mail::to($event->user->email)->send(new Intake($event->intake->form_link, $event->user->name));
+        $users = $this->userInterface->getNormalUsers();
+        // dd(count($users));
+        foreach ($users as $user) {
+          try {
+            Mail::to($user->email)->send(new Intake($event->intake->form_link, $user->name));
+          } catch (\Exception $e) {
+
+          }
+        }
     }
 }

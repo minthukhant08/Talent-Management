@@ -1,7 +1,7 @@
 <template >
   <v-card class="pa-2">
         <v-list>
-          <v-list-item>
+          <v-list-item @click="goRoute('/profile/'+ User.id)">
             <v-list-item-avatar>
               <img :src="User.image" alt="profile">
             </v-list-item-avatar>
@@ -63,8 +63,10 @@ export default{
     },
     noti(value){
       if (value) {
-        this.getNotiToken();
+        this.getNotiToken(1);
         this.$store.dispatch('setNotiSubscribe',value);
+      }else{
+        this.getNotiToken(0);
       }
     }
   },

@@ -7,6 +7,7 @@ use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Intake\IntakeRepositoryInterface as IntakeInterface;
 use App\Events\IntakeAvailableEvent;
 use App\Events\IntakeConfirmEvent;
+use App\Events\ContentCRUDEvent;
 use App\Http\Resources\Intake as IntakeResource;
 use Validator;
 use App\Mail\Confirmation;
@@ -31,13 +32,6 @@ class IntakeController extends BaseController
     {
 
         $intake = $this->intakeInterface->getIntake();
-        $normal_users = User::get();
-        foreach ($normal_users as $user) {
-           event(new IntakeAvailableEvent($intake, $user));
-        }
-
-        $user = User::find(1);
-        event(new IntakeConfirmEvent($user, 'ggg'));
         if (empty($intake)) {
             $this->setError('404', $id);
             return $this->response('404');
@@ -57,8 +51,9 @@ class IntakeController extends BaseController
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-              'available'          =>  'required',
-              'form_link'         =>  'required'
+              'available'         =>  'required',
+              'form_link'         =>  'required',
+              'admin_id'          =>  'required'
           ]);
         if ($validator->fails()) {
             $this->setError('400');
@@ -72,13 +67,13 @@ class IntakeController extends BaseController
             return $this->response('400');
         }
         $intake = $this->intakeInterface->getIntake();
-        $newintake = $this->intakeInterface->update($request->all());
-        Mail::to('minthu@gmail.com')->send(new Confirmation('laho'));
+        $newintake = $this->intakeInterface->update($request->only('available', 'form_link'));
         if (!empty($newintake)) {
-            if ($newintake->available != $intake->available ) {
+            if ($newintake->available != $intake->available && $newintake->available == 1) {
                 event(new IntakeAvailableEvent($newintake));
             }
             $this->data(array('updated' =>  1));
+            event(new ContentCRUDEvent('Update Intake', $request->admin_id, 'Update', 'Updated Intake Information'));
             return $this->response('200');
         }else{
             return $this->response('200');

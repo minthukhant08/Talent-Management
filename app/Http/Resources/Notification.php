@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use DateTime;
 
 class Notification extends JsonResource
 {
@@ -33,7 +34,7 @@ class Notification extends JsonResource
           'title'         => $this->title,
           'type'          => $this->type,
           'descriptions'  => $this->descriptions,
-          'date'          => $this->date,
+          'date'          => date_format(new DateTime($this->date),"d F, Y"),
           'seen'          => $this->seen,
           'code'          => $code
         ];

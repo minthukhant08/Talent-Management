@@ -14,13 +14,13 @@ class TopicDetail extends Model
         'created_at', 'updated_at'
     ];
 
-    public function Topic($value='')
+    public function Topic()
     {
       return $this->hasOne(Topic::class);
     }
 
-    public function teacher($value='')
+    public function teacher()
     {
-      return $this->hasOne(User::class);
+      return $this->belongsTo(User::class);
     }
 }
