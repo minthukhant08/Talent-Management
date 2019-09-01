@@ -23,7 +23,7 @@
                 :search="search"
               ><template v-slot:item.action="{ item }">
                   <v-icon @click="edit = true" color="info">mdi-square-edit-outline</v-icon>
-                  <v-icon @click="deleteItem(item)" color="error" class="pl-2">delete</v-icon>
+                  <v-icon @click="deleteActivity(item)" color="error" class="pl-2">delete</v-icon>
               </template>
             </v-data-table>
             </v-card>
@@ -129,27 +129,23 @@
           </div>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="edit" max-width="500px">
+    <v-dialog v-model="edit" max-width="650px">
       <v-card ma5
-      :elevation="5"
         class="mx-auto"
         width="100%"
-        style="border-radius:10px;"
+
       >
         <v-layout row ma-3>
-          <v-flex xs12 sm12 md4 lg4 xl4>
+          <v-flex xs12 sm12 md12 lg12 xl12>
             <v-col align="center" justify="center">
               <v-img
                 src="https://picsum.photos/id/11/500/300"
-                lazy-src="https://picsum.photos/id/11/10/6"
-                aspect-ratio="1"
+                :aspect-ratio="16/9"
                 class="grey lighten-2"
-                max-width="200"
-                max-height="200"
               ><v-icon style="float:right;">camera</v-icon></v-img>
           </v-col>
           </v-flex>
-          <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>
+          <v-flex xs12 sm12 md12 lg12 xl12 ml-12 mt-5>
                 <v-row class="customActivityForm">
                   <v-flex xs12 sm12 md3 lg3 xl3>
                     Name
@@ -228,7 +224,7 @@
           <v-spacer></v-spacer>
           <v-btn text @click="edit=false">close</v-btn>
           <v-btn
-           @click="updatecourse" text>Update</v-btn>
+            text>Update</v-btn>
 
         </v-card-actions>
       </v-card>
@@ -272,20 +268,39 @@ import commonmethods from '../../mixins/commonMethods';
   activities_type:'',
   activities_descriptions:''
     }),
+    computed:{
+      Admin(){
+        return this.$store.getters.getAdmin;
+      }
+    },
     methods: {
-      deleteItem (item) {
-        const index = this.activities.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.activities.splice(index, 1)
+      deleteActivity (activity) {
+
+        this.$http.put(this.$root.api + '/activities/delete/'+ activity.id,{
+          admin_id: this.Admin.id
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          const index = this.activities.indexOf(activity);
+          this.activities.splice(index, 1)
+        })
       },
       getactivity(){
-        this.$http.get('http://localhost:8000/api/v1/activities').then(response=>{
+        this.$http.get(this.$root.api + '/activities',{
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then(response=>{
           this.activities= response.body.data;
         }, response => {
           console.log('error');
         })
       },
       putactivity(){
-        this.$http.put('http://localhost:8000/api/v1/activities',{name}).then(response=>{
+        this.$http.put(this.$root.api + '/activities',{name}).then(response=>{
           this.activities= response.body.data;
         }, response => {
           console.log('error');
@@ -298,6 +313,11 @@ import commonmethods from '../../mixins/commonMethods';
           "date": this.activities_date,
           "type": this.activities_type,
           "descriptions":this.activities_descriptions
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
         }).then((response)=>{
           this.activities.unshift({"name": this.activities_name,
           "speaker": this.activities_speaker,

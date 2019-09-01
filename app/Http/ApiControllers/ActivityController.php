@@ -171,15 +171,30 @@ class ActivityController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $validator = Validator::make($request->all(), [
+                'admin_id'  =>  'required'
+            ]);
+
+        if ($validator->fails()) {
+            $this->setError('400');
+            $messages=[];
+
+            foreach ($validator->messages()->toArray() as $key=>$value) {
+                  $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+            }
+
+            $this->setValidationError(['validation' => $messages]);
+            return $this->response('400');
+        }
         $activity = $this->activityInterface->find($id);
         if (empty($activity)) {
             $this->setError('404', $id);
             return $this->response('404');
         }else{
             $this->activityInterface->destroy($id);
-            event(new ContentCRUDEvent('Delete Activity', $request->admin_id, 'Deleted', 'Deleted '. $result->name. ' Activity'));
+            event(new ContentCRUDEvent('Delete Activity', $request->admin_id, 'Deleted', 'Deleted '. $activity->name. ' Activity'));
             $this->data(array('deleted' =>  1));
             return $this->response('200');
         }

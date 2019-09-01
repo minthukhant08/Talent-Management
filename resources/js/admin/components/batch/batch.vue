@@ -94,12 +94,7 @@
         :search="search"
       >
       <template v-slot:item.action="{ item }">
-        <v-btn color="error"
-        @click="deleteBatch(item)"
-          small
-        ><v-icon>delete</v-icon>
-
-        </v-btn>
+        <v-icon color="error" @click="deleteBatch(item)">delete</v-icon>
       </template>
 
     </v-data-table>
