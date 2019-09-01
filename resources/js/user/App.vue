@@ -103,7 +103,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <template v-if="$vuetify.breakpoint.mdAndUp && User.id!=null">
-          <v-btn color=exception text @click="goRoute('/courses')"><v-icon>mdi-book</v-icon>&nbsp;Courses</v-btn>
+          <v-btn color=exception text @click="goRoute('/courses')"><v-icon color="info">mdi-book</v-icon>&nbsp;Courses</v-btn>
           <v-btn color=exception text @click="goRoute('/activities')"><v-icon>mdi-ticket</v-icon>&nbsp;Activities</v-btn>
           <template v-if="User.type == 'teacher'">
             <v-btn color=exception text @click="goRoute('/giveresults')"><v-icon>mdi-ticket</v-icon>&nbsp;Results</v-btn>

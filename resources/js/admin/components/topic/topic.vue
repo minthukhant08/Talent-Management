@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on }">
           <v-container>
             <v-card class="mt-3" :elevation="5">
-              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark :elevation="8"><v-icon>add</v-icon></v-btn>
+              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
               <v-card-title>
                 Topics
                 <v-spacer></v-spacer>
@@ -34,7 +34,7 @@
                 <v-icon  @click="deleteTopic(item)"
                   color="error"
                   class="pl-2" >
-                  delete
+                  mdi-square-edit-outline
                 </v-icon>
               </template>
             </v-data-table>
@@ -65,10 +65,26 @@
                        Start Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                      ></v-text-field>
+                      <v-menu
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="date"
+                          label="Picker without buttons"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                      </v-menu>
                     </v-col>
                   </v-row>
                   <v-row class="customActivityForm">
@@ -76,10 +92,26 @@
                       End Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                        ></v-text-field>
+                      <v-menu
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="date"
+                          label="Picker without buttons"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                      </v-menu>
                     </v-col>
                   </v-row>
                   <v-row>
@@ -110,7 +142,14 @@
         style="border-radius:10px;"
       >
         <v-layout row ma-3>
-          <v-flex xs12 sm12 md12 lg12 xl12 ml-12 mt-5>
+
+          <v-flex ma-5>
+            <v-row>
+              <v-flex xs12 sm12 md12 lg12 xl12 display-1 mb-7>
+                Topic Edit
+              </v-flex>
+
+            </v-row>
                 <v-row class="customActivityForm">
                   <v-flex xs12 sm12 md3 lg3 xl3>
                     Topic
@@ -128,11 +167,26 @@
                      Start Date
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7>
-                    <v-text-field
-                      filled
-                      color="accent"
-                      v-model = "selectedTopic.start_date"
-                    ></v-text-field>
+                    <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                    </v-menu>
                   </v-flex>
                 </v-row>
                 <v-row class="customActivityForm">
@@ -140,11 +194,26 @@
                     End Date
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7>
-                    <v-text-field
-                      filled
-                      color="accent"
-                      v-model = "selectedTopic.end_date"
-                    ></v-text-field>
+                    <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                    </v-menu>
                   </v-flex>
                 </v-row>
               </v-flex>
@@ -169,6 +238,7 @@
       </v-card>
     </v-dialog>
   </v-row>
+
 </template>
 
 <script>

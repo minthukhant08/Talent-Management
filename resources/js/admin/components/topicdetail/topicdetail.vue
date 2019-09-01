@@ -8,7 +8,7 @@
           <v-flex xs12 sm12 md10 lg10 xl10> -->
           <v-container>
             <v-card class="mt-3" :elevation="5">
-              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>add</v-icon></v-btn>
+              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
               <v-card-title>
                 Topics Details
                 <v-spacer></v-spacer>
@@ -42,12 +42,9 @@
                 :items="topics"
                 :search="search"
               >
-
-
-
               <template v-slot:item.action="{ item }">
                   <v-icon @click="edit=true"
-                  color="info">edit</v-icon>
+                  color="info">mdi-square-edit-outline</v-icon>
                 <v-icon @click="deletedItem(item)" color="error" class="pl-2">delete</v-icon>
 
 
@@ -85,10 +82,36 @@
                        Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
+                      <v-menu
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="date"
+                          label="Picker without buttons"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                      </v-menu>
+                    </v-col>
+                  </v-row>
+                  <v-row class="customActivityForm">
+                    <v-col xs12 sm12 md3 lg3 xl3>
+                      Teacher
+                    </v-col>
+                    <v-col xs12 sm12 md7 lg7 xl7>
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="topics_start_date"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -121,19 +144,7 @@
         style="border-radius:10px;"
       >
         <v-layout row ma-3>
-          <v-flex xs12 sm12 md4 lg4 xl4>
-            <v-col align="center" justify="center">
-              <v-img
-                src="https://picsum.photos/id/11/500/300"
-                lazy-src="https://picsum.photos/id/11/10/6"
-                aspect-ratio="1"
-                class="grey lighten-2"
-                max-width="200"
-                max-height="200"
-              ><v-icon>camera</v-icon></v-img>
-          </v-col>
-          </v-flex>
-          <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>
+          <v-flex xs12 sm12 md12 lg12 xl12 ml-7 mt-5>
                 <v-row class="customActivityForm">
                   <v-flex xs12 sm12 md3 lg3 xl3>
                     Name
@@ -142,7 +153,6 @@
                     <v-text-field
                       filled
                       color="accent"
-                      v-model="activities_name"
                     ></v-text-field>
                   </v-flex>
                 </v-row>
@@ -152,11 +162,37 @@
                   Date
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7>
-                    <v-text-field
-                      filled
-                      color="accent"
-                      v-model="activities_date"
-                    ></v-text-field>
+                    <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                    </v-menu>
+                  </v-flex>
+                </v-row>
+                <v-row class="customActivityForm">
+                  <v-flex xs12 sm12 md3 lg3 xl3>
+                    Teacher
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-autocomplete
+                      label="Components"
+                      :items="components"
+                    ></v-autocomplete>
                   </v-flex>
                 </v-row>
               </v-flex>
@@ -188,6 +224,12 @@ import commonmethods from '../../mixins/commonMethods';
   export default {
     mixins:[commonmethods],
     data: () => ({
+        components: [
+          'name', 'image',
+        ],
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      menu2: false,
       dialog: false,
       dialog2: false,
       topics:[],

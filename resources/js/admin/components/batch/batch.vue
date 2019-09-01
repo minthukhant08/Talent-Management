@@ -19,7 +19,7 @@
       single-line
       hide-details
     ></v-text-field>
-      <v-btn color="accent" class="elevation-5" @click="dialog=true"><v-icon>add</v-icon></v-btn>
+      <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
       <v-dialog
         v-model="dialog"
         width="500"
