@@ -19,6 +19,11 @@ class ConfirmRepository implements ConfirmInterface
      return $this->confirm::find($id);
   }
 
+  public function confirm($user_id, $code)
+  {
+     return $this->confirm::with('user')->where([['user_id', '=', $user_id], ['code', '=', $code]])->first();
+  }
+
   public function getByUserID($id)
   {
      return $this->confirm::where('user_id', '=', $id)

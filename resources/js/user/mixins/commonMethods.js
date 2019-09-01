@@ -3,7 +3,7 @@ import {bus} from '../app';
 export default{
   methods:{
     goRoute(route){
-      this.$router.push(route);
+      this.$router.push(route).catch(err => {});
     },
     googleLogin(){
       var provider = new firebase.auth.GoogleAuthProvider();
@@ -79,15 +79,19 @@ export default{
     logout(){
       firebase.auth().signOut().then(()=>{
         this.$store.dispatch('setUser', {
-          name  : '',
-          email : '',
-          image : ''
+          name  : null,
+          email : null,
+          image : null
         });
         this.$store.dispatch('toggle_Login',false);
       })
     },
     getNotification(user_id){
-      this.$http.get(this.$root.api + '/notifications/6').then((response)=>{
+      this.$http.get(this.$root.api + '/notifications/' + this.$store.getters.getUser.id, {
+        headers: {
+            Authorization: 'Bearer '+ this.$store.getters.getUser.token
+        }
+      }).then((response)=>{
         console.log(response.body);
         this.$store.dispatch('setNoti',response.body.data);
         this.$store.dispatch('setNotiCount',response.body.meta.total);
@@ -104,8 +108,13 @@ export default{
           user_id   : _this.$store.getters.getUser.id,
           token     : token,
           subscribe : subscribe
+        },
+        {
+          headers: {
+              Authorization: 'Bearer '+ this.$store.getters.getUser.token
+          }
         }).then((response)=>{
-
+          console.log(response);
         })
         .then((error)=>{
           console.log(error);

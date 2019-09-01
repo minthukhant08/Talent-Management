@@ -24,6 +24,7 @@
             </template>
             <template v-slot:item.remove="{item}">
                 <v-icon
+                  v-show="item.id!=1"
                   small
                   @click="deleteAdmin(item)"
                 >
@@ -215,6 +216,11 @@ export default{
           user_id: this.selectedUser.id,
           role : this.type,
           admin_id: this.Admin.id
+      },
+      {
+        headers: {
+            Authorization: 'Bearer '+ this.Admin.token
+        }
       }).then((response) =>{
         this.promoteDialog = false;
         var index = this.searchresult.indexOf(this.selectedUser);
@@ -260,9 +266,13 @@ export default{
       });
     },
     searchUser(){
-       this.$http.get(this.$root.api +'/users?admin=1&name='+this.search).then((response) => {
-         console.log(this.searchresult );
-         this.searchresult = response.body.data;
+     this.$http.get(this.$root.api +'/users?admin=1&name='+this.search,{
+       headers: {
+           Authorization: 'Bearer '+ this.Admin.token
+       }
+     }).then((response) => {
+       console.log(this.searchresult );
+       this.searchresult = response.body.data;
      }, response => {
        console.log(response);
      });

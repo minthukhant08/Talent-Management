@@ -112,7 +112,6 @@
          }
        } ).then(response=>{
          this.lists=response.body.data;
-         console.log(response.body.data);
        },response=>{
        });
      },
@@ -120,7 +119,6 @@
 
        this.editedIndex = this.lists.indexOf(item)
        this.editedItem = Object.assign({}, item)
-       console.log(this.editedItem);
        this.dialog = true
      },
      save(){
@@ -138,7 +136,7 @@
 
        })
      },
-     
+
       getChosen(){
         console.log(this.choose);
       },

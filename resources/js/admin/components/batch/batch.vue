@@ -19,7 +19,7 @@
       single-line
       hide-details
     ></v-text-field>
-      <v-btn color="accent" class="elevation-5" @click="dialog=true"><v-icon>add</v-icon></v-btn>
+      <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
       <v-dialog
         v-model="dialog"
         width="500"
@@ -43,7 +43,6 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="batch_name"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -55,7 +54,6 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="batch_start_date"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -67,7 +65,6 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="batch_end_date"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -98,7 +95,7 @@
       >
       <template v-slot:item.action="{ item }">
         <v-btn color="error"
-        @click="deletedItem(item)"
+        @click="deleteBatch(item)"
           small
         ><v-icon>delete</v-icon>
 
@@ -152,15 +149,30 @@
       }
     },
     computed:{
-      User(){
-        return this.$store.getters.getUser;
+      Admin(){
+        return this.$store.getters.getAdmin;
       }
     },
     methods: {
-      getbatch(){
-        this.$http.get('http://localhost:8000/api/v1/batches',{
+      deleteBatch (batch) {
+        const index = this.batch.indexOf(batch);
+        this.batch.splice(index, 1);
+        this.$http.put(this.$root.api + '/batches/delete/'+ batch.id,{
+          admin_id: this.Admin.id
+        },
+        {
           headers: {
-              Authorization: 'Bearer '+ this.User.token
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          console.log(response);
+          this.batch.splice(index, 1);
+        })
+      },
+      getbatch(){
+        this.$http.get(this.$root.api + '/batches',{
+          headers: {
+              Authorization: 'Bearer '+ this.Admin.token
           }
         }).then(response=>{
           this.batch= response.body.data;

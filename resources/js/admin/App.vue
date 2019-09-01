@@ -16,7 +16,7 @@
           </template>
           <v-list-item class="pl-9" @click="goRoute('/admin/student')">
             <v-list-item-action>
-              <v-icon>person</v-icon>
+              <v-icon color="#455A64">person</v-icon>
             </v-list-item-action>
 
             <v-list-item-content>
@@ -47,7 +47,7 @@
         </v-list-group>
         <v-list-item @click="goRoute('/admin/course')">
           <v-list-item-action>
-            <v-icon>person</v-icon>
+            <v-icon color="#43A047">mdi-book</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Course</v-list-item-title>
@@ -56,7 +56,7 @@
 
         <v-list-item @click="goRoute('/admin/batch')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon color="#FF5722">mdi-account-group</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Batch</v-list-item-title>
@@ -64,7 +64,7 @@
         </v-list-item>
         <v-list-item @click="goRoute('/admin/activity')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon color="yellow">mdi-ticket</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Activity</v-list-item-title>
@@ -72,7 +72,7 @@
         </v-list-item>
         <v-list-item @click="goRoute('/admin/topic')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon color="blue">mdi-book-open-page-variant</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Topic</v-list-item-title>
@@ -96,12 +96,12 @@
         </v-list-item>
         <v-list-item @click="logout">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon color="#303F9F">mdi-update</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item-content>
-        </v-list-item> -->
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -195,21 +195,11 @@ export default {
         this.$vuetify.theme.dark = this.dark;
       },
       login(){
-        var _this = this;
-        firebase.auth().onAuthStateChanged((user)=>{
-          console.log(this.Admin.name);
-          // if (this.User.name=="") {
-          //   this.logout();
-          // }
-          console.log(user);
-          if (user) {
-            this.drawer = !this.drawer;
-            console.log("logged");
-          } else {
-            this.loginDialog = true;
-            console.log("not logged");
-          }
-        });
+        if (this.Admin.name != null) {
+           this.drawer = !this.drawer;
+        }else{
+          this.loginDialog = true;
+        }
       },
       getNotification(){
         this.$http.get(this.$root.api + '/notifications/10').then((response)=>{

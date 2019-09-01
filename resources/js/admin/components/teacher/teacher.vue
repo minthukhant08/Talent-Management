@@ -8,9 +8,6 @@
       >
         <v-tab >Teachers</v-tab>
         <v-tab >Manage</v-tab>
-
-
-
         <v-tab-item>
           <v-container fluid>
             <v-row>
@@ -46,7 +43,7 @@
             solo-inverted
             v-model='search'
             style="width: 800px;"
-						v-on:keyup.enter="searchScanner"
+						v-on:keyup.enter="searchTeacher"
           >
           </v-text-field>
         </v-row>
@@ -203,10 +200,18 @@
       batchess:[],
         }
   },
+	computed:{
+		Admin(){
+			return this.$store.getters.getAdmin;
+		}
+	},
   methods:{
     getall(){
-
-      	this.$http.get(this.$root.api +'/users').then(response => {
+      	this.$http.get(this.$root.api +'/users', {
+	        headers: {
+	            Authorization: 'Bearer '+ this.Admin.token
+	        }
+	      }).then(response => {
           this.users = response.body.data;
       }, response => {
 
@@ -215,7 +220,11 @@
 
     getCourse(){
         var results=[];
-        this.$http.get(this.$root.api +'/courses').then(response => {
+        this.$http.get(this.$root.api +'/courses',{
+	        headers: {
+	            Authorization: 'Bearer '+ this.Admin.token
+	        }
+	      }).then(response => {
           results = response.body.data;
           var i;
           for (i = 0; i < results.length; i++) {
@@ -231,7 +240,11 @@
 
     getBatch(){
         var results=[];
-        this.$http.get(this.$root.api + '/batches').then(response => {
+        this.$http.get(this.$root.api + '/batches',{
+	        headers: {
+	            Authorization: 'Bearer '+ this.Admin.token
+	        }
+	      }).then(response => {
           results = response.body.data;
           var i;
           for (i = 0; i < results.length; i++) {
@@ -244,9 +257,12 @@
 
       });
     },
-    searchScanner(){
-
-        this.$http.get(this.$root.api + '/users?admin=1&name='+this.search).then(response => {
+    searchTeacher(){
+        this.$http.get(this.$root.api + '/users?admin=1&type=normal&name='+this.search,{
+	        headers: {
+	            Authorization: 'Bearer '+ this.Admin.token
+	        }
+	      }).then(response => {
           this.searchresult = response.body.data;
       }, response => {
 
@@ -258,6 +274,11 @@
           course_id: this.selectedCourse,
           batch_id:  this.selectedBatch,
           type:'teacher'
+      },
+			{
+        headers: {
+            Authorization: 'Bearer '+ this.Admin.token
+        }
       }).then((response) =>{
         this.dialog = false;
 				var index = this.searchresult.indexOf(this.selectedUser);
@@ -279,18 +300,12 @@
       this.dialog =true;
       this.selectedUser = user;
     }
-
-
   },
 
   created(){
-
   	this.getall();
-    this.getCourse();
-    this.getBatch();
-  },
-  computed:{
-
+		this.getCourse();
+		this.getBatch();
   }
 }
 </script>

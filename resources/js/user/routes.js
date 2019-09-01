@@ -8,26 +8,19 @@ import results from './components/result/result.vue';
 import giveresults from './components/give_results/give_results.vue';
 import assignments from './components/assignment/assignment.vue';
 import timetable from './components/timetable/timetable.vue';
-import intake from './components/intake/intake.vue';
 import activitydetail from './components/activity/activitydetail.vue';
-
-
-
-
-
 
 export default[
   {path:'/', component:home},
-  {path:'/profile/:id', component:profile},
-  {path:'/editprofile', component:editprofile},
-  {path:'/activities', component:activities},
-  {path:'/results', component:results},
-  {path:'/courses', component:courses},
-  {path:'/courses/:id', component:topics},
-  {path:'/giveresults', component:giveresults},
-  {path:'/assignment', component:assignments},
-  {path:'/timetable', component:timetable},
-  {path:'/intake', component:intake},
-  {path:'/activitydetail/:id', component:activitydetail},
+  {path:'/profile/:id', component:profile, meta: { requiresAuth: true }},
+  {path:'/editprofile', component:editprofile, meta: { requiresAuth: true }},
+  {path:'/activities', component:activities, meta: { requiresAuth: true }},
+  {path:'/results', component:results, meta: { requiresAuth: true }},
+  {path:'/courses', component:courses, meta: { requiresAuth: true }},
+  {path:'/courses/:id', component:topics, meta: { requiresAuth: true }},
+  {path:'/giveresults', component:giveresults, meta: { requiresAuth: true }},
+  {path:'/assignment', component:assignments, meta: { requiresAuth: true }},
+  {path:'/timetable', component:timetable, meta: { requiresAuth: true }},
+  {path:'/activitydetail/:id', component:activitydetail, meta: { requiresAuth: true }},
 
 ]

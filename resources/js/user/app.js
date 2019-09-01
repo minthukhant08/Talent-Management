@@ -25,6 +25,47 @@ const router= new VueRouter({
   mode:'history'
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (store.state.User.type == null) {
+          next('/login')
+      } else {
+          next()
+      }
+  } else {
+      next()
+  }
+
+  if (to.fullPath === '/results') {
+    if (store.state.User.type != 'student') {
+      next('');
+    }
+  }
+
+  if (to.fullPath === '/giveresults') {
+    console.log(store.state.Admin);
+    if (store.state.User.type != 'teacher') {
+      next('/');
+    }
+  }
+
+  if (to.fullPath === '/assignment') {
+    console.log(store.state.Admin);
+    if (store.state.User.type != 'teacher') {
+      next('/');
+    }
+  }
+
+  if (to.fullPath === '/timetable') {
+    console.log(store.state.Admin);
+    if (store.state.User.type != 'teacher') {
+      next('/');
+    }
+  }
+
+  next();
+});
+
 const vuetify = new Vuetify(theme);
 
 new Vue({

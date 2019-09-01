@@ -74,7 +74,7 @@ class ConfirmController extends BaseController
              return $this->response('400');
          }
          $confirm = $request->all();
-         $confirm = $this->confirmInterface->find($confirm['user_id'], $confirm['code']);
+         $confirm = $this->confirmInterface->confirm($confirm['user_id'], $confirm['code']);
          if (empty($confirm)) {
              $this->setError('501', $request->code);
              $this->setValidationError(['message' => "Wrong Code"]);
@@ -85,7 +85,7 @@ class ConfirmController extends BaseController
                'type' => 1
              ];
              if ($this->userInterface->update($user, $confirm->user_id)) {
-                 event(new ContentCRUDEvent('Confirmed Student', $request->admin_id, 'Confirm', 'Confirmed '. $result->name. ' as student.'));
+                 event(new ContentCRUDEvent('Confirmed Student', 1, 'Confirm', 'Confirmed '. $confirm->user->name. ' as student.'));
                  return $this->response('201');
              }
          }

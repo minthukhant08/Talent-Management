@@ -14,7 +14,9 @@ class UserRepository implements UserInterface
   {
      $this->user = $user;
   }
-
+  public function getNormalUsers(){
+    return $this->user::where('type','=',0)->get();
+  }
   public function getAll($offset, $limit, $type, $name, $course, $batch, $gender, $admin){
     if ($admin) {
       return $this->user::with('course','batch')->orderBy('created_at', 'desc')

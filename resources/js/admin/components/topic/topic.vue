@@ -1,50 +1,45 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="600px">
+    <v-dialog persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-layout>
-          <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
-          <v-flex xs12 sm12 md10 lg10 xl10>
-            <v-card class="mt-3">
+          <v-container>
+            <v-card class="mt-3" :elevation="5">
+              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
               <v-card-title>
                 Topics
                 <v-spacer></v-spacer>
-                <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Search"
-                single-line
+                <v-autocomplete
+                class="ma-7"
+                :items="topics"
+                clearable
                 hide-details
-              ></v-text-field>
-                <v-btn color="accent" dark v-on="on" :elevation="5"><v-icon>add</v-icon></v-btn>
-
+                hide-selected
+                item-text="topic"
+                item-value="id"
+                label="Search for Course's Topic"
+                v-model="search"
+                >
+                </v-autocomplete>
               </v-card-title>
               <v-data-table
                 :headers="headers"
                 :items="topics"
                 :search="search"
-              ><template v-slot:item.action="{ item }">
-
-                <v-btn color="blue"
-                @click="goRoute('/admin/topicedit/'+item.id)"
-                  small
-                >
-                  <v-icon>edit</v-icon>
-                </v-btn>
-
-                <v-btn color="error"
-                @click="deletedItem(item)"
-                  small
-                ><v-icon>delete</v-icon>
-
-                </v-btn>
+              >
+              <template v-slot:item.action="{ item }">
+                <v-icon @click="showEditDialog(item)"
+                  color="info">
+                  edit
+                </v-icon>
+                <v-icon  @click="deleteTopic(item)"
+                  color="error"
+                  class="pl-2" >
+                  mdi-square-edit-outline
+                </v-icon>
               </template>
             </v-data-table>
             </v-card>
-          </v-flex>
-          <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
-        </v-layout>
-
+          </v-container>
       </template>
       <v-card mx-height="100">
         <v-card-title>
@@ -52,7 +47,7 @@
         </v-card-title>
           <v-layout row ma-3>
 
-            <v-flex>
+            <v-flex ma-3>
                   <v-row class="customActivityForm">
                     <v-col xs12 sm12 md3 lg3 xl3>
                       Name
@@ -61,7 +56,6 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="topics_name"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -71,11 +65,26 @@
                        Start Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                        v-model="topics_start_date"
-                      ></v-text-field>
+                      <v-menu
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="date"
+                          label="Picker without buttons"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                      </v-menu>
                     </v-col>
                   </v-row>
                   <v-row class="customActivityForm">
@@ -83,11 +92,26 @@
                       End Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                        v-model="topics_end_date"
-                        ></v-text-field>
+                      <v-menu
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="date"
+                          label="Picker without buttons"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                      </v-menu>
                     </v-col>
                   </v-row>
                   <v-row>
@@ -96,99 +120,202 @@
                       <v-textarea
                             outlined
                             label="Outlined textarea"
-                            v-model="topics_descriptions"
                       ></v-textarea>
                     </v-col>
 
                   </v-row>
                 </v-flex>
           </v-layout>
-
-          <div class="button">
+          <v-layout>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+            <v-btn color="blue darken-1" text>Close</v-btn>
             <v-btn color="blue darken-1" text @click="save()">Post</v-btn>
-          </div>
+          </v-layout>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="editDialog" max-width="500px">
+      <v-card
+        ma-3
+        :elevation="5"
+        class="mx-auto"
+        width="100%"
+        style="border-radius:10px;"
+      >
+        <v-layout row ma-3>
 
+          <v-flex ma-5>
+            <v-row>
+              <v-flex xs12 sm12 md12 lg12 xl12 display-1 mb-7>
+                Topic Edit
+              </v-flex>
 
+            </v-row>
+                <v-row class="customActivityForm">
+                  <v-flex xs12 sm12 md3 lg3 xl3>
+                    Topic
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-text-field
+                      filled
+                      color="accent"
+                      v-model = "selectedTopic.topic"
+                    ></v-text-field>
+                  </v-flex>
+                </v-row>
+                <v-row class="customActivityForm">
+                  <v-flex xs12 sm12 md3 lg3 xl3>
+                     Start Date
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                    </v-menu>
+                  </v-flex>
+                </v-row>
+                <v-row class="customActivityForm">
+                  <v-flex xs12 sm12 md3 lg3 xl3>
+                    End Date
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                    </v-menu>
+                  </v-flex>
+                </v-row>
+              </v-flex>
+              <v-layout row ma-3>
+                <v-flex xs12 sm12 md12 lg12 xl12>
+                  Description
+                  <v-textarea
+                    outlined
+                    v-model = "selectedTopic.descriptions"
+                  ></v-textarea>
+                </v-flex>
 
+              </v-layout>
+        </v-layout>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="edit=false">close</v-btn>
+          <v-btn
+           @click="updateTopic" text>Update</v-btn>
 
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </v-row>
+
 </template>
 
 <script>
 import commonmethods from '../../mixins/commonMethods';
   export default {
     mixins:[commonmethods],
-    data: () => ({
-      dialog: false,
-      dialog2: false,
-      topics:[],
-      search:'',
-      topics_name:'',
-      topics_start_date:'',
-      topics_end_date:'',
-      topics_descriptions:'',
-      headers: [
-        {
-          text: 'Name',
-          align: 'left',
-          sortable: false,
-          value: 'topic',
-        },
-        { text: 'Description', value: 'descriptions',width: '600px' },
+    data(){
+      return{
+        search:'',
+        topics:[],
+        editDialog:false,
+        selectedTopic:{},
+        headers: [
+          {
+            text: 'Name',
+            align: 'left',
+            sortable: false,
+            value: 'topic',
+          },
+          { text: 'Start Date', value: 'start_date' },
+          { text: 'End Date', value: 'end_date' },
+          { text: 'Description', value: 'descriptions' },
 
-        {
-          text: 'Actions',
-          value: 'action',
-          align: 'right',
-          sortable: false },
-      ],
-  desserts:[],
-    }),
+          {
+            text: 'Actions',
+            value: 'action',
+            align: 'right',
+            sortable: false },
+        ],
+      }
+    },
+    computed:{
+      Admin(){
+        return this.$store.getters.getAdmin;
+      }
+    },
     methods: {
-      gettopic(){
-        this.$http.get('http://localhost:8000/api/v1/topics').then(response=>{
+      gettopics(){
+        this.$http.get( this.$root.api + '/topics', {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then(response=>{
           this.topics= response.body.data;
         }, response => {
           console.log('error');
         })
-      },
-      deletedItem(topics){
-        const index = this.topics.indexOf(topics)
-        this.desserts.splice(index, 1)
-      },
-      save(){
-        this.$http.post(this.$root.api+'/activities',{
-          "topic": this.topics_name,
-          "start_date": this.topics_start_date,
-          "end_date": this.topics_end_date,
-          "descriptions":this.topics_descriptions
-        }).then((response)=>{
-          this.activities.unshift({
-            "topic": this.topics_name,
-            "start_date": this.topics_start_date,
-            "end_date": this.topics_end_date,
-            "descriptions":this.topics_descriptions});
-          this.dialog = false;
-        })
-        .then((error) =>{
-
-        })
-      },
-      close() {
-        this.dialog = false
-        setTimeout(()=>{
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        },300)
-      }
     },
+    updateTopic(topic){
+      this.$http.put(this.$root.api + '/topics/' + topic.id).then((response) =>{
 
-    created(){
-      this.gettopic()
+      })
+      .then((error)=>{
+
+      })
+    },
+    showEditDialog(topic){
+      var index = this.topics.indexOf(topic);
+      this.selectedTopic = Object.assign({}, topic);
+      this.editDialog = true;
+    },
+    deleteTopic(topic){
+      var index = this.topics.indexOf(topic);
+      this.$http.put(this.$root.api + '/topics/delete/'+ topic.id, {
+        admin_id : this.Admin.id
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.Admin.token
+        }
+      }).then((response) =>{
+        this.topics.splice(index, 1);
+      })
     }
+  },
+  created(){
+    this.gettopics()
   }
+}
 </script>

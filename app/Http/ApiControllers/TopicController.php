@@ -143,8 +143,23 @@ class TopicController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $validator = Validator::make($request->all(), [
+                'admin_id'  =>  'required'
+            ]);
+
+        if ($validator->fails()) {
+            $this->setError('400');
+            $messages=[];
+
+            foreach ($validator->messages()->toArray() as $key=>$value) {
+                  $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+            }
+
+            $this->setValidationError(['validation' => $messages]);
+            return $this->response('400');
+        }
         $topic = $this->topicInterface->find($id);
         if (empty($topic)) {
             $this->setError('404', $id);
@@ -152,7 +167,7 @@ class TopicController extends BaseController
         }else{
           $this->topicInterface->destroy($id);
           $this->data(array('deleted' =>  1));
-          event(new ContentCRUDEvent('Delete Topic', $request->admin_id, 'Delete', 'Deleted '. $result->name. ' Topic'));
+          event(new ContentCRUDEvent('Delete Topic', $request->admin_id, 'Delete', 'Deleted '. $topic->topic. ' Topic'));
           return $this->response('200');
         }
     }

@@ -10,7 +10,7 @@
                >
                   <template v-slot:top>
                      <v-toolbar flat color="accent">
-                         <v-text> Assignments</v-text>
+                         Assignments
                          <v-spacer></v-spacer>
                          <v-btn  fab color="primary" class="mb-1" @click="dialog = true" small><v-icon>create</v-icon></v-btn>
 
@@ -77,14 +77,22 @@
 
     methods: {
      getall(){
-       this.$http.get(this.$root.api + '/assignments?teacher_id=' + this.User.id).then(response=>{
+       this.$http.get(this.$root.api + '/assignments?teacher_id=' + this.User.id,{
+         headers: {
+             Authorization: 'Bearer '+ this.User.token
+         }
+       }).then(response=>{
          this.assignments=response.body.data;
        },response=>{
        });
      },
       deleteItem (assignment) {
         const index = this.assignments.indexOf(assignment)
-        this.$http.delete(this.$root.api + '/assignments/'+assignment.id).then((response) =>{
+        this.$http.delete(this.$root.api + '/assignments/'+assignment.id,{
+          headers: {
+              Authorization: 'Bearer '+ this.User.token
+          }
+        }).then((response) =>{
           console.log(response);
           const index = this.assignments.indexOf(assignment)
           this.assignments.splice(index, 1)
@@ -94,6 +102,11 @@
         this.$http.post(this.$root.api + '/assignments', {
           "name":this.assignment_name,
           "teacher_id":this.User.id,
+        },
+        {
+          headers: {
+              Authorization: 'Bearer '+ this.User.token
+          }
         }).then((response) =>{
           this.assignments.unshift({"name":this.assignment_name, "teacher_id":this.User.id});
           this.dialog = false;

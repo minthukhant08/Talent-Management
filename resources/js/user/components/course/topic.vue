@@ -7,7 +7,7 @@
     <v-dialog v-model="topicdetaildialog" max-width="500px">
       <v-card
         class="mx-auto"
-        max-width="500"
+        max-width="900px"
         dark
         flat
       >
@@ -15,8 +15,8 @@
           Front-End Schedule
             <v-spacer></v-spacer>
             <v-card-actions>
-              <v-btn class="mx-2" fab dark small text color=primary
-                @click="dialog = false"
+              <v-btn class="mx-2" fab dark small text color="accent"
+                @click="close()"
               >
                 <v-icon>close</v-icon>
               </v-btn>
@@ -28,20 +28,19 @@
               dense
             >
               <v-timeline-item
-
                 small
               >
                 <template v-slot:icon>
-                    <v-avatar>
+                    <v-avatar class="mt-5">
                       <img src="http://i.pravatar.cc/64">
                     </v-avatar>
                 </template>
 
-                <v-layout class="pb-3">
-                  <v-flex cols="4">
+                <v-layout>
+                  <v-flex xs4 sm4 md4 lg4 xl4>
                     <strong>{{topicdetails.start_date}}</strong>
                   </v-flex>
-                  <v-flex>
+                  <v-flex xs8 sm8 md8 lg8 xl8>
                       <strong>{{topicdetails.topic}}</strong>
                       <div class="caption">{{topicdetails.descriptions}}</div>
                   </v-flex>
@@ -108,14 +107,18 @@ export default{
 
     }
   },
-
+  computed:{
+      User(){
+        return this.$store.getters.getUser;
+      }
+  },
   methods:{
-    goRoute($route){
-      this.$router.push($route).catch(err => {});
-    },
-
     gettopicdetail(){
-      this.$http.get(this.$root.api + '/topics'+this.$route.params.id).then(response=>{
+      this.$http.get(this.$root.api + '/topics'+this.$route.params.id, {
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response=>{
         console.log(response.body.data);
         this.topic= response.body.data;
       }, response => {
@@ -129,7 +132,11 @@ export default{
 
 
     getCourseDetail(){
-      this.$http.get(this.$root.api + '/courses/'+this.$route.params.id).then(response=>{
+      this.$http.get(this.$root.api + '/courses/'+this.$route.params.id,{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response=>{
         //console.log(response.body.data);
         this.topics= response.body.data[0].topic;
       }, response => {
@@ -140,6 +147,13 @@ export default{
   created(){
     this.getCourseDetail();
     this.gettopicdetail();
+  },
+  close() {
+    this.dialog = false
+    setTimeout(()=>{
+      this.editedItem = Object.assign({}, this.defaultItem)
+      this.editedIndex = -1
+    },300)
   }
 }
 </script>

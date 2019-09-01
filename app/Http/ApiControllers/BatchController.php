@@ -103,8 +103,23 @@ class BatchController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $validator = Validator::make($request->all(), [
+                'admin_id'  =>  'required'
+            ]);
+
+        if ($validator->fails()) {
+            $this->setError('400');
+            $messages=[];
+
+            foreach ($validator->messages()->toArray() as $key=>$value) {
+                  $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+            }
+
+            $this->setValidationError(['validation' => $messages]);
+            return $this->response('400');
+        }
         $batch = $this->batchInterface->find($id);
         if (empty($batch)) {
             $this->setError('404', $id);
@@ -112,7 +127,7 @@ class BatchController extends BaseController
         }else{
             $this->batchInterface->destroy($id);
             $this->data(array('deleted' =>  1));
-            event(new ContentCRUDEvent('Delete Batch', $request->admin_id, 'Delete', 'Deleted '. $result->name. ' Batch'));
+            event(new ContentCRUDEvent('Delete Batch', $request->admin_id, 'Delete', 'Deleted '. $batch->name. ' Batch'));
             return $this->response('200');
         }
     }

@@ -78,7 +78,7 @@
         </v-list-item>
 
         <v-divider></v-divider>
-        <v-list-item @click="logout">
+        <v-list-item @click="logout();drawer=false">
           <v-btn block  class="pt-1 accent" >Logout</v-btn>
         </v-list-item>
 
@@ -96,14 +96,14 @@
 
       <div class="text-center pl-2 pr-2" >
         <v-avatar @click="goRoute('/')">
-          <img src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB" alt="avatar">
+          <img src="/images/logo_white.png" alt="logo">
         </v-avatar>
       </div>
 
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <template v-if="$vuetify.breakpoint.mdAndUp && User.id!=null">
-          <v-btn color=exception text @click="goRoute('/courses')"><v-icon>mdi-book</v-icon>&nbsp;Courses</v-btn>
+          <v-btn color=exception text @click="goRoute('/courses')"><v-icon color="info">mdi-book</v-icon>&nbsp;Courses</v-btn>
           <v-btn color=exception text @click="goRoute('/activities')"><v-icon>mdi-ticket</v-icon>&nbsp;Activities</v-btn>
           <template v-if="User.type == 'teacher'">
             <v-btn color=exception text @click="goRoute('/giveresults')"><v-icon>mdi-ticket</v-icon>&nbsp;Results</v-btn>
@@ -160,7 +160,7 @@
       </template>
     </v-app-bar>
 
-    <v-content class="content-background">
+    <v-content >
       <v-fade-transition mode="out-in">
             <router-view></router-view>
       </v-fade-transition>
@@ -177,7 +177,7 @@
                 class="mb-4 ma-5 mb-5 mt-5"
                 contain
                 height="150"
-                src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB"
+                src="/images/logo.png"
               ></v-img>
             <!-- </v-avatar> -->
             <h3 class="title font-weight-light">Welcome to Talent Program!</h3>
@@ -248,16 +248,11 @@ export default {
     },
     methods:{
       login(){
-        var _this = this;
-        firebase.auth().onAuthStateChanged((user)=>{
-          if (user) {
-            this.drawer = !this.drawer;
-            console.log("logged");
-          } else {
-            this.loginDialog = true;
-            console.log("not logged");
-          }
-        });
+        if (this.User.name != null) {
+           this.drawer = !this.drawer;
+        }else{
+          this.loginDialog = true;
+        }
       },
     },
     created () {

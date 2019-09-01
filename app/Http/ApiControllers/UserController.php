@@ -109,27 +109,27 @@ class UserController extends BaseController
     }
 
 
-    public function login(Request $request)
-    {
-
-        $email = $request->email;
-        $password = $request->password;
-        $user = $this->userInterface->findByUid($request->uid);
-        if (empty($user)) {
-            $this->setError('401');
-            return $this->response('401');
-        }else{
-            $credentials = array('email'=>$email, 'password'=>$password);
-            if (!$token = JWTAuth::attempt($credentials)) {
-                $this->setError('401');
-                return $this->response('401');
-            }else{
-              $user = new UserResource($user);
-              $this->data(array('user' => $user, 'token' => $token));
-              return $this->response('201');
-            }
-        }
-    }
+    // public function login(Request $request)
+    // {
+    //
+    //     $email = $request->email;
+    //     $password = $request->password;
+    //     $user = $this->userInterface->findByUid($request->uid);
+    //     if (empty($user)) {
+    //         $this->setError('401');
+    //         return $this->response('401');
+    //     }else{
+    //         $credentials = array('email'=>$email, 'password'=>$password);
+    //         if (!$token = JWTAuth::attempt($credentials)) {
+    //             $this->setError('401');
+    //             return $this->response('401');
+    //         }else{
+    //           $user = new UserResource($user);
+    //           $this->data(array('user' => $user, 'token' => $token));
+    //           return $this->response('201');
+    //         }
+    //     }
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -241,10 +241,14 @@ class UserController extends BaseController
             $this->setError('404', $id);
             return $this->response('404');
         }else{
-            $request->type = $user->type;
+            // $request->type = $user->type;
             $user = $request->all();
             try {
-              $user['type'] = $this->convertUserType($user['type'], 0);
+              if ($request->editedby) {
+                $user['type'] = 0;
+              }else{
+                $user['type'] = $this->convertUserType($user['type'], 0);
+              }
             } catch (\Exception $e) {
 
             }
