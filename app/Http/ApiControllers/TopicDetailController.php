@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\TopicDetail\TopicDetailRepositoryInterface as TopicDetailInterface;
 use App\Http\Resources\TopicDetail as TopicDetailResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 
 class TopicDetailController extends BaseController
@@ -21,6 +22,22 @@ class TopicDetailController extends BaseController
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $this->offset = isset($request->offset)? $request->offset : 0;
+        $this->limit  = isset($request->limit)? $request->limit : 30;
+        $topicdetail  = TopicDetailResource::collection($this->topicdetailInterface->getAll($this->offset, $this->limit));
+        $total = $this->topicdetailInterface->total();
+        $this->data($topicdetail);
+        $this->total($total);
+        return $this->response('200');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -29,9 +46,12 @@ class TopicDetailController extends BaseController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                        'course_id'   =>  'required|exists:course,id',
-                        'topic'       =>  'required',
-                        'descriptions'=>  'required'
+                        'topic_id'     =>  'required|exists:topic,id',
+                        'name'         =>  'required',
+                        'descriptions' =>  'required',
+                        'date'         =>  'required|date',
+                        'teacher_id'   =>  'required|exists:user,id',
+                        'admin_id'     =>  'required'
                     ]);
 
         if ($validator->fails()) {
@@ -51,6 +71,7 @@ class TopicDetailController extends BaseController
 
          if (isset($result)) {
            $this->data(array('id' =>  $result));
+           event(new ContentCRUDEvent('Create Topic Detail', $request->admin_id, 'Create', 'Created '. $result->name. ' Topic Detail.'));
          }
 
          return $this->response('201');
@@ -76,6 +97,25 @@ class TopicDetailController extends BaseController
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getTimeTable($teacher_id)
+    {
+        $topicdetail = $this->topicdetailInterface->getTimeTable($teacher_id);
+        if (empty($teacher_id)) {
+            $this->setError('404', $teacher_id);
+            return $this->response('404');
+        }else{
+            $topicdetail = TopicDetailResource::collection($topicdetail);
+            $this->data(array($topicdetail));
+            return $this->response('201');
+        }
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -85,8 +125,11 @@ class TopicDetailController extends BaseController
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-                        'course_id'  =>  'exists:course,id'
-                    ]);
+                        'date'         =>  'date',
+                        'teacher_id'   =>  'exists:user,id',
+                        'topic_id'     =>  'exists:topic,id',
+                        'admin_id'     =>  'required'
+                      ]);
 
         if ($validator->fails()) {
             $this->setError('400');
@@ -106,6 +149,7 @@ class TopicDetailController extends BaseController
         }else{
             if ($this->topicdetailInterface->update($request->all(),$id)) {
                 $this->data(array('updated' =>  1));
+                event(new ContentCRUDEvent('Update Topic Detail', $request->admin_id, 'Update', 'Updated '. $result->name. ' Topic Detail.'));
                 return $this->response('200');
             }else {
                 return $this->response('500');

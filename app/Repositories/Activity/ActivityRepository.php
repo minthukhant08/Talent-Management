@@ -14,11 +14,12 @@ class ActivityRepository implements ActivityInterface
      $this->activity = $activity;
   }
 
-  public function getAll($offset, $limit, $name, $speaker){
+  public function getAll($offset, $limit, $name, $speaker, $type){
     return $this->activity::with('likes')->orderBy('created_at', 'desc')
         ->where([
           ['name','like', '%'.$name.'%'],
-          ['speaker_name','like', '%'.$speaker.'%']
+          ['speaker_name','like', '%'.$speaker.'%'],
+          ['type','=', $type]
         ])
         ->skip($offset)
         ->take($limit)

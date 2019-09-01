@@ -3,45 +3,58 @@
       <div class="text-center">
          <v-dialog
            v-model="commentDialog"
-           width="300"
-           height="500">
-          <v-card>
+           width="400"
+           height="350">
+           <v-card>
+
             <v-list three-line>
               <template  v-for="comment in comments">
                 <v-list-item
                   :key="comment.id"
-                  @click="getcomment">
-                  <v-list-item-avatar>
+                 >
+                   <v-list-item-avatar>
                     <v-img :src="comment.user.image"></v-img>
-                  </v-list-item-avatar>
+                   </v-list-item-avatar>
 
-                  <v-list-item-content>
-                    <v-list-item-title >{{comment.user.name}}</v-list-item-title>
-                    <v-list-item-subtitle>{{comment.descriptions}}</v-list-item-subtitle>
+                   <v-list-item-content >
+                     <v-list-item-title >{{comment.user.name}}</v-list-item-title>
+                    <v-chip
+                    class="pa-5"
+                    color="green accent-1"
+                    text-color="white">
+    
+                      <v-list-item-subtitle>{{comment.descriptions}}</v-list-item-subtitle> 
+                    </v-chip>
                   </v-list-item-content>
-                        
-                </v-list-item>
-              </template>
+              </v-list-item>
+             </template>
               <v-text-field
-                v-model="value"
-                class="pa-3"
+                v-model="comment_description"
+                 class="ma-5"
+                 width="20"
+                 height="25"
                 color="cyan"
-                placeholder="Start typing..."
+                placeholder="Write your comment here..."
                 outlined
                 hide-details
                 >
               </v-text-field>
+
+               <v-card-actions>
+                   <v-btn  color="accent" text @click="save()">Post</v-btn>
+              </v-card-actions>
             </v-list>
            </v-card>
         </v-dialog>
         <v-dialog
           v-model="seemoreDialog"
-          width="300"
-          height="500"        
+          width="450"
+          height="100%"
         >
          <v-card
          class="mx-auto my-12"
-         max-width="374"
+         max-width="400"
+          height="100%"
         >
           <v-img
           height="250"
@@ -52,16 +65,8 @@
           <v-card-title>{{selectedActivity.name}}</v-card-title>
             <v-card-text>
               <v-row align="center">
-                <v-rating
-                  :value="4.5"
-                  color="amber"
-                  half-increments
-                  dense
-                  size="14"
-                  readonly
-                >
-                </v-rating>
-               <div class="grey--text ml-4">{{selectedActivity.speaker}}</div>
+               
+               <div class="subtitle-1">By {{selectedActivity.speaker}}</div>
               </v-row>
                <div>{{selectedActivity.descriptions}}</div>
             </v-card-text>
@@ -80,10 +85,7 @@
              </v-chip-group>
             </v-card-text>
              <v-card-actions>
-                <v-btn
-                color="deep-purple accent-4"
-                >Reserve
-                </v-btn>
+              
              </v-card-actions>
           </v-card>
         </v-dialog>
@@ -91,6 +93,13 @@
   <v-flex lg3 > </v-flex>
     <v-flex lg6>
       <v-card>
+      <v-card-title> 
+        <div classs="display-3" >
+       Talent's Activity 
+        </div>
+
+      </v-card-title>
+
         <v-pagination
           v-model="page"
           :length="total_pages"
@@ -98,10 +107,10 @@
         </v-pagination>
       <v-card  width="100%;" dark
         row
-        v-for="activity in activities"
+        v-for="(activity, index) in activities"
         :key="activity.id"
         class="ma-3">
-      <v-img 
+      <v-img
       @click="seeMore(activity)"
       :src="activity.image"
       height="350">
@@ -119,13 +128,15 @@
       </v-img>
        <v-card-text class="pa-0 mr-0" >
             <v-layout>
-              <v-flex xs8 sm8 md8 lg8 xl8>
+              <v-flex xs7 sm7 md7 lg7 xl7>
 
               </v-flex>
-              <v-flex xs2 sm2 md2 lg2 xl2 class="text-right pr-1">
-                {{activity.likes}}Likes
-              </v-flex>
-              <v-flex xs2 sm2 md2 lg2 xl2 class="text-right pr-1">
+              
+               <v-flex xs3 sm3 md3 lg3 xl class="text-right">
+                {{activity.likes}}Likes 
+               </v-flex>
+          
+              <v-flex xs3 sm3 md3 lg3 xl3 class="">
                 {{activity.comments}}Comments
               </v-flex>
             </v-layout>
@@ -136,19 +147,64 @@
       <v-card-actions>
         <v-layout>
           <v-flex class="text-center">
-            <v-btn icon>
+            <v-btn icon   @click="total_like(activity.id, index)">
               <v-icon>favorite</v-icon>
             </v-btn>
           </v-flex>
          <v-flex class="text-center">
-           <v-btn icon @click="getcomment(activity.id);">
+           <v-btn icon @click="getcomment(activity,index);">
               <v-icon>insert_comment</v-icon>
            </v-btn>
          </v-flex>
          <v-flex class="text-center">
-           <v-btn icon>
-              <v-icon>share</v-icon>
-           </v-btn>
+          <social-sharing url="http://demo.vue-chartjs.org/" inline-template>
+           <v-speed-dial
+             v-model="fab"
+             direction="top"
+           >
+             <template v-slot:activator>
+               <v-btn
+                 v-model="fab"
+                 text
+                 fab
+                 dark
+               >
+                 <v-icon v-if="fab">mdi-close</v-icon>
+                 <v-icon v-else>share</v-icon>
+               </v-btn>
+             </template>
+             <v-btn
+               fab
+               dark
+               small
+               color="info"
+             >
+              <network network="twitter">
+                <v-icon class="fa fa-fw fa-twitter"></v-icon>
+              </network>
+             </v-btn>
+             <v-btn
+               fab
+               dark
+               small
+               color="indigo"
+             >
+              <network network="facebook">
+                <v-icon class="fa fa-fw fa-facebook"></v-icon>
+              </network>
+             </v-btn>
+             <v-btn
+               fab
+               dark
+               small
+               color="red"
+             >
+             <network network="reddit">
+               <v-icon class="fa fa-fw fa-reddit"></v-icon>
+             </network>
+             </v-btn>
+           </v-speed-dial>
+         </social-sharing>
          </v-flex>
         </v-layout>
       </v-card-actions>
@@ -158,7 +214,7 @@
           :length="total_pages"
         >
         </v-pagination>
-          </v-card> 
+          </v-card>
         </v-flex>
 
         <v-flex lg3 >
@@ -177,6 +233,7 @@ export default {
       comments:[],
       commentDialog:false,
       selectedActivity:{},
+      fab:false,
        select: [
           { text: 'State 1' },
           { text: 'State 2' },
@@ -191,15 +248,19 @@ export default {
       selected:'',
       page:1,
       total_pages:0,
-      likecount:{},
-      commentcount:{},
-      
+      comment_description:[],
+      selectedindex:0,
+  
      }
   },
   watch:{
     page(val){
       console.log(val);
-      this.$http.get('http://localhost:9000/api/v1/activities?offset=' + (val-1)*5 + '&limit=5').then(response => {
+      this.$http.get(this.$root.api + '/activities?offset=' + (val-1)*5 + '&limit=5',{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         console.log(response.body.data);
        this.activities = response.body.data;
       }, response =>{
@@ -207,55 +268,96 @@ export default {
       });
     }
   },
+  computed:{
+    User(){
+      return this.$store.getters.getUser;
+    }
+  },
   methods:{
-    getcomment($activity_id){
+    getcomment(activity,index){
 
-      this.$http.get('http://localhost:9000/api/v1/comments?activity_id=' + $activity_id).then(response => {
+      this.$http.get(this.$root.api + '/comments?activity_id=' + activity.id, {
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         console.log(response);
-         this.commentDialog = true;
-      this.comments = response.body.data;
-       
+        this.selectedActivity = activity;
+        this.commentDialog = true;
+        this.comments = response.body.data;
+        this.selectedindex= index;
+
       }, response =>{
 
-      }); 
+      });
     },
   seeMore(activity){
     this.seemoreDialog = true;
     this.selectedActivity = activity;
   },
   getall(){
-      this.$http.get('http://localhost:9000/api/v1/activities?offset=0&limit=5').then(response => {
+
+      this.$http.get(this.$root.api + '/activities?offset=0&limit=5',{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
         this.total_pages = response.body.meta.total/5
        this.activities = response.body.data;
       }, response =>{
 
       });
     },
-    
-   getlikecount(activity){
-       this.likecount=activity;
-    },
 
-   getcommentcount(activity){
-       this.commentcount=activity;
-    },
-   
-    commentcolor(commenttype)
-      {
-          if (commenttype<= 20){
-             return"#F44336";
-          }else if (commenttype <= 40){
-             return "#FF5722";
-          }else{
-             return "#8BC34A";
-         } 
-         },
-   },
+   save(){
+        this.$http.post(this.$root.api+'/comments', {
+          "descriptions":this.comment_description,
+          "activity_id": this.selectedActivity.id,
+          "user_id"     : this.User.id
+      
+        }).then((response) =>{
+              this.comments.unshift({
+                "descriptions":this.comment_description, 
+                "activity_id": this.selectedActivity.id,
+               
+                "user" :{
+                    "id" : this.User.id,
+                    "name" : this.User.name,
+                    "image" : this.User.image
+                }
+                
+                });
+          this.activities[this.selectedindex].comments +=1;
+          this.dialog = false;
+           console.log("activity_id");
+          
+        })
+        .then((error) =>{
+
+        })
+        },
+
+  total_like(activity_id,index) {
+      this.$http.post(this.$root.api+'/likes', {
+         
+          "activity_id": activity_id,
+          "user_id"     : this.User.id
+      
+        
+        }).then((response) =>{
+             
+              
+          this.activities[index].likes +=1;
+          this.dialog = false;
+          
+        })
+        .then((error) =>{
+
+        })
+           }
+  },
 created(){
     this.getall();
   }
 }
-
-
-
 </script>

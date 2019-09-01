@@ -17,12 +17,14 @@ class CreateUserTable extends Migration
           $table->bigIncrements('id');
           $table->string('name');
           $table->string('email');
-          $table->string('gender')->nullable();
+          $table->text('uid');
+          $table->string('gender')->default(0);
           $table->string('phone_no')->nullable();
           $table->string('nrc_no')->nullable();
           $table->text('address')->nullable();
           $table->date('date_of_birth')->nullable();
           $table->tinyInteger('type');
+          $table->text('auth_token')->nullable();
           $table->unsignedBigInteger('course_id')->nullable();
           $table->unsignedBigInteger('batch_id')->nullable();
           $table->timestamps();

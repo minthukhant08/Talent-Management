@@ -21,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
       'App\Events\IntakeConfirmEvent' => [
         'App\Listeners\IntakeConfirmListener',
       ],
+      'App\Events\ContentCRUDEvent' => [
+        'App\Listeners\ContentCRUDListener',
+      ],
+      'App\Events\PushNotificationEvent' => [
+        'App\Listeners\PushNotificationListener',
+      ],
     ];
 
 

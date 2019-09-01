@@ -41,10 +41,10 @@ class AssignmentController extends BaseController
      {
          $this->offset = isset($request->offset)? $request->offset : 0;
          $this->limit  = isset($request->limit)? $request->limit : 30;
-         $name         = isset($request->name)? $request->name : '%';
+         $teacher_id        = isset($request->teacher_id)? $request->teacher_id : '%';
 
 
-         $assignment=AssignmentResource::collection($this->assignmentInterface->getAll($this->offset, $this->limit, $name));
+         $assignment=AssignmentResource::collection($this->assignmentInterface->getAll($this->offset, $this->limit, $teacher_id));
          $total = $this->assignmentInterface->total();
          $this->data($assignment);
          $this->total($total);

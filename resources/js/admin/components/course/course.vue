@@ -1,163 +1,375 @@
 <template>
-  <v-card>
-    <v-card-title>
-      Course
-      <v-spacer></v-spacer>
-      <v-btn color="accent" @click="dialog2 = true"><v-icon>add </v-icon></v-btn>
-    </v-card-title>
-    <template>
-    <v-data-table
-      :headers="headers"
-      :items="desserts"
-      sort-by="calories"
-      class="elevation-1"
-    >
-      <template v-slot:top>
-          <v-dialog v-model="dialog" max-width="500px">
-            <v-card>
-              <v-card-title>
-                <span class="headline">Course Detail</span>
-              </v-card-title>
+  <v-container>
+    <v-card class="mt-3" :elevation="5">
+      <v-card-title>
+        Course
+        <v-spacer></v-spacer>
+        <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+        <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog2=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
+      </v-card-title>
+      <template>
+      <v-data-table
+        :headers="headers"
+        :items="courses"
+        sort-by="calories"
+        class="elevation-1"
+        :search="search"
+      >
+        <template v-slot:top>
+            <v-dialog v-model="detailDialog" max-width="500px">
+              <v-card>
+                <v-card-title>
+                  <span class="headline">Course Detail</span>
+                </v-card-title>
 
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text>TimeTable</v-text>
+                <v-card>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        TimeTable
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4" >
+                        <v-text-field
+                          filled
+                          color="accent"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        Description
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        Description
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col xs12 sm12 md12 lg12 xl12>
+                        <v-btn style="float:right;"color="blue darken-1" @click="close()">Exit</v-btn>
+                      </v-col>
+                    </v-row>
+
+                  </v-container>
+                </v-card>
+              </v-card>
+            </v-dialog>
+            <v-dialog  max-width="600px">
+              <v-card mx-height="100">
+                <v-card-title>
+                  <span class="headline">Add Course</span>
+                </v-card-title>
+                  <v-layout row ma-3>
+                    <v-flex xs12 sm12 md4 lg4 xl4>
+                      <v-col align="center" justify="center">
+                        <v-img
+                          :src="selectedCourse.image"
+                          aspect-ratio="1"
+                          class="grey lighten-2"
+                          max-width="200"
+                          max-height="200"
+                        ><v-icon style="float:right;">camera</v-icon></v-img>
                     </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12" sm="6" md="4">
-                      <v-text>Description</v-text>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
+                    </v-flex>
+                    <v-flex xs12 sm12 md7 lg7 xl7 ml-7>
+                          <v-row class="customActivityForm">
+                            <v-flex xs12 sm12 md3 lg3 xl3>
+                              Name
+                            </v-flex>
+                            <v-flex xs12 sm12 md7 lg7 xl7>
+                              <v-text-field
+                                filled
+                                color="accent"
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
+                              ></v-text-field>
+                            </v-flex>
+                          </v-row>
+                          <v-row class="customActivityForm">
+                            <v-flex xs12 sm12 md3 lg3 xl3>
+                               Start Date
+                            </v-flex>
+                            <v-flex xs12 sm12 md7 lg7 xl7>
+                              <v-menu
+                              v-model="menu"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              offset-y
+                              full-width
+                              min-width="290px"
+                              >
+                                <template v-slot:activator="{ on }">
+                                  <v-text-field
+                                  v-model="date"
+                                  label="Picker without buttons"
+                                  prepend-icon="event"
+                                  readonly
+                                  v-on="on"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                              </v-menu>
+                            </v-flex>
+                          </v-row>
+                          <v-row class="customActivityForm">
+                            <v-flex xs12 sm12 md3 lg3 xl3>
+                              End Date
+                            </v-flex>
+                            <v-flex xs12 sm12 md7 lg7 xl7>
+                              <v-menu
+                              v-model="menu2"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              offset-y
+                              full-width
+                              min-width="290px"
+                              >
+                                <template v-slot:activator="{ on }">
+                                  <v-text-field
+                                  v-model="date"
+                                  label="Picker without buttons"
+                                  prepend-icon="event"
+                                  readonly
+                                  v-on="on"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                              </v-menu>
+                            </v-flex>
+                          </v-row>
+                        </v-flex>
+                        <v-layout row ma-3>
+                          <v-flex xs12 sm12 md12 lg12 xl12>
+                            Description
+                            <v-textarea
+                                  outlined
+                                  label="Outlined textarea"
 
-                <v-btn color="blue darken-1" @click="close()">Exit</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="dialog2" max-width="600px">
-            <v-card>
-              <v-card-title>
-                <span class="headline">Add Course</span>
-              </v-card-title>
-                <v-layout>
-                  <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
-                  <v-flex xs0 sm0 md10 lg10 xl10>
-                    <v-text-field
-                    label="name"
-                    color="accent"
-                    mx-width="100%"></v-text-field>
+                            ></v-textarea>
+                          </v-flex>
 
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="blue darken-1" @click="close()">Cancel</v-btn>
-                      <v-btn color="green" @click="save()">Post</v-btn>
-                    </v-card-actions>
+                        </v-layout>
+                  </v-layout>
+
+                  <v-layout>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="dialog2 = false">Close</v-btn>
+                    <v-btn color="blue darken-1" text @click="save()">Post</v-btn>
+                  </v-layout>
+              </v-card>
+            </v-dialog>
+            <v-dialog v-model="editDialog" max-width="500px">
+              <v-card ma5
+              :elevation="5"
+                class="mx-auto"
+                width="100%"
+                style="border-radius:10px;"
+              >
+                <v-layout row ma-3>
+                  <v-flex xs12 sm12 md4 lg4 xl4>
+                    <v-col align="center" justify="center">
+                      <v-img
+                        :src="selectedCourse.image"
+                        aspect-ratio="1"
+                        class="grey lighten-2"
+                        max-width="200"
+                        max-height="200"
+                      ><v-icon style="float:right;">camera</v-icon></v-img>
+                  </v-col>
                   </v-flex>
-                  <v-flex xs0 sm0 md1 lg1 xl1></v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>
+                        <v-row class="customActivityForm">
+                          <v-flex xs12 sm12 md3 lg3 xl3>
+                            Name
+                          </v-flex>
+                          <v-flex xs12 sm12 md7 lg7 xl7>
+                            <v-text-field
+                              filled
+                              color="accent"
+                              v-model="selectedCourse.name"
+                            ></v-text-field>
+                          </v-flex>
+                        </v-row>
+                        <v-row class="customActivityForm">
+                          <v-flex xs12 sm12 md3 lg3 xl3>
+                             Start Date
+                          </v-flex>
+                          <v-flex xs12 sm12 md7 lg7 xl7>
+                            <v-menu
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            min-width="290px"
+                            >
+                              <template v-slot:activator="{ on }">
+                                <v-text-field
+                                v-model="date"
+                                label="Picker without buttons"
+                                prepend-icon="event"
+                                readonly
+                                v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                            </v-menu>
+                          </v-flex>
+                        </v-row>
+                        <v-row class="customActivityForm">
+                          <v-flex xs12 sm12 md3 lg3 xl3>
+                            End Date
+                          </v-flex>
+                          <v-flex xs12 sm12 md7 lg7 xl7>
+                            <v-menu
+                            v-model="menu2"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            min-width="290px"
+                            >
+                              <template v-slot:activator="{ on }">
+                                <v-text-field
+                                v-model="date"
+                                label="Picker without buttons"
+                                prepend-icon="event"
+                                readonly
+                                v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                            </v-menu>
+                          </v-flex>
+                        </v-row>
+                      </v-flex>
+                      <v-layout row ma-3>
+                        <v-flex xs12 sm12 md12 lg12 xl12>
+                          Description
+                          <v-textarea
+                            outlined
+                            v-model="selectedCourse.descriptions"
+                          ></v-textarea>
+                        </v-flex>
+
+                      </v-layout>
                 </v-layout>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn text @click="edit=false">close</v-btn>
+                  <v-btn
+                   @click="updateCourse" text>Update</v-btn>
 
-            </v-card>
-          </v-dialog>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
 
-      </template>
-      <template v-slot:item.image="{ item }">
-        <v-avatar>
-          <img :src="item.image" alt="course image">
-        </v-avatar>
-      </template>
-      <template v-slot:item.action="{ item }">
-        <v-btn
-          color="green"
-          small
-          class="mr-2"
-          @click="dialog=true"
-        >
-          Details
-        </v-btn>
-        <v-action >
-        <v-btn color="blue"
-        @click="goRoute('/admin/courseedit')"
-          small
-        >
-          Edit
-        </v-btn>
-        </v-action>
-        <v-btn color="error"
-        @click="deletedItem(item)"
-          small
-        ><v-icon>delete</v-icon>
+        </template>
+        <template v-slot:item.image="{ item }">
+          <v-avatar>
+            <img :src="item.image" alt="course image">
+          </v-avatar>
+        </template>
+        <template v-slot:item.action="{ item }">
+          <v-icon @click="detailDialog = true" color="green">short_text</v-icon>
+          <v-icon @click="showEditDialog(item)" color="info" class="pl-2">mdi-square-edit-outline</v-icon>
+          <v-icon @click="deleteCourse(item)" color="error" class="pl-2">delete</v-icon>
+        </template>
 
-        </v-btn>
-      </template>
+      </v-data-table>
+    </template>
 
-    </v-data-table>
-  </template>
-
-  </v-card>
+    </v-card>
+</v-container>
 </template>
-
 <script>
 import commonmethods from '../../mixins/commonMethods';
   export default {
     mixins:[commonmethods],
-    data: () => ({
-      dialog: false,
-      dialog2: false,
-      courses:[],
-      headers: [
+    data(){
+      return{
+        search:'',
+        selectedCourse:{},
+        detailDialog:false,
+        createDialog:false,
+        editDialog:false,
+        courses:[],
+        headers: [
         {
           text: 'Image',
           align: 'left',
           sortable: false,
           value: 'image',
         },
-        { text: 'Name', value: 'name' },
 
-        {
-          text: 'Actions',
-          value: 'action',
-          align: 'right',
-          sortable: false },
-      ],
-  desserts:[],
-    }),
-    methods: {
-      getCourses(){
-        this.$http.get('http://localhost:8000/api/v1/courses').then(response=>{
-          this.desserts= response.body.data;
-        }, response => {
-          console.log('error');
-        })
-      },
-      putCourses(){
-        this.$http.put('http://localhost:8000/api/v1/courses',{name}).then(response=>{
-          this.desserts= response.body.data;
-        }, response => {
-          console.log('error');
-        })
-      },
-      deletedItem(courses){
-        const index = this.desserts.indexOf(courses)
-        confirm('Are you sure you want to delete this item?'+courses) && this.desserts.splice(index, 1)
-      },
-      close() {
-        this.dialog = false
-        setTimeout(()=>{
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        },300)
+          { text: 'Name', value: 'name' },
+          { text: ' Start Date', value: 'start_date' },
+          { text: 'End Date', value: 'end_date' },
+          {
+            text: 'Actions',
+            value: 'action',
+            align: 'right',
+            sortable: false },
+        ]
+
       }
     },
+    computed:{
+      Admin(){
+        return this.$store.getters.getAdmin;
+      }
+    },
+    methods:{
+      getCourses(){
+        this.$http.get(this.$root.api + '/courses',{
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          this.courses = response.body.data;
+        })
+        .then((error)=>{
 
+        })
+      },
+      updateCourse(course){
+        this.$http.put(this.$root.api + '/courses/' + course.id).then((response) =>{
+
+        })
+        .then((error)=>{
+
+        })
+      },
+      showEditDialog(course){
+        var index = this.courses.indexOf(course);
+        this.selectedCourse = Object.assign({}, course);
+        this.editDialog = true;
+      },
+      deleteCourse(course){
+        var index = this.courses.indexOf(course);
+        this.$http.put(this.$root.api + '/courses/delete/'+ course.id, {
+          admin_id : this.Admin.id
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          this.courses.splice(index, 1);
+        })
+      }
+
+    },
     created(){
-      this.getCourses()
+      this.getCourses();
     }
   }
 </script>

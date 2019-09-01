@@ -1,90 +1,82 @@
 <template>
-  <v-layout row class="pt-3">
-    <v-flex xs0 sm1 md2 lg2 xl2>
-    </v-flex>
-    <v-flex xs12 sm10 md8 lg8 xl8>
-        <v-data-table
-              :headers="headers"
-              :items="lists"
-              dark
-        >
+  <v-container>
+    <v-data-table
+          :headers="headers"
+          :items="lists"
+    >
           <template v-slot:top>
-              <v-toolbar flat>
-                <v-toolbar-title class="title mr-6 hidden-sm-and-down">Choose Assignment</v-toolbar-title>
-                    <v-autocomplete
-                      v-model="choose"
-                      :items="items"
-                      clearable
-                      hide-details
-                      hide-selected
-                      item-text="name"
-                      item-value="id"
-                      label="Search for a assignment..."
-                      solo
-                      @change='getChosen'
-                    >
-                  </v-autocomplete>
-              </v-toolbar>
-               <v-dialog v-model="dialog" max-width="500px" dark>
-                 <v-card class="pa-3" >
-                      <v-card-text>
-                              <v-text-field
-                               v-model="editedItem.name"
-                                label="Name"
-                                 clearable>
-                               </v-text-field>
-
-                               <v-select
-                               :items="assignments"
-                              menu-props="auto, overflowY"
-                               v-model='selectedAssignment'
-                                item-text='name'
-                                item-value='id'
-                                 label="Name"
-                                 clearable></v-select>
-
-                              <v-text-field
-                               v-model="editedItem.marks"
-                               label="Mark"
-                               clearable>
-                             </v-text-field>
-                      </v-card-text>
-                      <v-card-actions>
-                        <v-spacer></v-spacer>
+             <div>
+                <v-autocomplete
+                    dark
+                    v-model="selectedAssignment"
+                    :items="items"
+                    clearable
+                    hide-details
+                    hide-selected
+                    item-text="name"
+                    item-value="id"
+                    label="Search for a assignment..."
+                    solo
+                    @change='getall'
+                  >
+                </v-autocomplete>
+          </div>
+       </template>
+       <template v-slot:item.image="{ item }">
+          <v-avatar>
+            <img :src="item.image" alt="avatar">
+          </v-avatar>
+     </template>
+     <template v-slot:item.action="{item}">
+         <v-icon
+           small
+           @click="editItem(item)"
+         >
+         create
+        </v-icon>
+     </template>
+   </v-data-table>
+      <v-dialog v-model="dialog" max-width="500px" dark>
+           <v-card
+              max-width="500"
+              class="mx-auto"
+               >
+                <v-app-bar color="blue">
+                  <v-toolbar-title>Student Result</v-toolbar-title>
+                </v-app-bar>
+                <div class="pa-3">
+                      <v-text-field
+                        outlined
+                        hide-details
+                        v-model='editedItem.marks'
+                        label="Enter Marks"
+                        class="pb-5"
+                      ></v-text-field>
+                      <v-textarea
+                        v-model='editedItem.comments'
+                        outlined
+                        hide-details
+                        label="Enter Comments"
+                      ></v-textarea>
+               </div>
+                   <v-card-actions>
+                     <v-spacer></v-spacer>
                          <v-btn
                          @click="save"
-                         text
+                          text
                         color="accent">
                         Confirm
-                      </v-btn>
-                      </v-card-actions>
-                  </v-card>
-                 </v-dialog>
-           </template>
-          <template v-slot:item.image="{ item }">
-            <v-avatar>
-              <img :src="item.image" alt="avatar">
-            </v-avatar>
-         </template>
-         <template v-slot:item.action="{item}">
-           <v-icon
-             small
-             @click="editItem(item)"
-           >
-             create
-           </v-icon>
-         </template>
-       </v-data-table>
-     </v-flex>
-     <v-flex xs0 sm1 md2 lg2 xl2>
-     </v-flex>
-    </v-layout>
-</template>
+                        </v-btn>
+                 </v-card-actions>
+            </v-card>
+       </v-dialog>
+    </v-container>
+ </template>
 <script>
   export default {
     data () {
      return {
-
+        selectedAssignment:'',
         headers: [
           { text: 'Profile',align: 'left',sortable: false,value: 'image'},
           { text: 'Name', value: 'name' },
@@ -112,55 +104,50 @@
     },
     methods: {
      getall(){
-       console.log('http://localhost:8000/api/v1/users?batch=' + this.User.batch.name + '&course=' + this.User.course.name);
-       this.$http.get('http://localhost:8000/api/v1/users?batch=' + this.User.batch.name + '&course=' + this.User.course.name ).then(response=>{
+
+
+       this.$http.get(this.$root.api + '/users/giveresults?assignment_id=' + this.selectedAssignment,{
+         headers: {
+           Authorization: 'Bearer '+ this.User.token
+         }
+       } ).then(response=>{
          this.lists=response.body.data;
        },response=>{
        });
      },
       editItem (item) {
 
-
        this.editedIndex = this.lists.indexOf(item)
        this.editedItem = Object.assign({}, item)
-       console.log(this.editedItem);
        this.dialog = true
      },
+     save(){
+         console.log(this.editedItem);
+       this.$http.put(this.$root.api + '/results/'+ this.editedItem.id, {
+         "student_id":this.editedItem.student_id,
+         "assignment_id":this.editedItem.assignment_id,
+         "marks":this.editedItem.marks,
+         "comments":this.editedItem.comments,
+       }).then((response) =>{
+         Object.assign(this.lists[this.editedIndex], this.editedItem)
+         this.dialog = false;
+       })
+       .then((error) =>{
 
-     save () {
-       console.log(this.editedItem);
-        if (this.editedIndex > -1) {
-          Object.assign(this.lists[this.editedIndex], this.editedItem)
-        } else {
-          this.lists.push(this.editedItem)
-        }
-        console.log(this.lists);
-        this.close()
-      },
+       })
+     },
 
-     getAssignment(){
-       var results=[];
-        this.$http.get('http://localhost:8000/api/v1/assignments').then(response =>{
-          results = response.body.data;
-          var i;
-          for (i = 0;i < results.length; i++) {
-            this.assignments.push(
-              {name:results[i].name, id: results[i].id});
-          }
-          this.selectedAssignment = this.assignments[0].id;
-          console.log(this.assignments)
-        },response => {
-
-        });
-
-      },
       getChosen(){
         console.log(this.choose);
       },
 
-      getAssignment1(){
+      getAssignment(){
         var results=[];
-         this.$http.get('http://localhost:8000/api/v1/assignments').then(response =>{
+         this.$http.get(this.$root.api + '/assignments?teacher_id=' + this.User.id,{
+           headers: {
+             Authorization: 'Bearer '+ this.User.token
+             }
+           }).then(response =>{
            results = response.body.data;
            var i;
            for (i = 0;i < results.length; i++) {
@@ -186,8 +173,7 @@
 },
 
      created(){
-       this.getall();
-       this.getAssignment1();
+       this.getAssignment();
      },
   }
 </script>

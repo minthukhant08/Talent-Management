@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Topic\TopicRepositoryInterface as TopicInterface;
 use App\Http\Resources\Topic as TopicResource;
+use App\Events\ContentCRUDEvent;
 use Validator;
 
 class TopicController extends BaseController
@@ -21,6 +22,23 @@ class TopicController extends BaseController
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $this->offset = isset($request->offset)? $request->offset : 0;
+        $this->limit  = isset($request->limit)? $request->limit : 30;
+        $topic  = TopicResource::collection($this->topicInterface->getAll($this->offset, $this->limit));
+        $total = $this->topicInterface->total();
+        $this->data($topic);
+        $this->total($total);
+        return $this->response('200');
+    }
+
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -31,7 +49,10 @@ class TopicController extends BaseController
         $validator = Validator::make($request->all(), [
                         'course_id'   =>  'required|exists:course,id',
                         'topic'       =>  'required',
-                        'descriptions'=>  'required'
+                        'descriptions'=>  'required',
+                        'start_date'  =>  'required|date',
+                        'end_date'    =>  'required|date',
+                        'admin_id'    =>  'required'
                     ]);
 
         if ($validator->fails()) {
@@ -51,6 +72,7 @@ class TopicController extends BaseController
 
          if (isset($result)) {
            $this->data(array('id' =>  $result));
+           event(new ContentCRUDEvent('Create Topic', $request->admin_id, 'Create', 'Created '. $result->name. ' Topic'));
          }
 
          return $this->response('201');
@@ -85,9 +107,10 @@ class TopicController extends BaseController
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-                        'course_id'  =>  'exists:course,id'
+                        'start_date'  =>  'date',
+                        'end_date'    =>  'date',
+                        'admin_id'    =>  'required'
                     ]);
-
         if ($validator->fails()) {
             $this->setError('400');
             $messages=[];
@@ -106,6 +129,7 @@ class TopicController extends BaseController
         }else{
             if ($this->topicInterface->update($request->all(),$id)) {
                 $this->data(array('updated' =>  1));
+                event(new ContentCRUDEvent('Update Topic', $request->admin_id, 'Update', 'Updated '. $result->name. ' Topic'));
                 return $this->response('200');
             }else {
                 return $this->response('500');
@@ -119,8 +143,23 @@ class TopicController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
+        $validator = Validator::make($request->all(), [
+                'admin_id'  =>  'required'
+            ]);
+
+        if ($validator->fails()) {
+            $this->setError('400');
+            $messages=[];
+
+            foreach ($validator->messages()->toArray() as $key=>$value) {
+                  $messages[] = (object)['attribue' => $key, 'message' => $value[0]];
+            }
+
+            $this->setValidationError(['validation' => $messages]);
+            return $this->response('400');
+        }
         $topic = $this->topicInterface->find($id);
         if (empty($topic)) {
             $this->setError('404', $id);
@@ -128,6 +167,7 @@ class TopicController extends BaseController
         }else{
           $this->topicInterface->destroy($id);
           $this->data(array('deleted' =>  1));
+          event(new ContentCRUDEvent('Delete Topic', $request->admin_id, 'Delete', 'Deleted '. $topic->topic. ' Topic'));
           return $this->response('200');
         }
     }

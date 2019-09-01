@@ -23,7 +23,7 @@ class IntakeRepository implements IntakeInterface
 
   public function update($request)
   {
-    $this->intake = $this->getIntake();
+    $this->intake = $this->intake::first();
     $this->intake->fill($request);
     if ($this->intake->save()) {
         return $this->intake;

@@ -14,6 +14,17 @@ class TopicRepository implements TopicInterface
      $this->topic = $topic;
   }
 
+  public function getAll($offset, $limit){
+    return $this->topic::with('details')->orderBy('created_at', 'desc')
+        ->skip($offset)
+        ->take($limit)
+        ->get();
+  }
+
+  public function total()
+  {
+    return $this->topic::count();
+  }
 
   public function find($id)
   {

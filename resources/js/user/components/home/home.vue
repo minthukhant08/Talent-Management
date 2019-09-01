@@ -20,17 +20,7 @@
               justify-center
               class="white--text"
             >
-              <!-- <h1 class="white--text mb-2 display-1 text-center">Parallax Template</h1>
-              <div class="subheading mb-4 text-center">Powered by Vuetify</div> -->
-              <v-btn
-                class="mt-12"
-                color="blue lighten-2"
-                dark
-                large
-                @click='logout'
-              >
-                signe out
-              </v-btn>
+
             </v-layout>
           </v-parallax>
         </section>
@@ -41,7 +31,6 @@
             wrap
             class="my-12"
             align-center
-
           >
           <img class="logo elevation-7" src="https://scontent.frgn7-1.fna.fbcdn.net/v/t1.0-9/60349791_420506385196600_4899104598515515392_n.jpg?_nc_cat=107&_nc_oc=AQmdgEOrx_RDElzyjOlTglGOyBl93Hn89e_r0Z1wF0xq2xu_LxqQU_xaGMDTmV1eZqs&_nc_ht=scontent.frgn7-1.fna&oh=600c03d04a3865dbfe3b8903b35b597f&oe=5DD31FAB" alt="logo" height="200">
 

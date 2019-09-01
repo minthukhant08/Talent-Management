@@ -14,14 +14,16 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+       // $faker->unique()->safeEmail,
       $faker = Faker::create();
       $courses = Course::all()->pluck('id')->toArray();
       $batches = Batch::all()->pluck('id')->toArray();
       $img = file_get_contents('public/images/fake.png');
-        foreach (range(1,20) as $index) {
+        foreach (range(1,10) as $index) {
             DB::table('user')->insert([
               'name'          =>  $faker->name,
-              'email'         =>  $faker->unique()->safeEmail,
+              'email'         =>  'minthukhant.mtk03@gmail.com',
+              'uid'           =>  $faker->randomNumber(),
               'date_of_birth' =>  $faker->date('Y-m-d', now()),
               'nrc_no'        =>  Str::random(10),
               'phone_no'      =>  $faker->e164PhoneNumber,

@@ -8,7 +8,7 @@ class StudentAssignement extends Model
 {
     protected $table = 'student_assignment';
     protected $fillable = [
-        'student_id', 'assignment_id', 'marks'
+        'student_id', 'assignment_id', 'marks', 'comments'
     ];
     protected $hidden = [
         'created_at', 'updated_at'

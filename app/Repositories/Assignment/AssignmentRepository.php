@@ -14,11 +14,16 @@ class AssignmentRepository implements AssignmentInterface
      $this->assignment = $assignment;
   }
 
-  public function getAll($offset, $limit){
+  public function getAll($offset, $limit,$teacher_id){
     return $this->assignment::with('teacher')->orderBy('created_at', 'desc')
+        ->where('teacher_id', '=' , $teacher_id)
         ->skip($offset)
         ->take($limit)
         ->get();
+  }
+  public function find($id)
+  {
+      return $this->assignment::with('teacher')->where('id', '=', $id)->first();
   }
 
 

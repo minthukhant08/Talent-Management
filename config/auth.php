@@ -40,12 +40,9 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ],
+            'driver' => 'firebase'
+        ]
     ],
 
     /*
@@ -71,10 +68,10 @@ return [
             'model' => App\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'firebase' => [
+            'driver' => 'firebase',
+            'model' => \csrui\LaravelFirebaseAuth\User::class,
+        ]
     ],
 
     /*
