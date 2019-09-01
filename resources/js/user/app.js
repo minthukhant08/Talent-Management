@@ -34,7 +34,7 @@ new Vue({
   router:router,
   data(){
     return{
-      api:'http://localhost:8000/api/v1'
+      api:'http://localhost:9000/api/v1'
     }
   },
   created:function(){

@@ -46,7 +46,7 @@
             </v-list>
            </v-card>
         </v-dialog>
-        <v-dialog
+        <!-- <v-dialog >
           v-model="seemoreDialog"
           width="450"
           height="100%"
@@ -88,7 +88,7 @@
               
              </v-card-actions>
           </v-card>
-        </v-dialog>
+        </v-dialog -->
 <v-layout>
   <v-flex lg3 > </v-flex>
     <v-flex lg6>
@@ -111,7 +111,7 @@
         :key="activity.id"
         class="ma-3">
       <v-img
-      @click="seeMore(activity)"
+      @click="goRoute('/activitydetail/'+activity.id)"
       :src="activity.image"
       height="350">
       <v-layout class="fill-height align-end gradient-box" >
@@ -226,7 +226,9 @@
 </template>
 
 <script>
+import commonmethods from '../../mixins/commonMethods';
 export default {
+  mixins:[commonmethods],
   data(){
     return{
       activities: [],
