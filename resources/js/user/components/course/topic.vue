@@ -7,7 +7,7 @@
     <v-dialog v-model="topicdetaildialog" max-width="500px">
       <v-card
         class="mx-auto"
-        max-width="500"
+        max-width="900px"
         dark
         flat
       >
@@ -15,8 +15,8 @@
           Front-End Schedule
             <v-spacer></v-spacer>
             <v-card-actions>
-              <v-btn class="mx-2" fab dark small text color=primary
-                @click="dialog = false"
+              <v-btn class="mx-2" fab dark small text color="accent"
+                @click="close()"
               >
                 <v-icon>close</v-icon>
               </v-btn>
@@ -28,20 +28,19 @@
               dense
             >
               <v-timeline-item
-
                 small
               >
                 <template v-slot:icon>
-                    <v-avatar>
+                    <v-avatar class="mt-5">
                       <img src="http://i.pravatar.cc/64">
                     </v-avatar>
                 </template>
 
-                <v-layout class="pb-3">
-                  <v-flex cols="4">
+                <v-layout>
+                  <v-flex xs4 sm4 md4 lg4 xl4>
                     <strong>{{topicdetails.start_date}}</strong>
                   </v-flex>
-                  <v-flex>
+                  <v-flex xs8 sm8 md8 lg8 xl8>
                       <strong>{{topicdetails.topic}}</strong>
                       <div class="caption">{{topicdetails.descriptions}}</div>
                   </v-flex>
@@ -148,6 +147,13 @@ export default{
   created(){
     this.getCourseDetail();
     this.gettopicdetail();
+  },
+  close() {
+    this.dialog = false
+    setTimeout(()=>{
+      this.editedItem = Object.assign({}, this.defaultItem)
+      this.editedIndex = -1
+    },300)
   }
 }
 </script>
