@@ -73,11 +73,26 @@
                        Start Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                        v-model="topics_start_date"
-                      ></v-text-field>
+                      <v-menu
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="date"
+                          label="Picker without buttons"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                      </v-menu>
                     </v-col>
                   </v-row>
                   <v-row class="customActivityForm">
@@ -85,11 +100,26 @@
                       End Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                        v-model="topics_end_date"
-                        ></v-text-field>
+                      <v-menu
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="date"
+                          label="Picker without buttons"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                      </v-menu>
                     </v-col>
                   </v-row>
                   <v-row>
@@ -121,19 +151,14 @@
         style="border-radius:10px;"
       >
         <v-layout row ma-3>
-          <v-flex xs12 sm12 md4 lg4 xl4>
-            <v-col align="center" justify="center">
-              <v-img
-                src="https://picsum.photos/id/11/500/300"
-                lazy-src="https://picsum.photos/id/11/10/6"
-                aspect-ratio="1"
-                class="grey lighten-2"
-                max-width="200"
-                max-height="200"
-              ><v-icon>camera</v-icon></v-img>
-          </v-col>
-          </v-flex>
-          <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>
+
+          <v-flex ma-5>
+            <v-row>
+              <v-flex xs12 sm12 md12 lg12 xl12 display-1 mb-7>
+                Topic Edit
+              </v-flex>
+
+            </v-row>
                 <v-row class="customActivityForm">
                   <v-flex xs12 sm12 md3 lg3 xl3>
                     Topic
@@ -151,11 +176,26 @@
                      Start Date
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7>
-                    <v-text-field
-                      filled
-                      color="accent"
-                      v-model="activities_date"
-                    ></v-text-field>
+                    <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                    </v-menu>
                   </v-flex>
                 </v-row>
                 <v-row class="customActivityForm">
@@ -163,11 +203,26 @@
                     End Date
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7>
-                    <v-text-field
-                      filled
-                      color="accent"
-                      v-model="activities_date"
-                    ></v-text-field>
+                    <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                    </v-menu>
                   </v-flex>
                 </v-row>
               </v-flex>
@@ -193,6 +248,7 @@
       </v-card>
     </v-dialog>
   </v-row>
+
 </template>
 
 <script>
@@ -200,6 +256,9 @@ import commonmethods from '../../mixins/commonMethods';
   export default {
     mixins:[commonmethods],
     data: () => ({
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      menu2: false,
       dialog: false,
       dialog2: false,
       topics:[],

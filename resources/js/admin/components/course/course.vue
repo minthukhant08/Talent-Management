@@ -86,11 +86,26 @@
                                Start Date
                             </v-flex>
                             <v-flex xs12 sm12 md7 lg7 xl7>
-                              <v-text-field
-                                filled
-                                color="accent"
-                                v-model="activities_date"
-                              ></v-text-field>
+                              <v-menu
+                              v-model="menu"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              offset-y
+                              full-width
+                              min-width="290px"
+                              >
+                                <template v-slot:activator="{ on }">
+                                  <v-text-field
+                                  v-model="date"
+                                  label="Picker without buttons"
+                                  prepend-icon="event"
+                                  readonly
+                                  v-on="on"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                              </v-menu>
                             </v-flex>
                           </v-row>
                           <v-row class="customActivityForm">
@@ -98,11 +113,26 @@
                               End Date
                             </v-flex>
                             <v-flex xs12 sm12 md7 lg7 xl7>
-                              <v-text-field
-                                filled
-                                color="accent"
-                                v-model="activities_date"
-                              ></v-text-field>
+                              <v-menu
+                              v-model="menu2"
+                              :close-on-content-click="false"
+                              :nudge-right="40"
+                              transition="scale-transition"
+                              offset-y
+                              full-width
+                              min-width="290px"
+                              >
+                                <template v-slot:activator="{ on }">
+                                  <v-text-field
+                                  v-model="date"
+                                  label="Picker without buttons"
+                                  prepend-icon="event"
+                                  readonly
+                                  v-on="on"
+                                  ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                              </v-menu>
                             </v-flex>
                           </v-row>
                         </v-flex>
@@ -164,11 +194,26 @@
                              Start Date
                           </v-flex>
                           <v-flex xs12 sm12 md7 lg7 xl7>
-                            <v-text-field
-                              filled
-                              color="accent"
-                              v-model="activities_date"
-                            ></v-text-field>
+                            <v-menu
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            min-width="290px"
+                            >
+                              <template v-slot:activator="{ on }">
+                                <v-text-field
+                                v-model="date"
+                                label="Picker without buttons"
+                                prepend-icon="event"
+                                readonly
+                                v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                            </v-menu>
                           </v-flex>
                         </v-row>
                         <v-row class="customActivityForm">
@@ -176,11 +221,26 @@
                             End Date
                           </v-flex>
                           <v-flex xs12 sm12 md7 lg7 xl7>
-                            <v-text-field
-                              filled
-                              color="accent"
-                              v-model="activities_date"
-                            ></v-text-field>
+                            <v-menu
+                            v-model="menu2"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            full-width
+                            min-width="290px"
+                            >
+                              <template v-slot:activator="{ on }">
+                                <v-text-field
+                                v-model="date"
+                                label="Picker without buttons"
+                                prepend-icon="event"
+                                readonly
+                                v-on="on"
+                                ></v-text-field>
+                              </template>
+                              <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                            </v-menu>
                           </v-flex>
                         </v-row>
                       </v-flex>
@@ -229,6 +289,9 @@ import commonmethods from '../../mixins/commonMethods';
   export default {
     mixins:[commonmethods],
     data: () => ({
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      menu2: false,
       datepicker:false,
       picker:'',
       currenttextbox:'',
