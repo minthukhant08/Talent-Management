@@ -21,7 +21,7 @@
 
           <v-list-item class="pl-9" @click="goRoute('/admin/student')">
             <v-list-item-action>
-              <v-icon>person</v-icon>
+              <v-icon color="#455A64">person</v-icon>
             </v-list-item-action>
 
             <v-list-item-content>
@@ -52,7 +52,7 @@
         </v-list-group>
         <v-list-item @click="goRoute('/admin/course')">
           <v-list-item-action>
-            <v-icon>person</v-icon>
+            <v-icon color="#43A047">mdi-book</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Course</v-list-item-title>
@@ -61,7 +61,7 @@
 
         <v-list-item @click="goRoute('/admin/batch')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon color="#FF5722">mdi-account-group</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Batch</v-list-item-title>
@@ -69,7 +69,7 @@
         </v-list-item>
         <v-list-item @click="goRoute('/admin/activity')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon color="yellow">mdi-ticket</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Activity</v-list-item-title>
@@ -77,7 +77,7 @@
         </v-list-item>
         <v-list-item @click="goRoute('/admin/topic')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon color="blue">mdi-book-open-page-variant</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Topic</v-list-item-title>
@@ -85,7 +85,7 @@
         </v-list-item>
         <v-list-item @click="goRoute('/admin/topicdetail')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon color="#303F9F">mdi-update</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Topic Detail</v-list-item-title>

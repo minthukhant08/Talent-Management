@@ -8,7 +8,7 @@
           <v-flex xs12 sm12 md10 lg10 xl10> -->
           <v-container>
             <v-card class="mt-3" :elevation="5">
-              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>add</v-icon></v-btn>
+              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
               <v-card-title>
                 Topics
                 <v-spacer></v-spacer>
@@ -35,7 +35,7 @@
 
               <template v-slot:item.action="{ item }">
                   <v-icon @click="edit=true"
-                  color="info">edit</v-icon>
+                  color="info">mdi-square-edit-outline</v-icon>
                 <v-icon @click="deletedItem(item)" color="error" class="pl-2">delete</v-icon>
 
 

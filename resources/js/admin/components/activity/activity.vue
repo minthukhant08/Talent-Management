@@ -14,7 +14,7 @@
                 single-line
                 hide-details
               ></v-text-field>
-                <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>add</v-icon></v-btn>
+                <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
 
               </v-card-title>
               <v-data-table
@@ -22,7 +22,7 @@
                 :items="activities"
                 :search="search"
               ><template v-slot:item.action="{ item }">
-                  <v-icon @click="edit = true" color="info">edit</v-icon>
+                  <v-icon @click="edit = true" color="info">mdi-square-edit-outline</v-icon>
                   <v-icon @click="deleteItem(item)" color="error" class="pl-2">delete</v-icon>
               </template>
             </v-data-table>
@@ -44,7 +44,7 @@
                   class="grey lighten-2"
                   max-width="200"
                   max-height="200"
-                ><v-icon>camera</v-icon></v-img>
+                ><v-icon style="float:right;">camera</v-icon></v-img>
             </v-col>
             </v-flex>
             <v-flex xs12 sm12 md7 lg7 xl7 ml-7>
@@ -78,13 +78,13 @@
                     </v-flex>
                     <v-flex xs12 sm12 md7 lg7 xl7>
                       <v-menu
-                      v-model="menu2"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      transition="scale-transition"
-                      offset-y
-                      full-width
-                      min-width="290px"
+                        v-model="menu2"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        full-width
+                        min-width="290px"
                       >
                         <template v-slot:activator="{ on }">
                           <v-text-field
@@ -146,7 +146,7 @@
                 class="grey lighten-2"
                 max-width="200"
                 max-height="200"
-              ><v-icon>camera</v-icon></v-img>
+              ><v-icon style="float:right;">camera</v-icon></v-img>
           </v-col>
           </v-flex>
           <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>

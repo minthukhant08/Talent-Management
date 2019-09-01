@@ -11,7 +11,7 @@
         single-line
         hide-details
       ></v-text-field>
-        <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog2=true" :elevation="8"><v-icon>add</v-icon></v-btn>
+        <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog2=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
       </v-card-title>
       <template>
       <v-data-table
@@ -34,8 +34,17 @@
                       <v-col cols="12" sm="6" md="4">
                         TimeTable
                       </v-col>
+                      <v-col cols="12" sm="6" md="4" >
+                        <v-text-field
+                          filled
+                          color="accent"
+                        ></v-text-field>
+                      </v-col>
                     </v-row>
                     <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        Description
+                      </v-col>
                       <v-col cols="12" sm="6" md="4">
                         Description
                       </v-col>
@@ -65,7 +74,7 @@
                           class="grey lighten-2"
                           max-width="200"
                           max-height="200"
-                        ><v-icon>camera</v-icon></v-img>
+                        ><v-icon style="float:right;">camera</v-icon></v-img>
                     </v-col>
                     </v-flex>
                     <v-flex xs12 sm12 md7 lg7 xl7 ml-7>
@@ -173,7 +182,7 @@
                         class="grey lighten-2"
                         max-width="200"
                         max-height="200"
-                      ><v-icon>camera</v-icon></v-img>
+                      ><v-icon style="float:right;">camera</v-icon></v-img>
                   </v-col>
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>
@@ -274,7 +283,7 @@
         </template>
         <template v-slot:item.action="{ item }">
           <v-icon @click="dialog=true" color="green">short_text</v-icon>
-          <v-icon @click="edit=true" color="info" class="pl-2">edit</v-icon>
+          <v-icon @click="edit=true" color="info" class="pl-2">mdi-square-edit-outline</v-icon>
           <v-icon @click="deleteItem(item)" color="error" class="pl-2">delete</v-icon>
         </template>
 
@@ -297,6 +306,7 @@ import commonmethods from '../../mixins/commonMethods';
       currenttextbox:'',
       datetype:'',
       search: '',
+      topics:[],
       dialog: false,
       dialog2: false,
       edit: false,
@@ -355,6 +365,14 @@ import commonmethods from '../../mixins/commonMethods';
 
          })
 
+       },
+       gettopic(){
+         this.$http.get('http://localhost:9000/api/v1/topics').then(response => {
+
+          this.topics = response.body.data;
+         }, response =>{
+
+         });
        },
       getCourses(){
         this.$http.get('http://localhost:8000/api/v1/courses',{

@@ -4,6 +4,7 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
+import '@mdi/font/css/materialdesignicons.css'
 import Routes from './routes';
 import {store} from './store/store';
 import firebaseConfig from './config/firebaseconfig.js';
