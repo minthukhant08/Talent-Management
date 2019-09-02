@@ -22,44 +22,7 @@
         :search="search"
       >
         <template v-slot:top>
-            <v-dialog v-model="detailDialog" max-width="500px">
-              <v-card>
-                <v-card-title>
-                  <span class="headline">Course Detail</span>
-                </v-card-title>
-
-                <v-card>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
-                        TimeTable
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4" >
-                        <v-text-field
-                          filled
-                          color="accent"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
-                        Description
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        Description
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col xs12 sm12 md12 lg12 xl12>
-                        <v-btn style="float:right;"color="blue darken-1" @click="close()">Exit</v-btn>
-                      </v-col>
-                    </v-row>
-
-                  </v-container>
-                </v-card>
-              </v-card>
-            </v-dialog>
-            <v-dialog  max-width="600px">
+            <v-dialog v-model="dialog2" max-width="600px">
               <v-card mx-height="100">
                 <v-card-title>
                   <span class="headline">Add Course</span>
@@ -73,7 +36,7 @@
                           class="grey lighten-2"
                           max-width="200"
                           max-height="200"
-                        ><v-icon style="float:right;">camera</v-icon></v-img>
+                        ><v-icon style="float:right;" @click="selectImage">camera</v-icon></v-img>
                     </v-col>
                     </v-flex>
                     <v-flex xs12 sm12 md7 lg7 xl7 ml-7>
@@ -85,7 +48,7 @@
                               <v-text-field
                                 filled
                                 color="accent"
-
+                                v-model="selectedCourse.name"
                               ></v-text-field>
                             </v-flex>
                           </v-row>
@@ -105,14 +68,13 @@
                               >
                                 <template v-slot:activator="{ on }">
                                   <v-text-field
-                                  v-model="date"
-                                  label="Picker without buttons"
+                                  v-model="selectedCourse.start_date"
                                   prepend-icon="event"
                                   readonly
                                   v-on="on"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                                <v-date-picker v-model="selectedCourse.start_date" @input="menu = false"></v-date-picker>
                               </v-menu>
                             </v-flex>
                           </v-row>
@@ -132,14 +94,13 @@
                               >
                                 <template v-slot:activator="{ on }">
                                   <v-text-field
-                                  v-model="date"
-                                  label="Picker without buttons"
+                                  v-model="selectedCourse.end_date"
                                   prepend-icon="event"
                                   readonly
                                   v-on="on"
                                   ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                                <v-date-picker v-model="selectedCourse.end_date" @input="menu2 = false"></v-date-picker>
                               </v-menu>
                             </v-flex>
                           </v-row>
@@ -148,22 +109,23 @@
                           <v-flex xs12 sm12 md12 lg12 xl12>
                             Description
                             <v-textarea
-                                  outlined
-                                  label="Outlined textarea"
-
+                                outlined
+                                v-model="selectedCourse.descriptions"
                             ></v-textarea>
                           </v-flex>
 
                         </v-layout>
                   </v-layout>
+                    <v-divider></v-divider>
+                  <v-card-actions>
 
-                  <v-layout>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="dialog2 = false">Close</v-btn>
-                    <v-btn color="blue darken-1" text @click="save()">Post</v-btn>
-                  </v-layout>
+                    <v-btn color="blue darken-1" text @click="postCourse()">Post</v-btn>
+                  </v-card-actions>
               </v-card>
             </v-dialog>
+            <input type="file" accept="image/*" style="display: none;" ref="user_bg" id="user_bg" @change="setImage" />
             <v-dialog v-model="editDialog" max-width="500px">
               <v-card ma5
               :elevation="5"
@@ -180,7 +142,8 @@
                         class="grey lighten-2"
                         max-width="200"
                         max-height="200"
-                      ><v-icon style="float:right;">camera</v-icon></v-img>
+                      ><v-icon style="float:right;" @click="selectImage">camera</v-icon></v-img>
+
                   </v-col>
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7 ml-7 mt-5>
@@ -213,7 +176,6 @@
                               <template v-slot:activator="{ on }">
                                 <v-text-field
                                 v-model="date"
-                                label="Picker without buttons"
                                 prepend-icon="event"
                                 readonly
                                 v-on="on"
@@ -240,7 +202,6 @@
                               <template v-slot:activator="{ on }">
                                 <v-text-field
                                 v-model="date"
-                                label="Picker without buttons"
                                 prepend-icon="event"
                                 readonly
                                 v-on="on"
@@ -279,7 +240,6 @@
           </v-avatar>
         </template>
         <template v-slot:item.action="{ item }">
-          <v-icon @click="detailDialog = true" color="green">short_text</v-icon>
           <v-icon @click="showEditDialog(item)" color="info" class="pl-2">mdi-square-edit-outline</v-icon>
           <v-icon @click="deleteCourse(item)" color="error" class="pl-2">delete</v-icon>
         </template>
@@ -297,8 +257,11 @@ import commonmethods from '../../mixins/commonMethods';
     data(){
       return{
         search:'',
+        menu:false,
+        menu2:false,
+        dialog2:false,
+        date:new Date().toISOString().substr(0, 10),
         selectedCourse:{},
-        detailDialog:false,
         createDialog:false,
         editDialog:false,
         courses:[],
@@ -328,6 +291,15 @@ import commonmethods from '../../mixins/commonMethods';
       }
     },
     methods:{
+      selectImage(){
+        console.log('select image');
+        console.log(this.$refs);
+        this.$refs.user_bg.click();
+      },
+      setImage(){
+        this.selectedCourse.image=URL.createObjectURL(this.$refs.user_bg.files[0]);
+        console.log(this.selectedCourse.image);
+      },
       getCourses(){
         this.$http.get(this.$root.api + '/courses',{
           headers: {
@@ -335,6 +307,26 @@ import commonmethods from '../../mixins/commonMethods';
           }
         }).then((response) =>{
           this.courses = response.body.data;
+        })
+        .then((error)=>{
+
+        })
+      },
+      postCourse(){
+        console.log( this.$refs.user_bg.files[0]);
+        this.$http.post(this.$root.api + '/courses',{
+          admin_id: this.Admin.id,
+          name: this.selectedCourse.name,
+          start_date: this.selectedCourse.start_date,
+          end_date: this.selectedCourse.end_date,
+          image: this.$refs.user_bg.files[0]
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+
         })
         .then((error)=>{
 
@@ -350,7 +342,7 @@ import commonmethods from '../../mixins/commonMethods';
       },
       showEditDialog(course){
         var index = this.courses.indexOf(course);
-        this.selectedCourse = Object.assign({}, course);
+        this.selectedCourse = course;
         this.editDialog = true;
       },
       deleteCourse(course){

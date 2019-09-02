@@ -39,22 +39,22 @@
           >
             <v-toolbar-title>New Users Per Month</v-toolbar-title>
           </v-toolbar>
-            <line-chart :myheight="300" ></line-chart>
+            <total-user-chart :myheight="300" ></total-user-chart>
         </v-card>
       </v-flex>
-      <!-- <v-flex xs12 sm12 md4 lg6 xl 6>
+      <v-flex xs12 sm12 md12 lg12 xl 12>
         <v-card class="ma-2">
           <v-toolbar
             color="primary"
             dark
             dense
           >
-            <v-toolbar-title>Number of Admins</v-toolbar-title>
+            <v-toolbar-title>Users in each Batch</v-toolbar-title>
           </v-toolbar>
-          <line-chart :data1='this.data1' :data2='this.data2'></line-chart>
+            <user-batch :myheight="300" ></user-batch>
         </v-card>
-      </v-flex> -->
-      <v-flex xs12 sm12 md4 lg6 xl 6>
+      </v-flex>
+      <v-flex xs12 sm12 md4 lg4 xl 4>
         <v-card class="ma-2">
           <v-toolbar
             color="primary"
@@ -63,57 +63,51 @@
           >
             <v-toolbar-title>Number of Users in the system</v-toolbar-title>
           </v-toolbar>
-          <doughnut-chart></doughnut-chart>
+          <each-user></each-user>
         </v-card>
       </v-flex>
-      <!-- <v-flex xs12 sm12 md4 lg6 xl 6>
+      <v-flex xs12 sm12 md4 lg4 xl 4>
         <v-card class="ma-2">
           <v-toolbar
             color="primary"
             dark
             dense
           >
-            <v-toolbar-title>Number of student in each Track</v-toolbar-title>
+            <v-toolbar-title>Number of Teachers in each Track</v-toolbar-title>
           </v-toolbar>
-          <line-chart :data1='this.data1' :data2='this.data2'></line-chart>
+          <teacher-track></teacher-track>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm12 md4 lg6 xl 6>
+      <v-flex xs12 sm12 md4 lg4 xl 4>
         <v-card class="ma-2">
           <v-toolbar
             color="primary"
             dark
             dense
           >
-            <v-toolbar-title>Number of students in each Track</v-toolbar-title>
+            <v-toolbar-title>Number of Students in each Track</v-toolbar-title>
           </v-toolbar>
-          <radar-chart :data1='this.data1' :data2='this.data2'></radar-chart>
+          <student-track></student-track>
         </v-card>
       </v-flex>
-      <v-flex xs12 sm12 md4 lg6 xl 6>
-        <v-card class="ma-2">
-          <v-toolbar
-            color="primary"
-            dark
-            dense
-          >
-            <v-toolbar-title>Over all grades</v-toolbar-title>
-          </v-toolbar>
-          <doughnut-chart :data1='this.data1'></doughnut-chart>
-        </v-card>
-      </v-flex> -->
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import linechart from '../charts/newuserspermonth/newuserpermonth.vue'
-import doughnut from '../charts/admincount/admins.vue'
+import totaluser from '../charts/newuserspermonth/newuserpermonth.vue'
+import userinbatch from '../charts/userinbatch/userinbatch.vue'
+import eachuser from '../charts/usercount/usercount.vue'
+import teachersintrack from '../charts/teachersintrack/teachercount.vue'
+import studentssintrack from '../charts/studentsintrack/studentcount.vue'
 import radarchart from '../charts/radarchart.vue'
 export default {
   components:{
-    'line-chart' : linechart,
-    'doughnut-chart' : doughnut,
+    'total-user-chart' : totaluser,
+    'user-batch': userinbatch,
+    'each-user' : eachuser,
+    'teacher-track' : teachersintrack,
+    'student-track' : studentssintrack,
     'radar-chart' : radarchart
   },
   data(){
@@ -178,7 +172,7 @@ export default {
     }
   },
   created(){
-    // this.getIntakeStatus();
+    this.getIntakeStatus();
   },
   mounted(){
 

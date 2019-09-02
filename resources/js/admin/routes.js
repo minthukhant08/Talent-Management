@@ -14,6 +14,8 @@ import log from './components/logs/log.vue';
 import activityedit from './components/activity/activity-edit.vue';
 import dashboard from './components/dashboard/dashboard.vue';
 import topicdetail from './components/topicdetail/topicdetail.vue';
+import accessdenied from './components/error/accessdenied.vue';
+import superrequired from './components/error/superrequired.vue';
 export default[
   {path:'/admin/home', component:home, meta: { requiresAuth: true }},
   {path:'/admin/course', component:course, meta: { requiresAuth: true }},
@@ -29,5 +31,8 @@ export default[
   {path:'/admin/super', component:superadmin, meta: { requiresAuth: true }},
   {path:'/admin/logs', component:log, meta: { requiresAuth: true }},
   {path:'/admin/topicdetail', component:topicdetail, meta: { requiresAuth: true }},
-  {path:'/admin/dashboard', component:dashboard, meta: { requiresAuth: true }}
+  {path:'/admin/dashboard', component:dashboard, meta: { requiresAuth: true }},
+  {path:'/admin/loginrequired', component:accessdenied},
+  {path:'/admin/superrequired', component:superrequired}
+
 ]

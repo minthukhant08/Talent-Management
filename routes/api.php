@@ -26,23 +26,23 @@ Route::get('v1/courses/image/{id}', 'CourseController@image');
 Route::get('v1/activities/image/{id}', 'ActivityController@image');
 
 
-Route::group(['prefix' => 'v1/users', 'middleware' => ['firebase']], function()
-{
-      Route::get('/', 'UserController@index');
-      Route::get('/results', 'UserController@giveresults');
-      Route::get('/timetable/{id}', 'UserController@getTimeTable');
-      Route::post('/scan', 'ConfirmController@scan');
-      Route::get('/confirm', 'ConfirmController@index');
-      Route::get('/{id}', 'UserController@show');
-      Route::put('/{id}', 'UserController@update');
-      Route::delete('/{id}', 'UserController@destroy');
-});
-
 Route::group(['prefix' => 'v1/users', 'middleware' => ['firebase', 'scanner']], function()
 {
       Route::post('/scan', 'ConfirmController@scan');
       Route::get('/confirm', 'ConfirmController@index');
 });
+
+
+Route::group(['prefix' => 'v1/users', 'middleware' => ['firebase']], function()
+{
+      Route::get('/', 'UserController@index');
+      Route::get('/results', 'UserController@giveresults');
+      Route::get('/timetable/{id}', 'UserController@getTimeTable');
+      Route::get('/{id}', 'UserController@show');
+      Route::put('/{id}', 'UserController@update');
+      Route::delete('/{id}', 'UserController@destroy');
+});
+
 
 
 Route::group(['prefix' => 'v1/courses', 'middleware' => ['firebase'] ], function()
@@ -189,7 +189,10 @@ Route::group(['prefix' => 'v1/admin/logs', 'middleware' => ['firebase', 'superad
 
 Route::group(['prefix' => 'v1/admin/reports'], function()
 {
-      Route::get('/admins', 'ReportsController@numberOfAdmin');
+      Route::get('/users', 'ReportsController@numberOfAdmin');
+      Route::get('/teachertrack', 'ReportsController@teachersintrack');
+      Route::get('/studenttrack', 'ReportsController@studentsintrack');
+      Route::get('/userinbatch', 'ReportsController@usersinbatch');
       Route::get('/eachmonth', 'ReportsController@numberOfUserPerMonth');
       Route::delete('/{id}', 'LogController@destroy');
 });

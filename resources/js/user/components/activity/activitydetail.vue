@@ -15,59 +15,70 @@
         <v-list-item-subtitle>by {{activity.speaker}}</v-list-item-subtitle>
       </v-list-item-content>
       <v-list-item-action>
-        <social-sharing url="https://vuetifyjs.com"
+        <social-sharing :url="'https://api.astrosubs.com/activity' + activity.id"
                       :title="activity.name"
                       :description="activity.descriptions"
                       :quote="activity.descriptions"
                       hashtags="talent"
                       twitter-user="vuejs"
                       inline-template>
-        <v-speed-dial
-          v-model="fab"
-          direction="left"
-        >
-          <template v-slot:activator>
-            <v-btn
-              v-model="fab"
-              text
-              icon
-            >
-              <v-icon v-if="fab">mdi-close</v-icon>
-              <v-icon v-else>mdi-share-variant</v-icon>
-            </v-btn>
-          </template>
-          <v-btn
-            fab
-            dark
-            small
-            color="blue"
-          >
-          <network network="facebook">
-            <v-icon class="fa fa-facebook"></v-icon>
-          </network> 
-          </v-btn>
-          <v-btn
-            fab
-            dark
-            small
-            color="blue"
-          >
-          <network network="twitter">
-            <v-icon class="fa fa-twitter"></v-icon>
-          </network> 
-          </v-btn>
+       <v-speed-dial
+         v-model="fab"
+         direction="left"
+       >
+         <template v-slot:activator>
            <v-btn
-            fab
-            dark
-            small
-            color="blue"
-          >
-          <network network="linkedin">
-            <v-icon class="fa fa-linkedin"></v-icon>
-          </network> 
-          </v-btn>
-        </v-speed-dial>
-      </social-sharing>
+             v-model="fab"
+             text
+             fab
+             dark
+           >
+             <v-icon v-if="fab">mdi-close</v-icon>
+             <v-icon v-else>share</v-icon>
+           </v-btn>
+         </template>
+         <v-btn
+           fab
+           dark
+           small
+           color="info"
+         >
+          <network network="twitter">
+            <v-icon class="fa fa-fw fa-twitter"></v-icon>
+          </network>
+         </v-btn>
+         <v-btn
+           fab
+           dark
+           small
+           color="indigo"
+         >
+          <network network="facebook">
+            <v-icon class="fa fa-fw fa-facebook"></v-icon>
+          </network>
+         </v-btn>
+         <v-btn
+           fab
+           dark
+           small
+           color="red"
+         >
+         <network network="reddit">
+           <v-icon class="fa fa-fw fa-reddit"></v-icon>
+         </network>
+         </v-btn>
+         <v-btn
+           fab
+           dark
+           small
+           color="info"
+         >
+         <network network="linkedin">
+           <v-icon class="fa fa-linkedin"></v-icon>
+         </network>
+         </v-btn>
+       </v-speed-dial>
+     </social-sharing>
       </v-list-item-action>
     </v-list-item>
 
@@ -79,7 +90,7 @@
     <v-card-text>
      {{activity.descriptions}}
     </v-card-text>
-   
+
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-icon @click="postlike">favorite</v-icon>
@@ -100,7 +111,7 @@
         @keyup.enter="postcomment"
         >
       </v-text-field>
-      
+
       <div class="ma-4" >
         <v-list three-line>
           <template v-for="comment in comments">
@@ -113,12 +124,12 @@
 
                 <v-list-item-content >
                   <v-list-item-title>{{comment.user.name}}</v-list-item-title>
-                  <v-list-item-subtitle >{{comment.descriptions}}</v-list-item-subtitle> 
+                  <v-list-item-subtitle >{{comment.descriptions}}</v-list-item-subtitle>
               </v-list-item-content>
-               
+
           </v-list-item>
            <v-divider inset></v-divider>
-          
+
           </template>
     </v-list>
       </div>
@@ -171,18 +182,23 @@ export default {
           "descriptions":this.comment_description,
           "activity_id": this.$route.params.id,
           "user_id"     : this.User.id
-      
+
+        },
+        {
+          headers: {
+              Authorization: 'Bearer '+ this.User.token
+          }
         }).then((response) =>{
               this.comments.unshift({
-                "descriptions":this.comment_description, 
+                "descriptions":this.comment_description,
                 "activity_id": this.$route.params.id,
-               
+
                 "user" :{
                     "id" : this.User.id,
                     "name" : this.User.name,
                     "image" : this.User.image
                 }
-                
+
           });
           this.activity.comments +=1;
           this.comment_description="";
@@ -193,10 +209,15 @@ export default {
     },
     postlike(){
        this.$http.post(this.$root.api+'/likes', {
-         
+
           "activity_id" :  this.$route.params.id,
           "user_id"     : this.User.id
-        
+
+        },
+        {
+          headers: {
+              Authorization: 'Bearer '+ this.User.token
+          }
         }).then((response) =>{
           this.activity.likes +=1;
         })

@@ -9,7 +9,9 @@
       <v-list >
         <v-list-item @click="goRoute('/profile/' + User.id)">
           <v-list-item-action class="mr-3">
-            <v-avatar size="55"><img :src='User.image' alt="avatar"></v-avatar>
+            <v-avatar size="55">
+              <img :src='User.image' alt="avatar">
+            </v-avatar>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="User.name"></v-list-item-title>
@@ -95,9 +97,11 @@
       </template>
 
       <div class="text-center pl-2 pr-2" >
-        <v-avatar @click="goRoute('/')">
-          <img src="/images/logo_white.png" alt="logo">
-        </v-avatar>
+        <div class="text-center pl-2 mt-2 pr-2" >
+          <!-- <v-avatar> -->
+            <img @click="goRoute('/')" width="30" src="/images/logo_white.png" alt="logo">
+          <!-- </v-avatar> -->
+        </div>
       </div>
 
       <v-spacer></v-spacer>

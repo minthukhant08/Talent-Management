@@ -22,8 +22,8 @@
                     class="pa-5"
                     color="green accent-1"
                     text-color="white">
-    
-                      <v-list-item-subtitle>{{comment.descriptions}}</v-list-item-subtitle> 
+
+                      <v-list-item-subtitle>{{comment.descriptions}}</v-list-item-subtitle>
                     </v-chip>
                   </v-list-item-content>
               </v-list-item>
@@ -65,7 +65,7 @@
           <v-card-title>{{selectedActivity.name}}</v-card-title>
             <v-card-text>
               <v-row align="center">
-               
+
                <div class="subtitle-1">By {{selectedActivity.speaker}}</div>
               </v-row>
                <div>{{selectedActivity.descriptions}}</div>
@@ -85,7 +85,7 @@
              </v-chip-group>
             </v-card-text>
              <v-card-actions>
-              
+
              </v-card-actions>
           </v-card>
         </v-dialog -->
@@ -93,9 +93,9 @@
   <v-flex lg3 > </v-flex>
     <v-flex lg6>
       <v-card>
-      <v-card-title> 
+      <v-card-title>
         <div classs="display-3" >
-       Talent's Activity 
+       Talent's Activity
         </div>
 
       </v-card-title>
@@ -111,7 +111,7 @@
         :key="activity.id"
         class="ma-3">
       <v-img
-      @click="goRoute('/activitydetail/'+activity.id)"
+      @click="goRoute('/activity/'+activity.id)"
       :src="activity.image"
       height="350">
       <v-layout class="fill-height align-end gradient-box" >
@@ -131,11 +131,11 @@
               <v-flex xs7 sm7 md7 lg7 xl7>
 
               </v-flex>
-              
+
                <v-flex xs3 sm3 md3 lg3 xl class="text-right">
-                {{activity.likes}}Likes 
+                {{activity.likes}}Likes
                </v-flex>
-          
+
               <v-flex xs3 sm3 md3 lg3 xl3 class="">
                 {{activity.comments}}Comments
               </v-flex>
@@ -157,7 +157,7 @@
            </v-btn>
          </v-flex>
          <v-flex class="text-center">
-          <social-sharing url="http://demo.vue-chartjs.org/" inline-template>
+          <social-sharing :url="'https://api.astrosubs.com/activity' + activity.id" inline-template>
            <v-speed-dial
              v-model="fab"
              direction="top"
@@ -201,6 +201,16 @@
              >
              <network network="reddit">
                <v-icon class="fa fa-fw fa-reddit"></v-icon>
+             </network>
+             </v-btn>
+             <v-btn
+               fab
+               dark
+               small
+               color="info"
+             >
+             <network network="linkedin">
+               <v-icon class="fa fa-linkedin"></v-icon>
              </network>
              </v-btn>
            </v-speed-dial>
@@ -252,7 +262,7 @@ export default {
       total_pages:0,
       comment_description:[],
       selectedindex:0,
-  
+
      }
   },
   watch:{
@@ -316,23 +326,23 @@ export default {
           "descriptions":this.comment_description,
           "activity_id": this.selectedActivity.id,
           "user_id"     : this.User.id
-      
+
         }).then((response) =>{
               this.comments.unshift({
-                "descriptions":this.comment_description, 
+                "descriptions":this.comment_description,
                 "activity_id": this.selectedActivity.id,
-               
+
                 "user" :{
                     "id" : this.User.id,
                     "name" : this.User.name,
                     "image" : this.User.image
                 }
-                
+
                 });
           this.activities[this.selectedindex].comments +=1;
           this.dialog = false;
            console.log("activity_id");
-          
+
         })
         .then((error) =>{
 
@@ -341,17 +351,17 @@ export default {
 
   total_like(activity_id,index) {
       this.$http.post(this.$root.api+'/likes', {
-         
+
           "activity_id": activity_id,
           "user_id"     : this.User.id
-      
-        
+
+
         }).then((response) =>{
-             
-              
+
+
           this.activities[index].likes +=1;
           this.dialog = false;
-          
+
         })
         .then((error) =>{
 

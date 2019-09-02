@@ -24,7 +24,6 @@
                  {{course.end_date}}
            </v-card-actions>
 
-
              <v-card-text class="font-weight-medium  subtitle-1" >
                <p class="font-weight-light">{{course.descriptions}}</p>
              </v-card-text>

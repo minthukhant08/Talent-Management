@@ -9,6 +9,7 @@ import giveresults from './components/give_results/give_results.vue';
 import assignments from './components/assignment/assignment.vue';
 import timetable from './components/timetable/timetable.vue';
 import activitydetail from './components/activity/activitydetail.vue';
+import loginrequired from './components/error/loginrequired.vue';
 
 export default[
   {path:'/', component:home},
@@ -21,6 +22,7 @@ export default[
   {path:'/giveresults', component:giveresults, meta: { requiresAuth: true }},
   {path:'/assignment', component:assignments, meta: { requiresAuth: true }},
   {path:'/timetable', component:timetable, meta: { requiresAuth: true }},
-  {path:'/activitydetail/:id', component:activitydetail, meta: { requiresAuth: true }},
+  {path:'/activity/:id', component:activitydetail, meta: { requiresAuth: true }},
+  {path:'/loginrequired', component:loginrequired}
 
 ]

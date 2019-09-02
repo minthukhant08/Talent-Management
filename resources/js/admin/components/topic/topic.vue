@@ -249,6 +249,9 @@ import commonmethods from '../../mixins/commonMethods';
       return{
         search:'',
         topics:[],
+        menu2:false,
+        date:'',
+        menu:false,
         editDialog:false,
         selectedTopic:{},
         headers: [

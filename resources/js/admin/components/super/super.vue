@@ -26,6 +26,7 @@
                 <v-icon
                   v-show="item.id!=1"
                   small
+                  color="error"
                   @click="deleteAdmin(item)"
                 >
                   delete
@@ -49,6 +50,7 @@
             <template v-slot:item.remove="{item}">
               <v-icon
                 small
+                color="error"
                 @click="deleteAdmin(item)"
               >
                 delete

@@ -27,10 +27,10 @@
         <v-card>
           <v-card-title
 
-            class="headline accent lighten-2"
+            class="headline accent"
             primary-title
           >
-            Add Batch
+            Create New Batch
           </v-card-title>
 
           <v-layout row ma-3>
@@ -43,6 +43,7 @@
                       <v-text-field
                         filled
                         color="accent"
+                        v-model="createdBatch.name"
                       ></v-text-field>
                     </v-col>
                   </v-row>
@@ -51,10 +52,25 @@
                       Start Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                      ></v-text-field>
+                      <v-menu
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="createdBatch.start_date"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="createdBatch.start_date" @input=" menu = false"></v-date-picker>
+                      </v-menu>
                     </v-col>
                   </v-row>
                   <v-row class="customActivityForm">
@@ -62,10 +78,25 @@
                       End Date
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                      ></v-text-field>
+                      <v-menu
+                      v-model="menu2"
+                      :close-on-content-click="false"
+                      :nudge-right="40"
+                      transition="scale-transition"
+                      offset-y
+                      full-width
+                      min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="createdBatch.end_date"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="createdBatch.end_date" @input=" menu2 = false"></v-date-picker>
+                      </v-menu>
                     </v-col>
                   </v-row>
                 </v-flex>
@@ -78,7 +109,7 @@
             <v-btn
               color="accent"
               text
-              @click="detail = false"
+              @click="createBatch"
             >
               POST
             </v-btn>
@@ -114,6 +145,9 @@
     data () {
       return {
         dialog:false,
+        menu:false,
+        menu2:false,
+        createdBatch:{start_date: new Date().toISOString().substr(0, 10), end_date:new Date().toISOString().substr(0, 10)},
         search:'',
         headers: [
           {
@@ -151,7 +185,6 @@
     methods: {
       deleteBatch (batch) {
         const index = this.batch.indexOf(batch);
-        this.batch.splice(index, 1);
         this.$http.put(this.$root.api + '/batches/delete/'+ batch.id,{
           admin_id: this.Admin.id
         },
@@ -162,6 +195,29 @@
         }).then((response) =>{
           console.log(response);
           this.batch.splice(index, 1);
+        })
+      },
+      createBatch(){
+        this.$http.post(this.$root.api + '/batches',{
+          admin_id: this.Admin.id,
+          name: this.createdBatch.name,
+          start_date: this.createdBatch.start_date,
+          end_date: this.createdBatch.end_date
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          console.log(response);
+          this.dialog = false;
+          console.log('false');
+          this.batch.unshift({
+            name: this.createdBatch.name,
+            start_date: this.createdBatch.start_date,
+            end_date: this.createdBatch.end_date
+          });
+
         })
       },
       getbatch(){

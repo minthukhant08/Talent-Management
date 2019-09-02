@@ -17,10 +17,9 @@ class Scanner
     public function handle($request, Closure $next)
     {
         $scanner = User::find($request->scanner_id);
-
-        if (!isset($scanner)) {
+          if ($scanner->type !=3) {
             return response('501');
-        }
-          return $next($request);
+          }
+        return $next($request);
     }
 }

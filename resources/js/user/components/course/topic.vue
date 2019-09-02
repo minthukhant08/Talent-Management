@@ -22,54 +22,56 @@
               </v-btn>
             </v-card-actions>
         </v-card-title>
-        <v-card-text class="py-0" >
-            <v-timeline
-              align-top
-              dense
-            >
-              <v-timeline-item
-                small
+        <template v-for="detail in topicdetails">
+          <v-card-text  >
+              <v-timeline
+                align-top
+                dense
               >
-                <template v-slot:icon>
-                    <v-avatar class="mt-5">
-                      <img src="http://i.pravatar.cc/64">
-                    </v-avatar>
-                </template>
+                <v-timeline-item
+                  small
+                >
+                  <template v-slot:icon>
+                      <v-avatar class="mt-5">
+                        <img :src="detail.teacher.image">
+                      </v-avatar>
+                  </template>
 
-                <v-layout>
-                  <v-flex xs4 sm4 md4 lg4 xl4>
-                    <strong>{{topicdetails.start_date}}</strong>
-                  </v-flex>
-                  <v-flex xs8 sm8 md8 lg8 xl8>
-                      <strong>{{topicdetails.topic}}</strong>
-                      <div class="caption">{{topicdetails.descriptions}}</div>
-                  </v-flex>
-                </v-layout>
-             </v-timeline-item>
-           </v-timeline>
-         </v-card-text>
+                  <v-layout>
+                    <v-flex xs4 sm4 md4 lg4 xl4>
+                      <strong>{{detail.date}}</strong>
+                    </v-flex>
+                    <v-flex xs8 sm8 md8 lg8 xl8>
+                        <strong>{{detail.topic}}</strong>
+                        <div class="caption">{{detail.descriptions}}</div>
+                    </v-flex>
+                  </v-layout>
+               </v-timeline-item>
+             </v-timeline>
+           </v-card-text>
+        </template>
       </v-card>
     </v-dialog>
 
     <v-timeline :dense="$vuetify.breakpoint.smAndDown">
-      <v-timeline-item v-for="(card,index) in topics" :key="index"
+      <v-timeline-item v-for="(topic,index) in topics" :key="index"
         color="accent"
       >
       <span slot="opposite">Tus eu perfecto</span>
         <v-card >
           <v-card-title class="accent" >
-            <h2 class="display-1 white--text font-weight-light">{{card.topic}}</h2>
+            <h2 class="display-1 white--text font-weight-light">{{topic.topic}}</h2>
           </v-card-title>
           <v-card-actions class="font-weight-medium  subtitle-1 pl-6 pb-0 pt-5" >
             <v-icon>event</v-icon>&nbsp;&nbsp;
-               {{card.start_date}}&nbsp;-&nbsp;
-               {{card.end_date}}
+               {{topic.start_date}}&nbsp;-&nbsp;
+               {{topic.end_date}}
          </v-card-actions>
           <v-container class="pt-0">
             <v-layout>
               <v-flex cols="12" md="12">
                   <v-card-text>
-                    {{card.descriptions}}
+                    {{topic.descriptions}}
                   </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
@@ -113,21 +115,22 @@ export default{
       }
   },
   methods:{
-    gettopicdetail(){
-      this.$http.get(this.$root.api + '/topics'+this.$route.params.id, {
+    goRoute(route){
+      this.$router.push(route).catch(err => {});
+    },
+    topicdialog(topic){
+      this.$http.get(this.$root.api + '/topics/' + topic.id, {
         headers: {
             Authorization: 'Bearer '+ this.User.token
         }
       }).then(response=>{
         console.log(response.body.data);
-        this.topic= response.body.data;
+        this.topicdetaildialog=true;
+        this.topicdetails=response.body.data[0].detail;
       }, response => {
         console.log('error');
       })
-    },
-    topicdialog(topic){
-      this.topicdetaildialog=true;
-      this.topicdetails=topic;
+
     },
 
 
@@ -146,7 +149,6 @@ export default{
   },
   created(){
     this.getCourseDetail();
-    this.gettopicdetail();
   },
   close() {
     this.dialog = false

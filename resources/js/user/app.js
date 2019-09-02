@@ -28,7 +28,7 @@ const router= new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
       if (store.state.User.type == null) {
-          next('/login')
+          next('/loginrequired')
       } else {
           next()
       }
@@ -75,7 +75,7 @@ new Vue({
   router:router,
   data(){
     return{
-      api:'http://localhost:9000/api/v1'
+      api:'http://localhost:8000/api/v1'
     }
   },
   created:function(){

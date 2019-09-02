@@ -1,7 +1,6 @@
 <template>
   <div class="small">
     <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="fillData()">Randomize</button>
   </div>
 </template>
 
@@ -18,12 +17,12 @@
                           labels: ['a', 'b'],
                           datasets: [
                           {
-                            label: 'Light',
+                            label: '2018',
                             backgroundColor: [],
                             data: [],
                           },
                           {
-                            label: 'Dark',
+                            label: '2019',
                             backgroundColor: [],
                             data: [],
                           }
@@ -31,7 +30,7 @@
                         },
       }
     },
-    created () {
+    mounted () {
       this.getCount()
     },
     computed:{
@@ -40,34 +39,11 @@
       }
     },
     methods: {
-      fillData () {
-        this.datacollection = {
-          labels: this.data1,
-          datasets: [
-            {
-              label: this.data1[0],
-              backgroundColor: 'blue',
-              data: [this.getRandomInt(), this.getRandomInt(),this.getRandomInt(), this.getRandomInt()]
-            }, {
-              label: this.data2[1],
-              backgroundColor: '#f87979',
-              data: [this.getRandomInt(), this.getRandomInt(), this.getRandomInt(), this.getRandomInt()]
-            }
-          ]
-        }
-      },
       getCount(){
 
-        this.$http.get(this.$root.api + '/admin/reports/eachmonth').then((response) =>{
-          console.log('newgg');
-          console.log(response.body.data);
+        this.$http.get(this.$root.api + '/admin/reports/eachmonth?first_year=2018&second_year=2019').then((response) =>{
           this.datacollection.labels = response.body.data.labels;
-          console.log(response.body.data.datasets[0].data);
-          this.datacollection.datasets.label = response.body.data.datasets[0].label;
-          this.datacollection.datasets[0].backgroundColor = response.body.data.datasets[0].backgroundColor;
-          this.datacollection.datasets[0].data = response.body.data.datasets[0].data;
-          console.log('new user');
-          console.log(this.datacollection);
+          this.datacollection.datasets = response.body.data.datasets;
         })
         .then((error)=>{
 
