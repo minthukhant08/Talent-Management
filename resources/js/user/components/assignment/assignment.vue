@@ -59,12 +59,14 @@
       dialog: false,
       headers :[
         {text: 'Assignment', align: 'left',sortable: false,value: 'name',},
-        {text: 'Date', sortable: false,value:'date',},
+        {text: 'Date',align: 'center', sortable: false,value:'date',},
         { text: 'Action',align:'right',sortable: false, value: 'action',},
       ],
       assignment_name:'',
+      user_date:'',
       assignments:[],
       date:'',
+      created_at:'',
 
     }),
 
@@ -94,8 +96,12 @@
         this.$http.post(this.$root.api + '/assignments', {
           "name":this.assignment_name,
           "teacher_id":this.User.id,
+          "date":this.created_at,
+
         }).then((response) =>{
-          this.assignments.unshift({"name":this.assignment_name, "teacher_id":this.User.id});
+          var d = new Date();
+          d = this.convert(d);
+          this.assignments.unshift({"name":this.assignment_name, "teacher_id":this.User.id,"date":d});
           this.dialog = false;
         })
         .then((error) =>{
@@ -106,6 +112,7 @@
       convert(date){
         // console.log('date is ' + date);
         return new Date(date).toString().substr(0,10);
+
       },
 
       close () {
