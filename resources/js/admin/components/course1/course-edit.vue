@@ -301,7 +301,7 @@
     },
 
     gettopic(){
-      this.$http.get('http://localhost:9000/api/v1/topics/1').then(response => {
+      this.$http.get('http://localhost:9000/api/v1/topics').then(response => {
 
        this.topics = response.body.data;
       }, response =>{

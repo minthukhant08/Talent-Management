@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state:{
-    Admin:{},
+    Admin:{name:null, email:null, image:null, role:null},
     App:{
       login:false,
       noti:[],

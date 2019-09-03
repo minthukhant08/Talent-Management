@@ -3,7 +3,7 @@ import {bus} from '../app';
 export default{
   methods:{
     goRoute(route){
-      this.$router.push(route);
+      this.$router.push(route).catch(err => {});
     },
     googleLogin(){
       var provider = new firebase.auth.GoogleAuthProvider();
@@ -16,7 +16,6 @@ export default{
             image : result.user.photoURL,
             uid   : result.user.uid
           }).then((response)=>{
-            console.log(response.body.success + 'this is success');
             if(response.body.success==1){
               console.log('i am success');
               console.log(response.body.data);
@@ -25,8 +24,8 @@ export default{
               _this.$store.dispatch('toggle_Login',true);
               bus.$emit('close_login');
             }
-          })
-          .catch((error)=>{
+          }).catch((error)=>{
+            console.log("catch");
             console.log(error);
           })
         }).catch(function(error) {
@@ -51,11 +50,28 @@ export default{
       console.log('logged');
       var provider = new firebase.auth.FacebookAuthProvider();
       firebase.auth().signInWithPopup(provider).then(function(result) {
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-        console.log(token);
+        firebase.auth().currentUser.getIdToken(false).then(function(token) {
+          _this.$http.post(_this.$root.api + '/admin/login', {
+            name  : result.user.displayName,
+            email : result.user.email,
+            image : result.user.photoURL,
+            uid   : result.user.uid
+          }).then((response)=>{
+            if(response.body.success==1){
+              console.log('i am success');
+              console.log(response.body.data);
+              response.body.data[0].token = token;
+              _this.$store.dispatch('setAdmin',response.body.data[0]);
+              _this.$store.dispatch('toggle_Login',true);
+              bus.$emit('close_login');
+            }
+          }).catch((error)=>{
+            console.log("catch");
+            console.log(error);
+          })
+        }).catch(function(error) {
+          console.log(error);
+        });
       }).catch(function(error) {
         // Handle Errors here.
         console.log(error);
@@ -81,11 +97,12 @@ export default{
     logout(){
       firebase.auth().signOut().then(()=>{
         this.$store.dispatch('setAdmin', {
-          name  : '',
-          email : '',
-          image : ''
+          name  : null,
+          email : null,
+          image : null
         });
         this.$store.dispatch('toggle_Login',false);
+        this.goRoute('/');
       })
     },
     getNotification(user_id){

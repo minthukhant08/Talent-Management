@@ -14,10 +14,12 @@ class Confirm extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-          'user_id' => $this->user->id,
-          'code'    => $this->code,
-          'image'   => $this->user->image
-        ];
+      return [
+       'user_id' => $this->user->id,
+       'code'    => $this->code,
+       'image'   => $this->user->image,
+       'name'    => $this->user->name,
+       'email'   => $this->user->email
+     ];
     }
 }

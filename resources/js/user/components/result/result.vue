@@ -1,20 +1,21 @@
 <template>
-  <v-container class="grey lighten-5">
+  <v-container >
     <v-row>
-
       <v-col
         md="3"
       >
-          <v-card
-            tile
-            max-width="480"
-            class="pa-2 mx-auto mt-10 mb-10"
+        <v-card
+          tile
+          max-width="480"
+          class=" mx-auto  mb-10"
+          color="light-blue lighten-4"
           >
-    <v-img
-      :src="User.image"
-      width="200px"
-      height="200px"
-      dark
+          <v-layout>
+           <v-img
+           :src="User.image"
+           width="200px"
+          height="200px"
+          dark
     >
       <v-row class="fill-height">
         <v-card-title>
@@ -29,6 +30,7 @@
         </v-card-title>
       </v-row>
     </v-img>
+    </v-layout>
 
     <v-list>
       <v-list-item >
@@ -93,7 +95,7 @@
 
        <v-list-item >
         <v-list-item-icon>
-            <v-icon color="accent">group</v-icon>
+            <v-icon color="accent">mdi-account-group</v-icon>
         </v-list-item-icon>
         <v-list-item-content >
             <v-list-item-title>{{User.batch.name}}</v-list-item-title>
@@ -117,24 +119,27 @@
       <v-col
         md="9"
       >
-        <v-card
+
+        <!-- <v-card
           class="pa-2"
           tile
-        >
-            <v-container style="height: calc(100% - 50px);width:100%;">
-
-          <v-card>
+        > -->
+        <v-container style="height: calc(100% - 50px);width:100%;">
+         <v-card>
             <v-item v-slot:default="{ active, toggle }">
               <v-card
-                :color="active ? 'primary' : ''"
-                dark
+                color="light-blue lighten-4"
                 height="200"
                 @click="toggle"
+                class="pt-3"
               >
+              <div class="display-1">
+                Result for Assignment
+              </div>
               <v-flex xs12 sm12 md12 lg12 xl12 >
                 <v-layout>
                   <v-flex xs10 sm10 md9 lg9 xl9 class="ml-3 mt-3 headline">
-                    Total Result
+                    Total Assignment
                     <div class="display-1 text-left ml-3">
                       {{total}}
                     </div>
@@ -160,9 +165,7 @@
           <v-card>
             <v-list two-line >
               <span class="grey">
-                <div class=" pl-5 headline">
-                  Results
-                </div>
+
               </span>
               <template v-for="result in results">
 
@@ -197,7 +200,7 @@
               </v-list>
           </v-card>
       </v-container>
-        </v-card>
+        <!-- </v-card> -->
       </v-col>
     </v-row>
   </v-container>
@@ -251,10 +254,13 @@
              return "#8BC34A";
          }
       },
-
-
     getall(){
-      this.$http.get(this.$root.api + '/results?student_id=' + this.User.id).then(response => {
+      console.log(this.User.token);
+      this.$http.get(this.$root.api + '/results?student_id=' + this.User.id,{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response => {
           this.results = response.body.data;
           console.log(response.body.data);
         }, response =>{

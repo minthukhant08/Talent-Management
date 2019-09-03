@@ -24,7 +24,6 @@
                  {{course.end_date}}
            </v-card-actions>
 
-
              <v-card-text class="font-weight-medium  subtitle-1" >
                <p class="font-weight-light">{{course.descriptions}}</p>
              </v-card-text>
@@ -37,20 +36,27 @@
 
 
 <script>
-export default{
+import commonmethods from '../../mixins/commonMethods';
+export default {
+  mixins:[commonmethods],
   data(){
     return{
       courses:[],
       dialog:false
     }
   },
+  computed:{
+    User(){
+      return this.$store.getters.getUser;
+    }
+  },
   methods:{
-    goRoute($route){
-      this.$router.push($route).catch(err => {});
-    },
     getCourses(){
-      this.$http.get(this.$root.api + '/courses').then(response=>{
-        // console.log(response.body.data);
+      this.$http.get(this.$root.api + '/courses',{
+        headers: {
+            Authorization: 'Bearer '+ this.User.token
+        }
+      }).then(response=>{
         this.courses= response.body.data;
       }, response => {
         console.log('error');

@@ -26,6 +26,7 @@
                 <v-icon
                   v-show="item.id!=1"
                   small
+                  color="error"
                   @click="deleteAdmin(item)"
                 >
                   delete
@@ -49,6 +50,7 @@
             <template v-slot:item.remove="{item}">
               <v-icon
                 small
+                color="error"
                 @click="deleteAdmin(item)"
               >
                 delete
@@ -266,9 +268,13 @@ export default{
       });
     },
     searchUser(){
-       this.$http.get(this.$root.api +'/users?admin=1&name='+this.search).then((response) => {
-         console.log(this.searchresult );
-         this.searchresult = response.body.data;
+     this.$http.get(this.$root.api +'/users?admin=1&name='+this.search,{
+       headers: {
+           Authorization: 'Bearer '+ this.Admin.token
+       }
+     }).then((response) => {
+       console.log(this.searchresult );
+       this.searchresult = response.body.data;
      }, response => {
        console.log(response);
      });

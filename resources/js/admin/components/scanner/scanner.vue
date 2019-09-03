@@ -134,44 +134,55 @@
     ],
         }
   },
+	computed:{
+		Admin(){
+			return this.$store.getters.getAdmin;
+		}
+	},
   methods:{
     getall(){
-
-      	this.$http.get('http://localhost:8000/api/v1/users').then(response => {
-          this.userss = response.body.data;
+    	this.$http.get(this.$root.api + '/users', {
+        headers: {
+            Authorization: 'Bearer '+ this.Admin.token
+        }
+      }).then(response => {
+        this.userss = response.body.data;
       }, response => {
 
       });
     },
 
      searchScanner(){
-        this.$http.get( this.$root.api + '/users?type=normal&name='+this.search).then(response => {
-          this.searchresult = response.body.data;
+      this.$http.get( this.$root.api + '/users?type=normal&name='+this.search,{
+        headers: {
+            Authorization: 'Bearer '+ this.Admin.token
+        }
+      }).then(response => {
+        this.searchresult = response.body.data;
       }, response => {
 
       });
     },
     updateuser(user, type){
-      console.log(user);
-      this.$http.put('http://localhost:8000/api/v1/users/'+ user.id,
-        {
-          type: type
-        }).then((response) =>{
+    this.$http.put(this.$root.api + '/users/'+ user.id,
+      {
+        type: type
+      },
+			{
+        headers: {
+            Authorization: 'Bearer '+ this.Admin.token
+        }
+      }).then((response) =>{
         this.dialog = false;
       })
       .then((error)=>{
 
       })
-
     }
-
   },
 
   created(){
   	this.getall();
-  },
-  computed:{
-
   }
 }
 </script>

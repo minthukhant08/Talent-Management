@@ -9,7 +9,9 @@
       <v-list >
         <v-list-item @click="goRoute('/profile/' + User.id)">
           <v-list-item-action class="mr-3">
-            <v-avatar size="55"><img :src='User.image' alt="avatar"></v-avatar>
+            <v-avatar size="55">
+              <img :src='User.image' alt="avatar">
+            </v-avatar>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="User.name"></v-list-item-title>
@@ -78,7 +80,7 @@
         </v-list-item>
 
         <v-divider></v-divider>
-        <v-list-item @click="logout">
+        <v-list-item @click="logout();drawer=false">
           <v-btn block  class="pt-1 accent" >Logout</v-btn>
         </v-list-item>
 
@@ -95,9 +97,11 @@
       </template>
 
       <div class="text-center pl-2 pr-2" >
-        <v-avatar @click="goRoute('/')">
-          <img src="/images/logo_white.png" alt="logo">
-        </v-avatar>
+        <div class="text-center pl-2 mt-2 pr-2" >
+          <!-- <v-avatar> -->
+            <img @click="goRoute('/')" width="30" src="/images/logo_white.png" alt="logo">
+          <!-- </v-avatar> -->
+        </div>
       </div>
 
       <v-spacer></v-spacer>
@@ -160,7 +164,7 @@
       </template>
     </v-app-bar>
 
-    <v-content class="content-background">
+    <v-content >
       <v-fade-transition mode="out-in">
             <router-view></router-view>
       </v-fade-transition>
@@ -248,16 +252,11 @@ export default {
     },
     methods:{
       login(){
-        var _this = this;
-        firebase.auth().onAuthStateChanged((user)=>{
-          if (user) {
-            this.drawer = !this.drawer;
-            console.log("logged");
-          } else {
-            this.loginDialog = true;
-            console.log("not logged");
-          }
-        });
+        if (this.User.name != null) {
+           this.drawer = !this.drawer;
+        }else{
+          this.loginDialog = true;
+        }
       },
     },
     created () {

@@ -14,7 +14,7 @@
                 single-line
                 hide-details
               ></v-text-field>
-                <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>add</v-icon></v-btn>
+                <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
 
               </v-card-title>
               <v-data-table
@@ -22,8 +22,8 @@
                 :items="activities"
                 :search="search"
               ><template v-slot:item.action="{ item }">
-                  <v-icon @click="goRoute('/admin/activityedit/'+item.id)" color="info">edit</v-icon>
-                  <v-icon @click="deleteItem(item)" color="error" class="pl-2">delete</v-icon>
+                  <v-icon @click="edit = true" color="info">mdi-square-edit-outline</v-icon>
+                  <v-icon @click="deleteActivity(item)" color="error" class="pl-2">delete</v-icon>
               </template>
             </v-data-table>
             </v-card>
@@ -44,7 +44,7 @@
                   class="grey lighten-2"
                   max-width="200"
                   max-height="200"
-                ><v-icon>camera</v-icon></v-img>
+                ><v-icon style="float:right;">camera</v-icon></v-img>
             </v-col>
             </v-flex>
             <v-flex xs12 sm12 md7 lg7 xl7 ml-7>
@@ -77,11 +77,26 @@
                       Date
                     </v-flex>
                     <v-flex xs12 sm12 md7 lg7 xl7>
-                      <v-text-field
-                        filled
-                        color="accent"
-                        v-model="activities_date"
-                      ></v-text-field>
+                      <v-menu
+                        v-model="menu2"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        full-width
+                        min-width="290px"
+                      >
+                        <template v-slot:activator="{ on }">
+                          <v-text-field
+                          v-model="date"
+                          label="Picker without buttons"
+                          prepend-icon="event"
+                          readonly
+                          v-on="on"
+                          ></v-text-field>
+                        </template>
+                        <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                      </v-menu>
                     </v-flex>
                   </v-row>
                   <v-row class="customActivityForm">
@@ -107,19 +122,111 @@
 
                 </v-layout>
           </v-layout>
-
-
-
-
           <div class="button">
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
             <v-btn color="blue darken-1" text @click="save()">Post</v-btn>
           </div>
+      </v-card>
+    </v-dialog>
+    <v-dialog v-model="edit" max-width="650px">
+      <v-card ma5
+        class="mx-auto"
+        width="100%"
 
+      >
+        <v-layout row ma-3>
+          <v-flex xs12 sm12 md12 lg12 xl12>
+            <v-col align="center" justify="center">
+              <v-img
+                src="https://picsum.photos/id/11/500/300"
+                :aspect-ratio="16/9"
+                class="grey lighten-2"
+              ><v-icon style="float:right;">camera</v-icon></v-img>
+          </v-col>
+          </v-flex>
+          <v-flex xs12 sm12 md12 lg12 xl12 ml-12 mt-5>
+                <v-row class="customActivityForm">
+                  <v-flex xs12 sm12 md3 lg3 xl3>
+                    Name
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-text-field
+                      filled
+                      color="accent"
+                      v-model="activities_name"
+                    ></v-text-field>
+                  </v-flex>
+                </v-row>
+                <v-row class="customActivityForm">
+                  <v-flex xs12 sm12 md3 lg3 xl3>
+                     Speaker
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-text-field
+                      filled
+                      color="accent"
+                      v-model="activities_speaker"
+                    ></v-text-field>
+                  </v-flex>
+                </v-row>
+                <v-row class="customActivityForm">
+                  <v-flex xs12 sm12 md3 lg3 xl3>
+                    Date
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-menu
+                    v-model="menu"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    full-width
+                    min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="event"
+                        readonly
+                        v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                    </v-menu>
+                  </v-flex>
+                </v-row>
+                <v-row class="customActivityForm">
+                  <v-flex xs12 sm12 md3 lg3 xl3>
+                     Type
+                  </v-flex>
+                  <v-flex xs12 sm12 md7 lg7 xl7>
+                    <v-autocomplete
+                      :items="components"
+                    ></v-autocomplete>
+                  </v-flex>
+                </v-row>
+              </v-flex>
+              <v-layout row ma-3>
+                <v-flex xs12 sm12 md12 lg12 xl12>
+                  Description
+                  <v-textarea
+                        outlined
+                        label="Outlined textarea"
+                        v-model="activities_descriptions"
+                  ></v-textarea>
+                </v-flex>
 
+              </v-layout>
+        </v-layout>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="edit=false">close</v-btn>
+          <v-btn
+            text>Update</v-btn>
 
-
+        </v-card-actions>
       </v-card>
     </v-dialog>
   </v-row>
@@ -130,6 +237,10 @@ import commonmethods from '../../mixins/commonMethods';
   export default {
     mixins:[commonmethods],
     data: () => ({
+      date: new Date().toISOString().substr(0, 10),
+      menu: false,
+      menu2:false,
+      edit:false,
       dialog: false,
       dialog2: false,
       activities:[],
@@ -157,20 +268,39 @@ import commonmethods from '../../mixins/commonMethods';
   activities_type:'',
   activities_descriptions:''
     }),
+    computed:{
+      Admin(){
+        return this.$store.getters.getAdmin;
+      }
+    },
     methods: {
-      deleteItem (item) {
-        const index = this.activities.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.activities.splice(index, 1)
+      deleteActivity (activity) {
+
+        this.$http.put(this.$root.api + '/activities/delete/'+ activity.id,{
+          admin_id: this.Admin.id
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          const index = this.activities.indexOf(activity);
+          this.activities.splice(index, 1)
+        })
       },
       getactivity(){
-        this.$http.get('http://localhost:8000/api/v1/activities').then(response=>{
+        this.$http.get(this.$root.api + '/activities',{
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then(response=>{
           this.activities= response.body.data;
         }, response => {
           console.log('error');
         })
       },
       putactivity(){
-        this.$http.put('http://localhost:8000/api/v1/activities',{name}).then(response=>{
+        this.$http.put(this.$root.api + '/activities',{name}).then(response=>{
           this.activities= response.body.data;
         }, response => {
           console.log('error');
@@ -183,6 +313,11 @@ import commonmethods from '../../mixins/commonMethods';
           "date": this.activities_date,
           "type": this.activities_type,
           "descriptions":this.activities_descriptions
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
         }).then((response)=>{
           this.activities.unshift({"name": this.activities_name,
           "speaker": this.activities_speaker,
