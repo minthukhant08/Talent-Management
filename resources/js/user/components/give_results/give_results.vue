@@ -106,7 +106,7 @@
      getall(){
 
 
-       this.$http.get(this.$root.api + '/users/giveresults?assignment_id=' + this.selectedAssignment,{
+       this.$http.get(this.$root.api + '/users/results?assignment_id=' + this.selectedAssignment,{
          headers: {
            Authorization: 'Bearer '+ this.User.token
          }
@@ -128,6 +128,11 @@
          "assignment_id":this.editedItem.assignment_id,
          "marks":this.editedItem.marks,
          "comments":this.editedItem.comments,
+       },
+       {
+         headers: {
+           Authorization: 'Bearer '+ this.User.token
+         }
        }).then((response) =>{
          Object.assign(this.lists[this.editedIndex], this.editedItem)
          this.dialog = false;

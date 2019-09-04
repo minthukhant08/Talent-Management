@@ -101,19 +101,23 @@
         })
       },
       save(){
+        console.log(this.User.token);
         this.$http.post(this.$root.api + '/assignments', {
           "name":this.assignment_name,
           "teacher_id":this.User.id,
           "date":this.created_at,
         },
+
         {
           headers: {
               Authorization: 'Bearer '+ this.User.token
           }
         }).then((response) =>{
+          
           var d = new Date();
           d = this.convert(d);
           this.assignments.unshift({"name":this.assignment_name, "teacher_id":this.User.id,"date":d});
+
           this.dialog = false;
         })
         .then((error) =>{

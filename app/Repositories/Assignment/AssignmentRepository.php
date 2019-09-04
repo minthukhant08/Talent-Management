@@ -3,15 +3,21 @@
 namespace App\Repositories\Assignment;
 
 use App\Assignment;
+use App\User;
+use App\StudentAssignement;
 use App\Repositories\Assignment\AssignmentRepositoryInterface as AssignmentInterface;
 
 class AssignmentRepository implements AssignmentInterface
 {
   public $assignment;
+  public $user;
+  public $studentAssignment;
 
-  public function __construct(Assignment $assignment)
+  public function __construct(Assignment $assignment,User $user, StudentAssignement $studentAssignment)
   {
      $this->assignment = $assignment;
+     $this->user        = $user;
+     $this->studentAssignment = $studentAssignment;
   }
 
   public function getAll($offset, $limit,$teacher_id){
@@ -40,7 +46,20 @@ class AssignmentRepository implements AssignmentInterface
   public function store($data){
       $this->assignment->fill($data);
       if ($this->assignment->save()) {
-        return $this->assignment;
+          $teacher_id = $this->assignment->teacher_id;
+          $teacher = $this->user::find($teacher_id);
+          $students = $this->user::where([['batch_id', '=', $teacher->batch_id], ['course_id', '=', $teacher->course_id], ['type', '=', 1]])->orderBy('created_at', 'desc')->get();
+          foreach ($students as $student) {
+            $this->studentAssignment->fill([
+              'student_id'    => $student->id,
+              'assignment_id' => $this->assignment->id,
+              'marks'         => 0,
+              'comments'      => "",
+
+            ]);
+            $this->studentAssignment->save();
+          }
+          return true;
       }
   }
 
