@@ -271,6 +271,7 @@
    updateuser(){
       this.$http.put(this.$root.api + '/users/'+ this.selectedUser.id,
         {
+					admin_id: this.Admin.id,
           course_id: this.selectedCourse,
           batch_id:  this.selectedBatch,
           type:'teacher'

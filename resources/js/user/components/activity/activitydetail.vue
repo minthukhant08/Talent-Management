@@ -94,7 +94,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-icon @click="postlike">favorite</v-icon>
-       &nbsp;&nbsp; {{activity.likes}} likes &nbsp;&nbsp; &nbsp;&nbsp;
+       &nbsp;&nbsp; {{activity.like.likes}} likes &nbsp;&nbsp; &nbsp;&nbsp;
       <v-icon>insert_comment</v-icon>
        &nbsp;&nbsp; {{activity.comments}} comments
     </v-card-actions>
@@ -167,7 +167,7 @@ export default {
       });
     },
     getactivity(){
-      this.$http.get(this.$root.api + '/activities/' + this.$route.params.id, {
+      this.$http.get(this.$root.api + '/activities/' + this.$route.params.id + "&activity_id=" + this.User.id, {
         headers: {
             Authorization: 'Bearer '+ this.User.token
         }

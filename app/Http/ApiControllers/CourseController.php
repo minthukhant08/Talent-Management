@@ -56,7 +56,7 @@ class CourseController extends BaseController
     {
         $validator = Validator::make($request->all(), [
                 'name'      =>  'required',
-                'image'     =>  'required|image',
+                'image'     =>  'required',
                 'admin_id'  =>  'required'
             ]);
 
@@ -79,7 +79,7 @@ class CourseController extends BaseController
          $result = $this->courseInterface->store($course);
 
          if (isset($result)) {
-             event(new ContentCRUDEvent('Create Course', $request->admin_id, 'Create', 'Made '. $result->name. ' Course'));
+             event(new ContentCRUDEvent('Create Course', $request->admin_id, 'Create', 'Made '. $request->name. ' Course'));
              $this->data(array('id' =>  $result));
          }
 
@@ -116,7 +116,6 @@ class CourseController extends BaseController
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-                'image'     =>  'image',
                 'admin_id'  =>  'required'
             ]);
 
@@ -136,9 +135,15 @@ class CourseController extends BaseController
             $this->setError('404', $id);
             return $this->response('404');
         }else{
-          if ($this->courseInterface->update($request->all(),$id)) {
+          $course = $request->all();
+          if (isset($course['image'])) {
+            $path = $request->file('image')->getRealPath();
+            $img = base64_encode(file_get_contents($path));
+            $course['image'] = $img;
+          }
+          if ($this->courseInterface->update($course, $id)) {
               $this->data(array('updated' =>  1));
-              event(new ContentCRUDEvent('Update Course', $request->admin_id, 'Updated', 'Updated '. $result->name. ' Course'));
+              event(new ContentCRUDEvent('Update Course', $request->admin_id, 'Updated', 'Updated '. $course['name']. ' Course'));
               return $this->response('200');
           }else{
               return $this->response('500');

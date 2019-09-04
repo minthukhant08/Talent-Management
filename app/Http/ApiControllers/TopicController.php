@@ -71,7 +71,7 @@ class TopicController extends BaseController
          $result = $this->topicInterface->store($topic);
 
          if (isset($result)) {
-           $this->data(array('id' =>  $result));
+           $this->data(array('id' =>  $result->id));
            event(new ContentCRUDEvent('Create Topic', $request->admin_id, 'Create', 'Created '. $result->name. ' Topic'));
          }
 
@@ -93,6 +93,33 @@ class TopicController extends BaseController
         }else{
             $topic = new TopicResource($topic);
             $this->data(array($topic));
+            return $this->response('201');
+        }
+    }
+
+    public function getByCourseId($course_id)
+    {
+        $topic = $this->topicInterface->getByCourseId($course_id);
+        if (empty($topic)) {
+            $this->setError('404', $id);
+            return $this->response('404');
+        }else{
+            $topic =  TopicResource::collection($topic);
+            $this->data($topic);
+            return $this->response('201');
+        }
+    }
+
+    public function list($course_id)
+    {
+        $total = $this->topicInterface->total();
+        $this->total($total);
+        $topic = $this->topicInterface->getList($course_id);
+        if (empty($topic)) {
+            $this->setError('404', $id);
+            return $this->response('404');
+        }else{
+            $this->data($topic);
             return $this->response('201');
         }
     }
@@ -129,7 +156,7 @@ class TopicController extends BaseController
         }else{
             if ($this->topicInterface->update($request->all(),$id)) {
                 $this->data(array('updated' =>  1));
-                event(new ContentCRUDEvent('Update Topic', $request->admin_id, 'Update', 'Updated '. $result->name. ' Topic'));
+                event(new ContentCRUDEvent('Update Topic', $request->admin_id, 'Update', 'Updated '. $topic->name. ' Topic'));
                 return $this->response('200');
             }else {
                 return $this->response('500');

@@ -88,7 +88,7 @@
         </v-list-item>
         <v-list-item @click="goRoute('/admin/topicdetail')">
           <v-list-item-action>
-            <v-icon color="blue">mdi-book-open-page-variant</v-icon>
+            <v-icon color="purple">mdi-calendar-clock</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Topic Detail</v-list-item-title>
@@ -96,7 +96,7 @@
         </v-list-item>
         <v-list-item v-if="Admin.role == 'Super Admin'" @click="goRoute('/admin/super')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon>mdi-account-key</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Admins</v-list-item-title>
@@ -104,7 +104,7 @@
         </v-list-item>
         <v-list-item v-if="Admin.role == 'Super Admin'" @click="goRoute('/admin/logs')">
           <v-list-item-action>
-            <v-icon>dashboard</v-icon>
+            <v-icon>mdi-post</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Logs</v-list-item-title>
@@ -112,7 +112,7 @@
         </v-list-item>
         <v-list-item @click="logout">
           <v-list-item-action>
-            <v-icon color="#303F9F">mdi-update</v-icon>
+            <v-icon color="#303F9F">mdi-logout</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>Logout</v-list-item-title>

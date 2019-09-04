@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Confirmation;
 
-class IntakeConfirmListener implements ShouldQueue
+class IntakeConfirmListener
 {
     /**
      * Create the event listener.
@@ -28,6 +28,6 @@ class IntakeConfirmListener implements ShouldQueue
      */
     public function handle(IntakeConfirmEvent $event)
     {
-        Mail::to($event->user->email)->send(new Confirmation($event->user, $event->code));
+        Mail::to($event->email)->send(new Confirmation($event->qr));
     }
 }

@@ -28,7 +28,9 @@ class ActivityController extends BaseController
             return 0;
         }elseif (strcasecmp($value, 'announcement') == 0){
             return 1;
+
         }else{
+
           return $default;
         }
     }
@@ -44,14 +46,19 @@ class ActivityController extends BaseController
          $this->limit  = isset($request->limit)? $request->limit : 30;
          $name         = isset($request->name)? $request->name : '%';
          $speaker      = isset($request->speaker)? $request->speaker : '%';
-         $type         = isset($request->type)? $request->type : '%';
-
-         $type = $this->convertPostType($type, 0);
-
+         $type='';
+         if (!isset($request->type)) {
+            $type="%";
+            $total = $this->activityInterface->total(3);
+         }else{
+           $type = $this->convertPostType($request->type, '%');
+           $total = $this->activityInterface->total($type);
+         }
+         // dd($type);
          $activity = ActivityResource::collection($this->activityInterface->getAll($this->offset, $this->limit, $name, $speaker, $type));
-         $total = $this->activityInterface->total();
-         $this->data($activity);
+         $total = $this->activityInterface->total($type);
          $this->total($total);
+         $this->data($activity);
          return $this->response('200');
      }
 
@@ -89,7 +96,7 @@ class ActivityController extends BaseController
        $path = $request->file('image')->getRealPath();
        $img = base64_encode(file_get_contents($path));
        $activity['image'] = $img;
-       $activity['type'] = convertPostType($activity['type'], 0);
+       $activity['type'] = $this->convertPostType($activity['type'], 0);
        $result = $this->activityInterface->store($activity);
 
        if (isset($result)) {
@@ -154,8 +161,17 @@ class ActivityController extends BaseController
             $this->setError('404', $id);
             return $this->response('404');
         }else{
-            if ($this->activityInterface->update($request->all(),$id)) {
-                event(new ContentCRUDEvent('Update Activity', $request->admin_id, 'Update', 'Updated '. $result->name. ' Activity'));
+          $activity = $request->all();
+          if (isset($request->image)) {
+              $path = $request->file('image')->getRealPath();
+              $img = base64_encode(file_get_contents($path));
+              $activity['image'] = $img;
+          }
+          if (isset($request->type)) {
+             $activity['type'] = $this->convertPostType($request->type,0);
+          }
+            if ($this->activityInterface->update($activity,$id)) {
+                event(new ContentCRUDEvent('Update Activity', $request->admin_id, 'Update', 'Updated '. $activity['name']. ' Activity'));
                 $this->data(array('updated' =>  1));
                 return $this->response('200');
             }else{

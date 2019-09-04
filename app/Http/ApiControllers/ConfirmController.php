@@ -59,7 +59,7 @@ class ConfirmController extends BaseController
         $validator = Validator::make($request->all(), [
               'scanner_id' =>  'required|exists:user,id',
               'code'       =>  'required',
-              'user_id'    =>  'required|exists:user,id'
+              'user_id'    =>  'required|exists:confirm,user_id'
           ]);
 
          if ($validator->fails()) {
@@ -80,12 +80,13 @@ class ConfirmController extends BaseController
              $this->setValidationError(['message' => "Wrong Code"]);
              return $this->response('501');
          }else{
-             $this->confirmInterface->destroy($confirm->id);
+             // $this->confirmInterface->destroy($confirm->id);
              $user = [
                'type' => 1
              ];
              if ($this->userInterface->update($user, $confirm->user_id)) {
-                 event(new ContentCRUDEvent('Confirmed Student', 1, 'Confirm', 'Confirmed '. $confirm->user->name. ' as student.'));
+
+                 // event(new ContentCRUDEvent('Confirmed Student', 1, 'Confirm', 'Confirmed '. $confirm->user->name. ' as student.'));
                  return $this->response('201');
              }
          }

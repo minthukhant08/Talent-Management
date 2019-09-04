@@ -55,7 +55,7 @@ Route::group(['prefix' => 'v1/courses', 'middleware' => ['firebase'] ], function
 Route::group(['prefix' => 'v1/courses', 'middleware' => ['firebase', 'admin'] ], function()
 {
       Route::post('/', 'CourseController@store');
-      Route::put('/{id}', 'CourseController@update');
+      Route::post('/{id}', 'CourseController@update');
       Route::put('/delete/{id}', 'CourseController@destroy');
 });
 
@@ -79,6 +79,9 @@ Route::group(['prefix' => 'v1/topics', 'middleware' => ['firebase']], function()
 {
       Route::get('/', 'TopicController@index');
       Route::get('/{id}', 'TopicController@show');
+      Route::get('/list/{course_id}', 'TopicController@list');
+      Route::get('/getbycourseid/{course_id}', 'TopicController@getByCourseId');
+
 });
 
 Route::group(['prefix' => 'v1/topics', 'middleware' => ['firebase', 'admin']], function()
@@ -93,6 +96,7 @@ Route::group(['prefix' => 'v1/topicdetails', 'middleware' => ['firebase']], func
       Route::get('/', 'TopicDetailController@index');
       Route::get('/{id}', 'TopicDetailController@show');
       Route::get('/timetable/{id}', 'TopicDetailController@getTimeTable');
+      Route::get('/getbytopicid/{id}', 'TopicDetailController@getByTopicId');
 });
 
 Route::group(['prefix' => 'v1/topicdetails', 'middleware' => ['firebase', 'admin']], function()
@@ -102,7 +106,7 @@ Route::group(['prefix' => 'v1/topicdetails', 'middleware' => ['firebase', 'admin
       Route::delete('/{id}', 'TopicDetailController@destroy');
 });
 
-Route::group(['prefix' => 'v1/activities', 'middleware' => ['firebase']], function()
+Route::group(['prefix' => 'v1/activities'], function()
 {
       Route::get('/', 'ActivityController@index');
       Route::get('/{id}', 'ActivityController@show');
@@ -111,7 +115,7 @@ Route::group(['prefix' => 'v1/activities', 'middleware' => ['firebase']], functi
 Route::group(['prefix' => 'v1/activities', 'middleware' => ['firebase', 'admin']], function()
 {
       Route::post('/', 'ActivityController@store');
-      Route::put('/{id}', 'ActivityController@update');
+      Route::post('/{id}', 'ActivityController@update');
       Route::put('/delete/{id}', 'ActivityController@destroy');
 });
 
@@ -163,10 +167,9 @@ Route::group(['prefix' => 'v1/assignments' , 'middleware' => ['firebase']], func
       Route::delete('/{id}', 'AssignmentController@destroy');
 });
 
-
+Route::get('v1/intake', 'IntakeController@get');
 Route::group(['prefix' => 'v1/intake', 'middleware' => ['firebase', 'superadmin']], function()
 {
-      Route::get('/', 'IntakeController@get');
       Route::put('/', 'IntakeController@update');
 });
 

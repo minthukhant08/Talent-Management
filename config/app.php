@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         csrui\LaravelFirebaseAuth\FirebaseAuthServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -191,6 +192,7 @@ return [
         App\Repositories\Intake\IntakeRepoServiceProvider::class,
         App\Repositories\Log\LogRepoServiceProvider::class,
         App\Repositories\Confirm\ConfirmRepoServiceProvider::class,
+
     ],
 
     /*

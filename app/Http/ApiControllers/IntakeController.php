@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\ApiControllers\APIBaseController as BaseController;
 use App\Repositories\Intake\IntakeRepositoryInterface as IntakeInterface;
 use App\Events\IntakeAvailableEvent;
-use App\Events\IntakeConfirmEvent;
 use App\Events\ContentCRUDEvent;
 use App\Http\Resources\Intake as IntakeResource;
 use Validator;

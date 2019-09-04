@@ -31,7 +31,7 @@ class TopicDetailController extends BaseController
         $this->offset = isset($request->offset)? $request->offset : 0;
         $this->limit  = isset($request->limit)? $request->limit : 30;
         $topicdetail  = TopicDetailResource::collection($this->topicdetailInterface->getAll($this->offset, $this->limit));
-        $total = $this->topicdetailInterface->total();
+        $total = $this->topicdetailInterfacteacher_e->total();
         $this->data($topicdetail);
         $this->total($total);
         return $this->response('200');
@@ -115,6 +115,19 @@ class TopicDetailController extends BaseController
         }
     }
 
+    public function getByTopicId($topic_id)
+    {
+        $topicdetail = $this->topicdetailInterface->getByTopicId($topic_id);
+        if (empty($topic_id)) {
+            $this->setError('404', $topic_id);
+            return $this->response('404');
+        }else{
+            $topicdetail = TopicDetailResource::collection($topicdetail);
+            $this->data($topicdetail);
+            return $this->response('201');
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -149,7 +162,7 @@ class TopicDetailController extends BaseController
         }else{
             if ($this->topicdetailInterface->update($request->all(),$id)) {
                 $this->data(array('updated' =>  1));
-                event(new ContentCRUDEvent('Update Topic Detail', $request->admin_id, 'Update', 'Updated '. $result->name. ' Topic Detail.'));
+                event(new ContentCRUDEvent('Update Topic Detail', $request->admin_id, 'Update', 'Updated '. $topicdetail->name. ' Topic Detail.'));
                 return $this->response('200');
             }else {
                 return $this->response('500');

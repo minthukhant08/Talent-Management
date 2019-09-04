@@ -287,6 +287,7 @@
     promoteuser(){
       this.$http.put(this.$root.api +'/users/'+ this.selectedUser.id + '?editedby=1',
       {
+					admin_id: this.Admin.id,
           course_id: this.promote_selected_course,
           batch_id : this.promote_selected_batch,
           type:'student'
@@ -309,6 +310,7 @@
 		demoteuser(user){
       this.$http.put(this.$root.api +'/users/'+ user.id + '?editedby=1',
       {
+					admin_id: this.Admin.id,
           course_id: null,
           batch_id : null,
           type:'normal'

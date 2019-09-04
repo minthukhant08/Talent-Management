@@ -19,7 +19,7 @@ class ActivityRepository implements ActivityInterface
         ->where([
           ['name','like', '%'.$name.'%'],
           ['speaker_name','like', '%'.$speaker.'%'],
-          ['type','=', $type]
+          ['type','like', $type]
         ])
         ->skip($offset)
         ->take($limit)
@@ -36,15 +36,19 @@ class ActivityRepository implements ActivityInterface
     return $this->activity::find($id)->delete();
   }
 
-  public function total()
+  public function total($type = '%')
   {
-    return $this->activity::count();
+    if ($type != 3) {
+      return $this->activity::where('type', '=', $type)->count();
+    }else{
+        return $this->activity::count();
+    }
   }
 
   public function store($data){
       $this->activity->fill($data);
       if ($this->activity->save()) {
-        return $this->activity->id;
+        return $this->activity;
       }
   }
 

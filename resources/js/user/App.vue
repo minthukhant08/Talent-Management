@@ -99,7 +99,7 @@
       <div class="text-center pl-2 pr-2" >
         <div class="text-center pl-2 mt-2 pr-2" >
           <!-- <v-avatar> -->
-            <img @click="goRoute('/')" width="30" src="/images/logo_white.png" alt="logo">
+            <img @click="goRoute('/admin/dashboard')" width="30" src="/images/logo_white.png" alt="logo">
           <!-- </v-avatar> -->
         </div>
       </div>
@@ -127,7 +127,7 @@
           offset-y
         >
           <template icon v-slot:activator="{ on }" v-show="">
-            <v-btn class="mr-1" v-on="on" text icon>
+            <v-btn class="mr-1" v-on="on" @click="clear_noti"  text icon>
               <v-badge :overlap='true' color='red'>
                 <template v-slot:badge>
                   <span  v-if='newNoti!=0'>
@@ -251,6 +251,15 @@ export default {
       }
     },
     methods:{
+      clear_noti(){
+        this.$http.get(this.$root.api + '/notifications/seen' + this.User.id, {
+          headers: {
+              Authorization: 'Bearer '+ this.$store.getters.getUser.token
+          }
+        }).then((response)=>{
+          this.$store.dispatch('setNotiCount',response.body.meta.total);
+        })
+      },
       login(){
         if (this.User.name != null) {
            this.drawer = !this.drawer;
