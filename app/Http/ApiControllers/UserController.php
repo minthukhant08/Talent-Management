@@ -12,6 +12,7 @@ use App\Repositories\Notification\NotificationRepositoryInterface as Notificatio
 use App\Repositories\NotificationToken\NotificationTokenRepositoryInterface as NotificationTokenInterface;
 use App\Http\Resources\User as UserResource;
 use App\Events\ContentCRUDEvent;
+use App\Events\IntakeConfirmEvent;
 use App\Events\PushNotificationEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -230,11 +231,31 @@ class UserController extends BaseController
         $user = $this->userInterface->find($id);
         // dd($request->type);
         if (isset($request->editedby)) {
+            $date = new DateTime();
+            $date = $date->format('Y-m-d H:i:s');
            if ($request->type == 'student') {
-              event(new ContentCRUDEvent('Promote', $request->editedby, 'Student', 'Promoted '. $user->name . ' to student.'));
-              $this->storeNotification($user);
+              $code = (string) Uuid::generate();
+              $qr  = (object) ['user_id'=>$user->id, 'code'=>$code];
+              event(new IntakeConfirmEvent( $user->email, $qr));
+              event(new ContentCRUDEvent('Promote', $request->admin_id, 'Student', 'Promoted '. $user->name . ' to student.'));
+              $noti = [
+                'user_id'=>$user->id,
+                'type' => 0,
+                'title'=> 'Promoted',
+                'descriptions'=> "Congratulations! you have been selected as on of a few talented people. ",
+                'date' => $date
+              ];
+              $this->storeNotification($user, $code, $noti);
            }else{
-              event(new ContentCRUDEvent('Demote', $request->editedby, 'Student', 'Demoted '. $user->name . ' to normal user.'));
+              event(new ContentCRUDEvent('Demote', $request->admin_id, 'Student', 'Demoted '. $user->name . ' to normal user.'));
+              $noti = [
+                'user_id'=>$user->id,
+                'type' => 0,
+                'title'=> 'Demote',
+                'descriptions'=> "Sorry to inform you that you have been removed from our student list. ",
+                'date' => $date
+              ];
+              $this->storeNotification($user, null, $noti);
            }
         }
         if (empty($user)) {
@@ -267,25 +288,19 @@ class UserController extends BaseController
         }
     }
 
-    public function storeNotification($user)
+    public function storeNotification($user, $code, $noti)
     {
       // dd($user);
-      $date = new DateTime();
-      $date = $date->format('Y-m-d H:i:s');
-      $noti = [
-        'user_id'=>$user->id,
-        'type' => 0,
-        'title'=> 'Promoted',
-        'descriptions'=> "Congratulations! you have been selected as on of a few talented people. ",
-        'date' => $date
-      ];
       $noti = $this->notificationInterface->store($noti);
-      $confirm=[
-          'user_id'=> $user->id,
-          'noti_id'=> $noti->id,
-          'code'=> (string) Uuid::generate()
-      ];
-      $this->confirmInterface->store($confirm);
+      if ($code !=null ) {
+        $confirm=[
+            'user_id'=> $user->id,
+            'noti_id'=> $noti->id,
+            'code'=> $code
+        ];
+        $this->confirmInterface->store($confirm);
+      }
+
       $tokens = $this->notiTokenInterface->getByUserID($user->id);
       // dd($tokens);
       foreach ($tokens as $token) {

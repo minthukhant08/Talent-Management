@@ -12,17 +12,15 @@ class Confirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
-    public $code;
+    public $qr;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user, $code)
+    public function __construct($qr)
     {
-        $this->user = $user;
-        $this->code = $code;
+        $this->qr = "{user_id: ".$qr->user_id.", code: " .$qr->code."}";
     }
 
     /**

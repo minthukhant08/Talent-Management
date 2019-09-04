@@ -46,9 +46,11 @@ class LikeController extends BaseController
             return $this->response('400');
         }
 
+        $result = $this->likeInterface->isliked($like['activity_id'], $like['user_id']);
 
-         $result = $this->likeInterface->store($like);
-         $result = $this->likeInterface->isliked($like['activity_id'], $like['user_id']);
+        if ($result['liked'] == false) {
+            $this->likeInterface->store($like);
+        }
 
          if (isset($result)) {
             $this->data($result);

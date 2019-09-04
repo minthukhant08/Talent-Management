@@ -137,7 +137,7 @@
                   <v-flex xs12 sm12 md4 lg4 xl4>
                     <v-col align="center" justify="center">
                       <v-img
-                        :src="selectedCourse.image"
+                        :src="editedCourse.image"
                         aspect-ratio="1"
                         class="grey lighten-2"
                         max-width="200"
@@ -155,7 +155,7 @@
                             <v-text-field
                               filled
                               color="accent"
-                              v-model="selectedCourse.name"
+                              v-model="editedCourse.name"
                             ></v-text-field>
                           </v-flex>
                         </v-row>
@@ -165,7 +165,7 @@
                           </v-flex>
                           <v-flex xs12 sm12 md7 lg7 xl7>
                             <v-menu
-                            v-model="menu"
+                            v-model="menu3"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -175,13 +175,13 @@
                             >
                               <template v-slot:activator="{ on }">
                                 <v-text-field
-                                v-model="date"
+                                v-model="editedCourse.start_date"
                                 prepend-icon="event"
                                 readonly
                                 v-on="on"
                                 ></v-text-field>
                               </template>
-                              <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                              <v-date-picker v-model="editedCourse.start_date" @input="menu3 = false"></v-date-picker>
                             </v-menu>
                           </v-flex>
                         </v-row>
@@ -191,7 +191,7 @@
                           </v-flex>
                           <v-flex xs12 sm12 md7 lg7 xl7>
                             <v-menu
-                            v-model="menu2"
+                            v-model="menu4"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -201,13 +201,13 @@
                             >
                               <template v-slot:activator="{ on }">
                                 <v-text-field
-                                v-model="date"
+                                v-model="editedCourse.end_date"
                                 prepend-icon="event"
                                 readonly
                                 v-on="on"
                                 ></v-text-field>
                               </template>
-                              <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                              <v-date-picker v-model="editedCourse.end_date" @input="menu4 = false"></v-date-picker>
                             </v-menu>
                           </v-flex>
                         </v-row>
@@ -217,7 +217,7 @@
                           Description
                           <v-textarea
                             outlined
-                            v-model="selectedCourse.descriptions"
+                            v-model="editedCourse.descriptions"
                           ></v-textarea>
                         </v-flex>
 
@@ -259,9 +259,12 @@ import commonmethods from '../../mixins/commonMethods';
         search:'',
         menu:false,
         menu2:false,
+        menu3:false,
+        menu4:false,
         dialog2:false,
         date:new Date().toISOString().substr(0, 10),
         selectedCourse:{},
+        editedCourse:{},
         createDialog:false,
         editDialog:false,
         courses:[],
@@ -298,6 +301,7 @@ import commonmethods from '../../mixins/commonMethods';
       },
       setImage(){
         this.selectedCourse.image=URL.createObjectURL(this.$refs.user_bg.files[0]);
+        this.editedCourse.image=URL.createObjectURL(this.$refs.user_bg.files[0]);
         console.log(this.selectedCourse.image);
       },
       getCourses(){
@@ -313,28 +317,60 @@ import commonmethods from '../../mixins/commonMethods';
         })
       },
       postCourse(){
-        console.log( this.$refs.user_bg.files[0]);
-        this.$http.post(this.$root.api + '/courses',{
-          admin_id: this.Admin.id,
-          name: this.selectedCourse.name,
-          start_date: this.selectedCourse.start_date,
-          end_date: this.selectedCourse.end_date,
-          image: this.$refs.user_bg.files[0]
-        },
+        var form = new FormData();
+        form.append('image', this.$refs.user_bg.files[0]);
+        form.append('admin_id', this.Admin.id);
+        form.append('name',this.selectedCourse.name);
+        form.append('start_date', this.selectedCourse.start_date);
+        form.append('end_date', this.selectedCourse.end_date);
+        form.append('descriptions', this.selectedCourse.descriptions);
+        this.$http.post(this.$root.api + '/courses',form,
         {
           headers: {
             Authorization: 'Bearer ' + this.Admin.token
           }
         }).then((response) =>{
-
+          this.dialog2 = false;
+          this.courses.unshift({
+            'admin_id': this.Admin.id,
+            'name' : this.selectedCourse.name,
+            'start_date': this.selectedCourse.start_date,
+            'end_date' : this.selectedCourse.end_date,
+            'descriptions': this.selectedCourse.descriptions,
+            'image' : this.selectedCourse.image,
+            'id'  : response.body.data.id
+          });
         })
         .then((error)=>{
 
         })
       },
-      updateCourse(course){
-        this.$http.put(this.$root.api + '/courses/' + course.id).then((response) =>{
+      updateCourse(){
+        var form = new FormData();
+        form.append('admin_id', this.Admin.id);
+        form.append('name',this.editedCourse.name);
+        form.append('start_date', this.editedCourse.start_date);
+        form.append('end_date', this.editedCourse.end_date);
+        form.append('descriptions', this.editedCourse.descriptions);
 
+        if (this.$refs.user_bg.files[0]!=null) {
+          console.log(this.$refs.user_bg.files[0]);
+        form.append('image', this.$refs.user_bg.files[0]);
+        }
+        this.$http.post(this.$root.api + '/courses/' +  this.editedCourse.id, form,       {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          console.log(response);
+          // this.courses.unshift({
+          //   id: this.editedCourse.id,
+          //   name: this.editedCourse.name,
+          //   start_date: this.editedCourse.start_date,
+          //   end_date: this.editedCourse..end_date,
+          //   descriptions: this.editedCourse.descriptions
+          // });
+          this.editDialog = false;
         })
         .then((error)=>{
 
@@ -342,7 +378,7 @@ import commonmethods from '../../mixins/commonMethods';
       },
       showEditDialog(course){
         var index = this.courses.indexOf(course);
-        this.selectedCourse = course;
+        this.editedCourse = course;
         this.editDialog = true;
       },
       deleteCourse(course){

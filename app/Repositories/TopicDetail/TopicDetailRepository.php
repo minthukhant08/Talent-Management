@@ -30,6 +30,13 @@ class TopicDetailRepository implements TopicDetailInterface
             ->get();
   }
 
+  public function getByTopicId($topic_id){
+    return $this->topicdetail::with('teacher')
+            ->where('topic_id', '=', $topic_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+  }
+
   public function total()
   {
     return $this->topicdetail::count();
@@ -48,7 +55,7 @@ class TopicDetailRepository implements TopicDetailInterface
   public function store($data){
       $this->topicdetail->fill($data);
       if ($this->topicdetail->save()) {
-        return $this->topicdetail->id;
+        return $this->topicdetail;
       }
   }
 

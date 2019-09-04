@@ -26,7 +26,7 @@ class PushNotificationListener
       $client = new GuzzleHttp\Client([
                 'headers' => [
                     'Content-Type' => 'application/json',
-                    'Authorization' => 'key=AAAAjtjYYAY:APA91bFCOZ0NBhq4Zujx2NwFgWbTzTOMmXS6LRJhGC3GWTm6sY8Zndze8bT5SViM3uRdH1d9gWXhwIHpmjlHlN6EeXz3ds2TbxPSxG7miS27M2-ZIW0YVMM0qH0bhRjJd01fu9p-MPMP',
+                    'Authorization' => 'key=AAAAwOzy9FY:APA91bEDTjBlQ2yob_9u23y9VLBz00Y7OzPkqkSiWUtWARUq23f_hJpEShzg_l0U7BHEueAHoSRGPe2k9NomRe7UbRP3_6QNcliME75DfW3-kPQdb2nGVU53cdIqcvp22fj18zBe497M',
                 ]
             ]);
       $response = $client->post('https://fcm.googleapis.com/fcm/send',

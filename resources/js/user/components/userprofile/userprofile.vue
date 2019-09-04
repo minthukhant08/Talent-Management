@@ -123,7 +123,7 @@
         <v-list-item-content >
            <v-btn
             color="accent"
-
+            @click="logout"
             >Log Out</v-btn>
 
 

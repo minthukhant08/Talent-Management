@@ -75,7 +75,7 @@ new Vue({
   router:router,
   data(){
     return{
-      api:'http://localhost:8000/api/v1'
+      api:'https://api.astrosubs.com/api/v1'
     }
   },
   created:function(){
@@ -88,9 +88,10 @@ new Vue({
       }).catch(function(err) {
         console.log('Service worker registration failed, error:', err);
       });
-    }
+    };
     firebase.messaging().onMessage(function(payload) {
       bus.$emit('new_noti',payload);
+      console.log('new noti acquired');
     });
   }
 });

@@ -21,6 +21,15 @@ class TopicRepository implements TopicInterface
         ->get();
   }
 
+  public function getByCourseId($course_id)
+  {
+    return $this->topic::where('course_id', '=', $course_id)->get();
+  }
+
+  public function getList($course_id){
+    return $this->topic::distinct()->where('course_id', '=', $course_id)->get(['topic','id']);
+  }
+
   public function total()
   {
     return $this->topic::count();
@@ -39,7 +48,7 @@ class TopicRepository implements TopicInterface
   public function store($data){
       $this->topic->fill($data);
       if ($this->topic->save()) {
-        return $this->topic->id;
+        return $this->topic;
       }
   }
 

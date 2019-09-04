@@ -166,6 +166,7 @@
     updateuser(user, type){
     this.$http.put(this.$root.api + '/users/'+ user.id,
       {
+				admin_id: this.Admin.id,
         type: type
       },
 			{

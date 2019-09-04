@@ -14,17 +14,17 @@ use App\User;
 class IntakeConfirmEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $user;
-    public $code;
+    public $qr;
+    public $email;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user, $code)
+    public function __construct($email, $qr)
     {
-        $this->user = $user;
-        $this->code = $code;
+        $this->qr = $qr;
+        $this->email = $email;
     }
 
     /**

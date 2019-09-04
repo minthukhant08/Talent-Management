@@ -1,40 +1,40 @@
 <template>
   <v-row justify="center">
-    <v-dialog persistent max-width="600px">
+    <v-dialog v-model="addDialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
           <v-container>
             <v-card class="mt-3" :elevation="5">
-              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
+              <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="addDialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
               <v-card-title>
                 Topics
                 <v-spacer></v-spacer>
                 <v-autocomplete
                 class="ma-7"
-                :items="topics"
+                :items="courses"
                 clearable
                 hide-details
                 hide-selected
-                item-text="topic"
+                item-text="name"
                 item-value="id"
-                label="Search for Course's Topic"
-                v-model="search"
+                label="Select Course"
+                v-model="selected_course"
+                @change="gettopics"
                 >
                 </v-autocomplete>
               </v-card-title>
               <v-data-table
                 :headers="headers"
                 :items="topics"
-                :search="search"
               >
               <template v-slot:item.action="{ item }">
                 <v-icon @click="showEditDialog(item)"
                   color="info">
-                  edit
+                  mdi-square-edit-outline
                 </v-icon>
                 <v-icon  @click="deleteTopic(item)"
                   color="error"
                   class="pl-2" >
-                  mdi-square-edit-outline
+                  delete
                 </v-icon>
               </template>
             </v-data-table>
@@ -56,10 +56,28 @@
                       <v-text-field
                         filled
                         color="accent"
+                        v-model="editedTopic.topic"
                       ></v-text-field>
                     </v-col>
                   </v-row>
-
+                  <v-row class="customActivityForm">
+                    <v-col xs12 sm12 md3 lg3 xl3>
+                      Name
+                    </v-col>
+                    <v-col xs12 sm12 md7 lg7 xl7>
+                      <v-autocomplete
+                      :items="courses"
+                      clearable
+                      hide-details
+                      hide-selected
+                      item-text="name"
+                      item-value="id"
+                      label="Select Course"
+                      v-model="add_selected_course"
+                      >
+                      </v-autocomplete>
+                    </v-col>
+                  </v-row>
                   <v-row class="customActivityForm">
                     <v-col xs12 sm12 md3 lg3 xl3>
                        Start Date
@@ -76,14 +94,13 @@
                       >
                         <template v-slot:activator="{ on }">
                           <v-text-field
-                          v-model="date"
-                          label="Picker without buttons"
+                          v-model="editedTopic.start_date"
                           prepend-icon="event"
                           readonly
                           v-on="on"
                           ></v-text-field>
                         </template>
-                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                        <v-date-picker v-model="editedTopic.start_date" @input="menu2 = false"></v-date-picker>
                       </v-menu>
                     </v-col>
                   </v-row>
@@ -93,7 +110,7 @@
                     </v-col>
                     <v-col xs12 sm12 md7 lg7 xl7>
                       <v-menu
-                      v-model="menu2"
+                      v-model="menu"
                       :close-on-content-click="false"
                       :nudge-right="40"
                       transition="scale-transition"
@@ -103,14 +120,13 @@
                       >
                         <template v-slot:activator="{ on }">
                           <v-text-field
-                          v-model="date"
-                          label="Picker without buttons"
+                          v-model="editedTopic.end_date"
                           prepend-icon="event"
                           readonly
                           v-on="on"
                           ></v-text-field>
                         </template>
-                        <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                        <v-date-picker v-model="editedTopic.end_date" @input="menu = false"></v-date-picker>
                       </v-menu>
                     </v-col>
                   </v-row>
@@ -119,7 +135,7 @@
                       Description
                       <v-textarea
                             outlined
-                            label="Outlined textarea"
+                            v-model="editedTopic.descriptions"
                       ></v-textarea>
                     </v-col>
 
@@ -128,8 +144,8 @@
           </v-layout>
           <v-layout>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text>Close</v-btn>
-            <v-btn color="blue darken-1" text @click="save()">Post</v-btn>
+            <v-btn color="blue darken-1" @click="addDialog=false" text>Close</v-btn>
+            <v-btn color="blue darken-1" text @click="saveTopic">Post</v-btn>
           </v-layout>
       </v-card>
     </v-dialog>
@@ -178,14 +194,13 @@
                     >
                       <template v-slot:activator="{ on }">
                         <v-text-field
-                        v-model="date"
-                        label="Picker without buttons"
+                        v-model="selectedTopic.start_date"
                         prepend-icon="event"
                         readonly
                         v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                      <v-date-picker v-model="selectedTopic.start_date" @input="menu = false"></v-date-picker>
                     </v-menu>
                   </v-flex>
                 </v-row>
@@ -205,14 +220,13 @@
                     >
                       <template v-slot:activator="{ on }">
                         <v-text-field
-                        v-model="date"
-                        label="Picker without buttons"
+                        v-model="selectedTopic.end_date"
                         prepend-icon="event"
                         readonly
                         v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                      <v-date-picker v-model="selectedTopic.end_date" @input="menu2 = false"></v-date-picker>
                     </v-menu>
                   </v-flex>
                 </v-row>
@@ -247,29 +261,36 @@ import commonmethods from '../../mixins/commonMethods';
     mixins:[commonmethods],
     data(){
       return{
-        search:'',
+        selected_course:'',
         topics:[],
+        courses:[],
         menu2:false,
         date:'',
         menu:false,
         editDialog:false,
+        addDialog:false,
         selectedTopic:{},
+        editedTopic:{},
+        add_selected_course:'',
         headers: [
           {
             text: 'Name',
             align: 'left',
             sortable: false,
             value: 'topic',
+            width:'150px'
           },
-          { text: 'Start Date', value: 'start_date' },
-          { text: 'End Date', value: 'end_date' },
+          { text: 'Start Date', value: 'start_date' , width:'120px'},
+          { text: 'End Date', value: 'end_date', width:'120px'},
           { text: 'Description', value: 'descriptions' },
 
           {
             text: 'Actions',
             value: 'action',
             align: 'right',
-            sortable: false },
+            sortable: false,
+            width: '120px'
+          },
         ],
       }
     },
@@ -279,8 +300,50 @@ import commonmethods from '../../mixins/commonMethods';
       }
     },
     methods: {
+      saveTopic(){
+        this.$http.post(this.$root.api + '/topics',{
+          admin_id : this.Admin.id,
+          'topic' : this.editedTopic.topic,
+          'start_date': this.editedTopic.start_date,
+          'end_date' : this.editedTopic.end_date,
+          'descriptions' : this.editedTopic.descriptions,
+          'course_id' : this.add_selected_course
+        },
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          this.topics.unshift({
+            'topic' : this.editedTopic.topic,
+            'start_date': this.editedTopic.start_date,
+            'end_date' : this.editedTopic.end_date,
+            'descriptions' : this.editedTopic.descriptions
+          })
+          this.editDialog = false;
+        })
+        .then((error)=>{
+
+        })
+      },
+      getCourse(){
+          var results=[];
+          this.$http.get(this.$root.api + '/courses/list',{
+            headers: {
+              Authorization: 'Bearer ' + this.Admin.token
+            }
+          }).then(response => {
+            results = response.body.data;
+            var i;
+            for (i = 0; i < results.length; i++) {
+              this.courses.push({name:results[i].name, id: results[i].id});
+            }
+        }, response => {
+
+        });
+      },
       gettopics(){
-        this.$http.get( this.$root.api + '/topics', {
+        this.$http.get( this.$root.api + '/topics/getbycourseid/' + this.selected_course, {
           headers: {
             Authorization: 'Bearer ' + this.Admin.token
           }
@@ -290,9 +353,26 @@ import commonmethods from '../../mixins/commonMethods';
           console.log('error');
         })
     },
-    updateTopic(topic){
-      this.$http.put(this.$root.api + '/topics/' + topic.id).then((response) =>{
-
+    updateTopic(){
+      this.$http.put(this.$root.api + '/topics/' + this.selectedTopic.id,{
+        admin_id : this.Admin.id,
+        'topic' : this.selectedTopic.topic,
+        'start_date': this.selectedTopic.start_date,
+        'end_date' : this.selectedTopic.end_date,
+        'descriptions' : this.selectedTopic.descriptions
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + this.Admin.token
+        }
+      }).then((response) =>{
+        this.topics.unshift({
+          'topic' : this.selectedTopic.topic,
+          'start_date': this.selectedTopic.start_date,
+          'end_date' : this.selectedTopic.end_date,
+          'descriptions' : this.selectedTopic.descriptions
+        })
+        this.editDialog = false;
       })
       .then((error)=>{
 
@@ -318,7 +398,7 @@ import commonmethods from '../../mixins/commonMethods';
     }
   },
   created(){
-    this.gettopics()
+    this.getCourse();
   }
 }
 </script>

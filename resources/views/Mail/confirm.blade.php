@@ -43,7 +43,7 @@
                         <tr>
                             <td align="center" valign="middle">
                                 <div class="m_2042709656515179653header-message" style="margin:10px">
-                                    Hey {{$user->name}} !<strong style="color:#6441a5"> You have been selected as a talented member of our Talent Program.</strong>
+                                    Hey !<strong style="color:#6441a5"> You have been selected as a talented member of our Talent Program.</strong>
                                 </div>
                                 <div class="m_2042709656515179653header-message">
                                     Make Sure you don't miss this rare oppotunity!
@@ -52,37 +52,21 @@
                                 <div class="m_2042709656515179653header-message" style="padding-top:10px;padding-left:90px;padding-right:90px">
                                     <!-- With complete coverage of the event available on stream, you’ll catch every second of the largest Dota 2 event ever. -->
                                 </div>
+                                <div class="m_2042709656515179653header-message">
+                                     Show this QR code to our organizers when you come to our program for Confirmation.
+                                    <br>
+                                </div>
+                                <div>
+                                  {!! QrCode::size(300)->generate($qr); !!}
+                                </div>
                             </td>
                         </tr>
                     </tbody></table>
                 </td>
             </tr>
             <tr>
-                <td align="center" valign="top">
-                    <table border="0" cellpadding="0" cellspacing="0" height="0" width="100%" class="m_2042709656515179653email-content">
-                        <tbody><tr>
-                            <td align="center" valign="middle">
-                                <div class="m_2042709656515179653header-message">
-                                     Show this QR code to our organizers when you come to our program for Confirmation.
-                                    <br>
-                                    <br>
-                                </div>
-                            </td>
-                        </tr>
-                            <tr><td align="center" valign="middle">
-                                <div>
-                                      {!! QrCode::size(250)->generate($code); !!}
-                                    <br>
-                                    <small class="m_2042709656515179653alternate-link" style="color:#999;font-size:11px;margin-top:4px;margin-bottom:4px;margin-right:4px;margin-left:4px"> website link:
-                                        <a href="" style="color:#999" target="_blank" data-saferedirecturl="">
-                                            https://www.talent.com
-                                        </a>
-                                    </small>
-                                </div>
-                            </td>
-                        </tr><tr>
-                        </tr>
-                    </tbody></table>
+                <td align="center" valign="middle">
+
                 </td>
             </tr>
         </tbody>

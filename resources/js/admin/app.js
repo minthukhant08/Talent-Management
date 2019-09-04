@@ -66,7 +66,7 @@ new Vue({
   router:router,
   data(){
     return{
-      api:'http://localhost:8000/api/v1'
+      api:'https://api.astrosubs.com/api/v1'
     }
   },
   created:function(){

@@ -133,7 +133,7 @@
               </v-flex>
 
                <v-flex xs3 sm3 md3 lg3 xl class="text-right">
-                {{activity.likes}}Likes
+                {{activity.like.likes}}Likes
                </v-flex>
 
               <v-flex xs3 sm3 md3 lg3 xl3 class="">
@@ -241,6 +241,7 @@ export default {
   mixins:[commonmethods],
   data(){
     return{
+      type:'',
       activities: [],
       comments:[],
       commentDialog:false,
@@ -267,13 +268,14 @@ export default {
   },
   watch:{
     page(val){
-      console.log(val);
-      this.$http.get(this.$root.api + '/activities?offset=' + (val-1)*5 + '&limit=5',{
+      console.log((val-1)*5);
+      this.$http.get(this.$root.api + '/activities?offset=' + (val-1)*5 + '&limit=5&user_id=' + this.User.id + '&type=' + this.type,{
         headers: {
             Authorization: 'Bearer '+ this.User.token
         }
       }).then(response => {
-        console.log(response.body.data);
+        console.log(val);
+        console.log(response);
        this.activities = response.body.data;
       }, response =>{
 
@@ -308,14 +310,24 @@ export default {
     this.selectedActivity = activity;
   },
   getall(){
-
-      this.$http.get(this.$root.api + '/activities?offset=0&limit=5',{
+      console.log(this.$root.api + '/activities?offset=0&limit=5&type=' + this.type);
+      this.$http.get(this.$root.api + '/activities?offset=0&limit=5&type=' + this.type,{
         headers: {
             Authorization: 'Bearer '+ this.User.token
         }
       }).then(response => {
-        this.total_pages = response.body.meta.total/5
-       this.activities = response.body.data;
+        if (response.body.meta.total<5) {
+          this.total_pages = response.body.meta.total/5;
+        }
+        else if (response.body.meta.total%5 == 0) {
+          this.total_pages = response.body.meta.total/5
+        }else{
+          var require = 5 - (response.body.meta.total/5);
+          this.total_pages = (response.body.meta.total/5) + (require-1);
+        }
+
+        console.log('total is ' + this.total_pages);
+        this.activities = response.body.data;
       }, response =>{
 
       });
@@ -327,6 +339,11 @@ export default {
           "activity_id": this.selectedActivity.id,
           "user_id"     : this.User.id
 
+        },
+        {
+          headers: {
+              Authorization: 'Bearer '+ this.User.token
+          }
         }).then((response) =>{
               this.comments.unshift({
                 "descriptions":this.comment_description,
@@ -356,6 +373,10 @@ export default {
           "user_id"     : this.User.id
 
 
+        },{
+          headers: {
+              Authorization: 'Bearer '+ this.User.token
+          }
         }).then((response) =>{
 
 
@@ -369,7 +390,13 @@ export default {
            }
   },
 created(){
+    if (this.$store.getters.getUser.type == "normal") {
+      this.type = "post";
+    }else{
+      this.type = "announcement";
+    }
     this.getall();
+    console.log(this.type);
   }
 }
 </script>

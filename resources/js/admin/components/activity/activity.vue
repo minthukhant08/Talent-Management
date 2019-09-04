@@ -1,5 +1,6 @@
 <template>
   <v-row justify="center">
+      <input type="file" accept="image/*" style="display: none;" ref="activity_img" id="activity_img" @change="setImage" />
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
         <v-container>
@@ -7,13 +8,22 @@
               <v-card-title>
                 Activity
                 <v-spacer></v-spacer>
-                <v-text-field
-                v-model="search"
-                append-icon="search"
-                label="Search"
-                single-line
-                hide-details
-              ></v-text-field>
+              <v-select
+               class="px-2"
+               width="100"
+               v-model="selectedType"
+               :items="['Post', 'Announcement']"
+               label="Type"
+               hide-details
+               @change="getactivity"
+              ></v-select>
+              <v-text-field
+              v-model="search"
+              append-icon="search"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
                 <v-btn style="z-index:1" fixed fab bottom right color="accent" dark @click="dialog=true" :elevation="8"><v-icon>mdi-playlist-plus</v-icon></v-btn>
 
               </v-card-title>
@@ -22,7 +32,7 @@
                 :items="activities"
                 :search="search"
               ><template v-slot:item.action="{ item }">
-                  <v-icon @click="edit = true" color="info">mdi-square-edit-outline</v-icon>
+                  <v-icon @click="showEditDialog(item)" color="info">mdi-square-edit-outline</v-icon>
                   <v-icon @click="deleteActivity(item)" color="error" class="pl-2">delete</v-icon>
               </template>
             </v-data-table>
@@ -38,13 +48,12 @@
             <v-flex xs12 sm12 md4 lg4 xl4>
               <v-col align="center" justify="center">
                 <v-img
-                  src="https://picsum.photos/id/11/500/300"
-                  lazy-src="https://picsum.photos/id/11/10/6"
+                  :src="editedActivity.image"
                   aspect-ratio="1"
                   class="grey lighten-2"
                   max-width="200"
                   max-height="200"
-                ><v-icon style="float:right;">camera</v-icon></v-img>
+                ><v-icon style="float:right;" @click="selectImage">camera</v-icon></v-img>
             </v-col>
             </v-flex>
             <v-flex xs12 sm12 md7 lg7 xl7 ml-7>
@@ -56,7 +65,7 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="activities_name"
+                        v-model="editedActivity.name"
                       ></v-text-field>
                     </v-flex>
                   </v-row>
@@ -68,7 +77,7 @@
                       <v-text-field
                         filled
                         color="accent"
-                        v-model="activities_speaker"
+                        v-model="editedActivity.speaker_name"
                       ></v-text-field>
                     </v-flex>
                   </v-row>
@@ -88,14 +97,13 @@
                       >
                         <template v-slot:activator="{ on }">
                           <v-text-field
-                          v-model="date"
-                          label="Picker without buttons"
+                          v-model="editedActivity.date"
                           prepend-icon="event"
                           readonly
                           v-on="on"
                           ></v-text-field>
                         </template>
-                        <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                        <v-date-picker v-model="editedActivity.date" @input="menu = false"></v-date-picker>
                       </v-menu>
                     </v-flex>
                   </v-row>
@@ -106,6 +114,9 @@
                     <v-flex xs12 sm12 md7 lg7 xl7>
                       <v-autocomplete
                         :items="components"
+                         item-text="type"
+                         item-value="type"
+                        v-model="editedActivity.type"
                       ></v-autocomplete>
                     </v-flex>
                   </v-row>
@@ -115,8 +126,7 @@
                     Description
                     <v-textarea
                           outlined
-                          label="Outlined textarea"
-                          v-model="activities_descriptions"
+                          v-model="editedActivity.descriptions"
                     ></v-textarea>
                   </v-flex>
 
@@ -139,10 +149,10 @@
           <v-flex xs12 sm12 md12 lg12 xl12>
             <v-col align="center" justify="center">
               <v-img
-                src="https://picsum.photos/id/11/500/300"
+                :src="selectedActivity.image"
                 :aspect-ratio="16/9"
                 class="grey lighten-2"
-              ><v-icon style="float:right;">camera</v-icon></v-img>
+              ><v-icon style="float:right;" @click="selectImage">camera</v-icon></v-img>
           </v-col>
           </v-flex>
           <v-flex xs12 sm12 md12 lg12 xl12 ml-12 mt-5>
@@ -154,7 +164,7 @@
                     <v-text-field
                       filled
                       color="accent"
-                      v-model="activities_name"
+                      v-model="selectedActivity.name"
                     ></v-text-field>
                   </v-flex>
                 </v-row>
@@ -166,7 +176,7 @@
                     <v-text-field
                       filled
                       color="accent"
-                      v-model="activities_speaker"
+                      v-model="selectedActivity.speaker"
                     ></v-text-field>
                   </v-flex>
                 </v-row>
@@ -186,14 +196,13 @@
                     >
                       <template v-slot:activator="{ on }">
                         <v-text-field
-                        v-model="date"
-                        label="Picker without buttons"
+                          v-model="selectedActivity.date"
                         prepend-icon="event"
                         readonly
                         v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="date" @input="menu = false"></v-date-picker>
+                      <v-date-picker v-model="selectedActivity.date" @input="menu = false"></v-date-picker>
                     </v-menu>
                   </v-flex>
                 </v-row>
@@ -203,7 +212,8 @@
                   </v-flex>
                   <v-flex xs12 sm12 md7 lg7 xl7>
                     <v-autocomplete
-                      :items="components"
+                      :items="['post', 'announcement']"
+                      v-model='selectedActivity.type'
                     ></v-autocomplete>
                   </v-flex>
                 </v-row>
@@ -213,8 +223,7 @@
                   Description
                   <v-textarea
                         outlined
-                        label="Outlined textarea"
-                        v-model="activities_descriptions"
+                          v-model="selectedActivity.descriptions"
                   ></v-textarea>
                 </v-flex>
 
@@ -224,7 +233,11 @@
           <v-spacer></v-spacer>
           <v-btn text @click="edit=false">close</v-btn>
           <v-btn
-            text>Update</v-btn>
+            text
+            @click="updateActivity"
+            >
+            Update
+          </v-btn>
 
         </v-card-actions>
       </v-card>
@@ -238,6 +251,9 @@ import commonmethods from '../../mixins/commonMethods';
     mixins:[commonmethods],
     data: () => ({
       date: new Date().toISOString().substr(0, 10),
+      selectedActivity:{},
+      editedActivity:{},
+      selectedType:'Post',
       menu: false,
       menu2:false,
       edit:false,
@@ -245,7 +261,7 @@ import commonmethods from '../../mixins/commonMethods';
       dialog2: false,
       activities:[],
       search:'',
-      components:['post','Annoucment'],
+      components:[{type:'Post'},{type:'Annoucment'}],
       headers: [
         {
           text: 'Name',
@@ -255,6 +271,7 @@ import commonmethods from '../../mixins/commonMethods';
         },
         { text: 'Date', value: 'date' },
         { text: 'Speaker Name', value: 'speaker' },
+        { text: 'Type', value: 'type' },
         {
           text: 'Actions',
           value: 'action',
@@ -262,11 +279,6 @@ import commonmethods from '../../mixins/commonMethods';
           sortable: false },
       ],
   desserts:[],
-  activities_name:'',
-  activities_speaker:'',
-  activities_date:'',
-  activities_type:'',
-  activities_descriptions:''
     }),
     computed:{
       Admin(){
@@ -274,6 +286,19 @@ import commonmethods from '../../mixins/commonMethods';
       }
     },
     methods: {
+      selectImage(){
+        console.log('select image');
+        console.log(this.$refs);
+        this.$refs.activity_img.click();
+      },
+      setImage(){
+        this.selectedActivity.image=URL.createObjectURL(this.$refs.activity_img.files[0]);
+        this.editedActivity.image=URL.createObjectURL(this.$refs.activity_img.files[0]);
+      },
+      showEditDialog(course){
+        this.selectedActivity = course;
+        this.edit = true;
+      },
       deleteActivity (activity) {
 
         this.$http.put(this.$root.api + '/activities/delete/'+ activity.id,{
@@ -289,7 +314,7 @@ import commonmethods from '../../mixins/commonMethods';
         })
       },
       getactivity(){
-        this.$http.get(this.$root.api + '/activities',{
+        this.$http.get(this.$root.api + '/activities?type=' + this.selectedType,{
           headers: {
             Authorization: 'Bearer ' + this.Admin.token
           }
@@ -299,34 +324,49 @@ import commonmethods from '../../mixins/commonMethods';
           console.log('error');
         })
       },
-      putactivity(){
-        this.$http.put(this.$root.api + '/activities',{name}).then(response=>{
-          this.activities= response.body.data;
-        }, response => {
-          console.log('error');
-        })
-      },
-      save(){
-        this.$http.post(this.$root.api+'/activities',{
-          "name": this.activities_name,
-          "speaker_name": this.activities_speaker,
-          "date": this.activities_date,
-          "type": this.activities_type,
-          "descriptions":this.activities_descriptions
-        },
-        {
+      updateActivity(){
+        var form = new FormData();
+        form.append('admin_id', this.Admin.id);
+        form.append('name',this.selectedActivity.name);
+        form.append('date', this.selectedActivity.date);
+        form.append('speaker_name', this.selectedActivity.speaker);
+        form.append('type', this.selectedActivity.type);
+        form.append('descriptions', this.selectedActivity.descriptions);
+
+        if (this.$refs.activity_img.files[0]!=null) {
+          form.append('image', this.$refs.activity_img.files[0]);
+        }
+        this.$http.post(this.$root.api + '/activities/' +  this.selectedActivity.id, form,       {
           headers: {
             Authorization: 'Bearer ' + this.Admin.token
           }
-        }).then((response)=>{
-          this.activities.unshift({"name": this.activities_name,
-          "speaker": this.activities_speaker,
-          "date": this.activities_date,
-          "type": this.activities_type,
-          "descriptions":this.activities_descriptions});
-          this.dialog = false;
+        }).then((response) =>{
+          this.edit = false;
         })
-        .then((error) =>{
+        .then((error)=>{
+
+        })
+      },
+      save(){
+        var form = new FormData();
+        form.append('admin_id', this.Admin.id);
+        form.append('name',this.editedActivity.name);
+        form.append('date', this.editedActivity.date);
+        form.append('speaker_name', this.editedActivity.speaker_name);
+        form.append('type', this.editedActivity.type);
+        form.append('descriptions', this.editedActivity.descriptions);
+
+        if (this.$refs.activity_img.files[0]!=null) {
+          form.append('image', this.$refs.activity_img.files[0]);
+        }
+        this.$http.post(this.$root.api + '/activities', form,       {
+          headers: {
+            Authorization: 'Bearer ' + this.Admin.token
+          }
+        }).then((response) =>{
+          this.dailog = false;
+        })
+        .then((error)=>{
 
         })
       },

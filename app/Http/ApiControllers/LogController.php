@@ -31,7 +31,7 @@ class LogController extends BaseController
      public function index(Request $request)
      {
          $this->offset = isset($request->offset)? $request->offset : 0;
-         $this->limit  = isset($request->limit)? $request->limit : 30;
+         $this->limit  = isset($request->limit)? $request->limit : 100;
          $admin_id = isset($request->admin_id)? $request->admin_id : 0;
 
          $log = LogResource::collection($this->logInterface->getAll($this->offset, $this->limit, $admin_id));
